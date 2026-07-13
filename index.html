@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ctrl+Click — Technology Consulting &amp; Support</title>
+  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting): AI adoption, secure networking, cloud infrastructure, and personal tech support for people, businesses, and their teams in the Bay Area." />
+  <link rel="icon" type="image/svg+xml" href="controlclick-mark.svg" />
+  <meta property="og:title" content="Ctrl+Click — Technology Consulting &amp; Support" />
+  <meta property="og:description" content="Unlock the hidden menu of your technology. Enterprise-level IT without the enterprise-level price tag — for people, businesses, and their teams." />
+  <meta property="og:image" content="og-image.png" />
+  <script data-goatcounter="https://genemaggio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <style>
+    /* ====== Design Tokens ====== */
+    :root {
+      --bg: #0A0F1C;
+      --panel: #111A2B;
+      --muted: #98A2B8;
+      --text: #F6F8FC;
+      --teal: #14F1C6;
+      --blue: #6C8CFF;
+      --pink: #FF5C8A;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-1: 0 10px 30px rgba(0,0,0,.45);
+      --shadow-2: 0 14px 50px rgba(0,0,0,.6);
+      --maxw: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100vh; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(20, 241, 198, 0.08), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(108, 140, 255, 0.09), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(255, 92, 138, 0.05), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 28px 20px; flex: 1; }
+
+    .grad {
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .plus { color: var(--pink); }
+
+    /* keycap chip — the recurring ⌃ motif */
+    .keycap {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 30px; height: 30px; padding: 0 7px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #1D2A40, #0C1322);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+      color: var(--teal);
+      font-weight: 700; font-size: 16px; line-height: 1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* ====== Header ====== */
+    header.site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: linear-gradient(to bottom, rgba(10,15,28,.95), rgba(10,15,28,.7), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 14px 20px; max-width: var(--maxw); margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { height: 42px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
+    .brand h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(135deg, rgba(20,241,198,.18), rgba(108,140,255,.18)); color: var(--text); box-shadow: var(--shadow-1);
+    }
+    .cta:hover { filter: brightness(1.08); text-decoration: none; }
+
+    /* ====== Hero ====== */
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; padding: 28px 0 10px; }
+    .hero h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1.1; margin: 10px 0 14px; letter-spacing: -.5px; }
+    .hero p { color: var(--muted); margin: 0 0 14px; }
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius-lg);
+      padding: 22px; box-shadow: var(--shadow-1);
+    }
+    .formerly {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .4px;
+      border: 1px solid rgba(255,255,255,.12); color: var(--muted);
+      background: rgba(255,255,255,.04);
+    }
+    .formerly b { color: var(--text); font-weight: 600; }
+    .hint { color: var(--muted); font-size: 13px; opacity: .85; }
+    .hint kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; padding: 1px 6px; border-radius: 5px;
+      border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
+      background: rgba(255,255,255,.05); color: var(--text);
+    }
+
+    /* ====== ⌃click — the admin persona ====== */
+    .byline { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+    .byline img { width: 30px; height: 30px; border-radius: 9px; }
+    .handle {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-weight: 700; font-size: 14px; color: var(--teal);
+    }
+    .admin-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 999px;
+      border: 1px solid rgba(20,241,198,.4); color: var(--teal);
+      text-transform: uppercase; letter-spacing: .7px; font-weight: 700;
+    }
+    .byline .meta { font-size: 12px; color: var(--muted); }
+
+    /* ====== Brand story ====== */
+    .story { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-top: 30px; }
+    .story .hero-card h4 { margin: 10px 0 6px; font-size: 17px; }
+    .story .hero-card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .story-glyph { font-size: 26px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    /* ====== Services ====== */
+    .section-title { display:flex; align-items:center; gap:12px; margin: 34px 0 14px; }
+    .section-title h3 { margin: 0; font-size: 20px; letter-spacing:.4px; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      padding: 16px; cursor: pointer; box-shadow: var(--shadow-1);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      position: relative; overflow: hidden;
+    }
+    .card:hover, .card:focus-within { transform: translateY(-2px); border-color: rgba(255,255,255,.18); box-shadow: var(--shadow-2); }
+    .card:focus-within { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .card h4 { margin: 6px 0 6px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .chip { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); color: #dcdce9; }
+
+    .icon {
+      min-width: 36px; width: 36px; height: 36px;
+      border-radius: 10px;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, rgba(20,241,198,.28), transparent 60%),
+                  radial-gradient(circle at 80% 0%, rgba(108,140,255,.32), transparent 60%),
+                  #16203320;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 2px 0 rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.07);
+    }
+    .icon svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .card-head { display:flex; align-items:center; }
+
+    /* ====== Slide-over (Service Detail) ====== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+    }
+    .overlay[data-open="true"] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay::after {
+      content: "ESC or click to close";
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.6);
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.4);
+      pointer-events: none;
+    }
+
+    .sheet {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(720px, 92vw);
+      background: var(--panel);
+      color: var(--text);
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      box-shadow: -20px 0 60px rgba(0,0,0,.55);
+      border-left: 1px solid rgba(255,255,255,.08);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      z-index: 25;
+    }
+    .sheet[data-open="true"] { transform: translateX(0); }
+    .sheet header {
+      position: sticky;
+      top: 0;
+      padding: 18px 22px;
+      background: linear-gradient(to bottom, rgba(17,26,43,.98), rgba(17,26,43,.9));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 30;
+    }
+    .sheet header h4 { margin: 0; font-size: 20px; }
+
+    .close {
+      position: absolute;
+      right: 22px;
+      top: 18px;
+      z-index: 31;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.16);
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s ease;
+    }
+    .close:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.24);
+    }
+    .close:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .close::before {
+      content: "×";
+      font-size: 20px;
+      line-height: 1;
+      margin-top: -2px;
+    }
+    .sheet .body { padding: 8px 22px 22px; overflow: auto; }
+    .sheet .body p { color: #d7d7e2; }
+    .sheet .body a { color: var(--teal); }
+    .sheet footer { padding: 18px 22px; border-top: 1px solid rgba(255,255,255,.08); background: rgba(17,26,43,.9); }
+
+    /* ====== Custom context menu — the hidden menu ====== */
+    .ctx {
+      position: fixed; z-index: 40;
+      min-width: 264px;
+      background: rgba(17,26,43,.97);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      box-shadow: var(--shadow-2);
+      padding: 6px;
+      display: none;
+      backdrop-filter: blur(8px);
+    }
+    .ctx[data-open="true"] { display: block; }
+    .ctx-title {
+      padding: 8px 12px 6px;
+      font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
+      color: var(--teal); font-weight: 700;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .ctx a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px;
+      color: var(--text); font-size: 14px;
+    }
+    .ctx a:hover { background: linear-gradient(90deg, rgba(20,241,198,.14), rgba(108,140,255,.14)); text-decoration: none; }
+    .ctx-sep { height: 1px; background: rgba(255,255,255,.1); margin: 6px 8px; }
+    .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
+
+    /* ====== Footer ====== */
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    footer.site .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; opacity: .8; }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .story { grid-template-columns: 1fr; }
+      #contact { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 620px) {
+      .grid { grid-template-columns: 1fr; }
+      .brand h1 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ====== Top Nav ====== -->
+  <header class="site-head" aria-label="Site header">
+    <div class="nav">
+      <div class="brand">
+        <img src="controlclick-mark.svg" alt="Ctrl+Click logo" />
+        <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span></h1>
+      </div>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#business">Business</a>
+        <a href="#personal">Personal</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Schedule a discussion">Schedule a Discussion</a>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <!-- ====== Hero ====== -->
+    <section class="hero" aria-label="Introduction">
+      <div>
+        <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
+        <h2>Unlock the <span class="grad">hidden menu</span> of your technology.</h2>
+        <p>
+          On a Mac, control‑click opens the menu most people never see — more options, more power, one click away. That's what I do for people and businesses: I help you take control of your technology, personally and with your teams — adopting AI, securing networks, building reliable infrastructure, and making everyday tech feel effortless.
+        </p>
+        <p>
+          Enterprise‑level IT, without the enterprise‑level price tag. From email migrations to web architecture, I design and implement systems that scale — without the overhead of a full‑time CTO.
+        </p>
+        <p class="hint">Psst — try a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) anywhere on this page.</p>
+      </div>
+      <div class="hero-card">
+        <div class="byline">
+          <img src="controlclick-mark.svg" alt="" aria-hidden="true" />
+          <span class="handle">⌃click</span>
+          <span class="admin-badge">admin</span>
+          <span class="meta">· pinned</span>
+        </div>
+        <p style="margin:0 0 10px;color:var(--muted)">Recent focus</p>
+        <ul style="margin:0 0 8px 18px; padding:0">
+          <li>Meshtastic long‑range networking pilots</li>
+          <li>Jamf School + Google Workspace fleet hygiene</li>
+          <li>AI knowledge bases and chat for SOPs</li>
+          <li>Email migrations and domain routing cleanups</li>
+        </ul>
+        <small style="color:var(--muted)">Ask about fixed‑scope packages.</small>
+      </div>
+    </section>
+
+    <!-- ====== Why Ctrl+Click ====== -->
+    <section class="story" aria-label="The name">
+      <div class="hero-card">
+        <span class="keycap" style="min-width:44px;height:44px;font-size:26px;border-radius:11px;" aria-hidden="true">⌃</span>
+        <h4>Ctrl</h4>
+        <p>The chevron is the Mac's Control key — and the crest worn as a mark of leadership. It stands for calm, organized command of your systems: networks, identity, email, and cloud.</p>
+      </div>
+      <div class="hero-card">
+        <span class="story-glyph" style="color:var(--pink)" aria-hidden="true">+</span>
+        <h4>Click</h4>
+        <p>Simple, human help. Plain‑language teaching, patient troubleshooting, and fixes that stick — for you, your family, and your team.</p>
+      </div>
+      <div class="hero-card">
+        <span class="story-glyph grad" aria-hidden="true">⌃Click</span>
+        <h4>Together</h4>
+        <p>Control‑click reveals the options hiding in plain sight. Together we unlock what your technology can really do — from AI adoption and automation to infrastructure you fully own and understand.</p>
+      </div>
+    </section>
+
+    <!-- ====== Business Services ====== -->
+    <div class="section-title" id="business">
+      <span class="keycap" aria-hidden="true">⌃</span>
+      <h3>Business Services</h3>
+    </div>
+
+    <div id="businessServicesGrid" class="grid" role="list" aria-label="Business service list"></div>
+
+    <!-- ====== Personal Services ====== -->
+    <div class="section-title" id="personal">
+      <span class="keycap" aria-hidden="true">⌃</span>
+      <h3>Personal Services</h3>
+    </div>
+
+    <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list"></div>
+
+    <!-- ====== Contact & Events ====== -->
+    <section id="contact" style="margin-top:42px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Get in Touch</h3>
+        <p style="margin:0 0 12px;color:var(--muted)">Send a message or schedule a call to discuss your needs or explore your curiosities. I respond quickly.</p>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Scheduling</a>
+        <a class="cta" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener" style="margin-left:8px">Messaging</a>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Upcoming Events</h3>
+        <div style="display:flex; align-items:flex-start; gap:16px; margin-top:12px;">
+          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(20,241,198,.15), rgba(108,140,255,.15)); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; flex-shrink:0;">
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--teal); font-weight:600; line-height:1.3;">1st Wed</div>
+            <div style="font-size:11px; color:var(--muted); margin-top:2px;">Monthly</div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--teal)" style="margin-top:6px; opacity:.7;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight:500; font-size:16px;">AI &amp; Technology Chat + Coffee</div>
+            <p style="margin:4px 0 0; color:var(--muted); font-size:14px;">Casual meetup to explore AI tools, share discoveries, and ask questions over coffee.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site">
+      <div>&copy; <span id="year"></span> Ctrl+Click — formerly Maggio Consulting — All rights reserved</div>
+      <div class="mono" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
+    </footer>
+  </main>
+
+  <!-- ====== Slide-over + overlay ====== -->
+  <div class="overlay" id="overlay" data-open="false" aria-hidden="true"></div>
+  <aside class="sheet" id="sheet" role="dialog" aria-modal="true" data-open="false">
+    <header>
+      <button class="close" id="closeSheet" aria-label="Close details">Close</button>
+    </header>
+    <div class="body" id="sheetBody">
+      <!-- populated by JS -->
+    </div>
+    <footer style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book this service</a>
+      <span class="byline" style="margin:0;">
+        <img src="controlclick-mark.svg" alt="" aria-hidden="true" style="width:24px;height:24px;border-radius:7px;" />
+        <span class="meta">posted by</span>
+        <span class="handle">⌃click</span>
+        <span class="admin-badge">admin</span>
+      </span>
+    </footer>
+  </aside>
+
+  <!-- ====== The hidden menu (custom context menu) ====== -->
+  <nav class="ctx" id="ctxMenu" data-open="false" aria-label="Hidden quick menu">
+    <div class="ctx-title">⌃Click — you found the hidden menu</div>
+    <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+    <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
+    <a href="#business">💼 Business services</a>
+    <a href="#personal">🏠 Personal services</a>
+    <div class="ctx-sep"></div>
+    <div class="ctx-note">That's the whole idea — a control‑click unlocks more. <span class="handle" style="font-style:normal;">— ⌃click</span></div>
+  </nav>
+
+  <script>
+    // ====== Content model: add or edit services here ======
+    const businessServices = [
+      {
+        slug: 'networking',
+        title: 'Networking',
+        blurb: 'Design, deploy, and troubleshoot wired and wireless networks. Edge to mesh.',
+        detail: `
+          <h2>Networking</h2>
+          <p>I build reliable, secure small to mid-scale networks that actually make sense to maintain. Whether you're expanding offices, connecting remote sites, or cleaning up a spaghetti-wired legacy setup, I design networks that are fast, organized, and clearly documented.</p>
+          <p>Ubiquiti Unifi & Cisco Meraki are my go-to ecosystems for scalable, cost-effective deployments. I handle everything from VLAN segmentation and QoS tuning to site-to-site VPNs and guest network isolation — all with proper monitoring and alerting so you're never flying blind.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Slow or unreliable Wi-Fi coverage with dead zones</li>
+            <li>Networks that have grown organically without documentation</li>
+            <li>Security concerns from flat, unsegmented network designs</li>
+            <li>Difficulty connecting multiple locations or remote workers</li>
+            <li>Bandwidth bottlenecks affecting business-critical applications</li>
+            <li>Lack of visibility into network performance and issues</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>LAN/WAN architecture, design, and upgrades</li>
+            <li>Mesh and point-to-point wireless links</li>
+            <li>Firewall rules, segmentation, and intrusion protection</li>
+            <li>Traffic shaping, QoS, and bandwidth management</li>
+            <li>Observability, uptime monitoring, and automated alerts</li>
+            <li>Network documentation and clean hand-offs for internal teams</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Consistent, fast connectivity across your entire workspace</li>
+            <li>Clear documentation that any IT professional can follow</li>
+            <li>Reduced security risk through proper network segmentation</li>
+            <li>Proactive alerts before small issues become outages</li>
+            <li>Lower long-term costs through efficient, maintainable design</li>
+          </ul>
+        `,
+        chip: 'Core',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>'
+      },
+      {
+        slug: 'identity',
+        title: 'Identity Management',
+        blurb: 'Google Workspace and Microsoft 365 hygiene. SSO, groups, lifecycle.',
+        detail: `
+          <h2>Identity Management</h2>
+          <p>Centralized identity management is the foundation of secure, efficient operations. I help organizations streamline how users are provisioned, managed, and offboarded across Google Workspace and Microsoft 365 environments — ensuring the right people have the right access at the right time.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Former employees still having access to company systems</li>
+            <li>Inconsistent group memberships that don't reflect actual roles</li>
+            <li>Manual, error-prone user provisioning processes</li>
+            <li>Multiple passwords and logins across different applications</li>
+            <li>Lack of visibility into who has access to what</li>
+            <li>Compliance concerns around access controls and audit trails</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>Directory cleanup, organization, and guardrails</li>
+            <li>SSO integrations for third-party applications</li>
+            <li>Automated workflows for joiners, movers, and leavers</li>
+            <li>Role-based access control design and implementation</li>
+            <li>Security policy enforcement and monitoring</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Reduced security risk from orphaned accounts and access drift</li>
+            <li>Faster, more reliable employee onboarding and offboarding</li>
+            <li>Single sign-on convenience across your application ecosystem</li>
+            <li>Clear audit trails for compliance requirements</li>
+            <li>Less IT overhead from manual account management</li>
+          </ul>
+        `,
+        chip: 'Security',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'
+      },
+      {
+        slug: 'ai-services',
+        title: 'AI Services & Automation',
+        blurb: 'Leverage AI to streamline operations, automate workflows, and work smarter.',
+        detail: `
+          <h2>AI Services & Automation</h2>
+          <p>AI is transforming how businesses operate. I help you identify high-impact opportunities and implement practical AI solutions that deliver real results — not hype. From automating repetitive tasks to building intelligent assistants, I focus on solutions that integrate seamlessly into your existing workflows.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Staff spending hours on repetitive, manual data entry tasks</li>
+            <li>Overwhelmed support teams handling the same questions repeatedly</li>
+            <li>Difficulty extracting insights from large volumes of documents</li>
+            <li>Disconnected systems requiring manual data transfer between tools</li>
+            <li>Uncertainty about where AI can actually help your business</li>
+            <li>Fear of AI adoption without proper safeguards and oversight</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>AI strategy consulting and opportunity assessment</li>
+            <li>Custom chatbots and virtual assistants for internal support</li>
+            <li>Document processing and data extraction automation</li>
+            <li>Tier 1 & Tier 2 level automated support services</li>
+            <li>Workflow automation with tools like Zapier, Make, and n8n</li>
+            <li>Knowledge base creation for AI-powered search and retrieval</li>
+            <li>Integration of AI tools (ChatGPT, Claude, etc.) into existing workflows</li>
+            <li>Training teams on effective AI adoption and prompt engineering</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Hours saved weekly through automated routine tasks</li>
+            <li>Faster response times for customer and internal support</li>
+            <li>Better data accuracy with reduced human error</li>
+            <li>Team members freed to focus on higher-value work</li>
+            <li>Competitive advantage through intelligent automation</li>
+            <li>Scalable processes that grow with your business</li>
+          </ul>
+        `,
+        chip: 'AI',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M21 11.18V9l-3-.5c-.13-.38-.28-.76-.48-1.1l1.75-2.55-1.58-1.58-2.55 1.75c-.34-.2-.72-.35-1.1-.48L13.5 2h-3l-.5 3c-.38.13-.76.28-1.1.48L6.35 3.73 4.77 5.31l1.75 2.55c-.2.34-.35.72-.48 1.1L3 9.5v3l3.04.5c.13.38.28.76.48 1.1l-1.75 2.55 1.58 1.58 2.55-1.75c.34.2.72.35 1.1.48l.5 3.04h3l.5-3.04c.38-.13.76-.28 1.1-.48l2.55 1.75 1.58-1.58-1.75-2.55c.2-.34.35-.72.48-1.1L21 12.5v-1.32zM12 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>'
+      },
+      {
+        slug: 'team-collab',
+        title: 'Team Collaboration',
+        blurb: 'Notion, Google Workspace, Slack and workflow design that people actually use.',
+        detail: `
+          <h2>Team Collaboration</h2>
+          <p>Structure beats chaos. I design collaborative workspaces using Notion, Google Workspace, Slack, and other tools — creating systems for docs, tasks, and communication that match how your team actually works. The goal is low-friction collaboration that people will actually adopt and maintain.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Documents scattered across email, drives, and random folders</li>
+            <li>Team members unsure where to find or save information</li>
+            <li>Inconsistent processes that vary by person or department</li>
+            <li>Communication silos between teams or locations</li>
+            <li>New tools that get abandoned after the initial rollout</li>
+            <li>Time wasted searching for files and recreating work</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>Document and knowledge base architecture</li>
+            <li>Task and project management system design</li>
+            <li>Slack workspace setup and channel strategy</li>
+            <li>Templates for repeatable workflows and processes</li>
+            <li>Permission structures that balance access and security</li>
+            <li>Change management and team training</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Single source of truth for company knowledge</li>
+            <li>Faster onboarding with clear documentation</li>
+            <li>Reduced friction in day-to-day collaboration</li>
+            <li>Consistent processes across teams</li>
+            <li>Better visibility into project status and blockers</li>
+            <li>Tools that your team actually uses and maintains</li>
+          </ul>
+        `,
+        chip: 'Ops',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'
+      },
+      {
+        slug: 'email-migration',
+        title: 'Email Hosting & Migration',
+        blurb: 'Domain routing, DNS cleanup, and safe migrations with zero data loss.',
+        detail: `
+          <h2>Email Hosting & Migration</h2>
+          <p>Email should be boring — it should just work and reliably deliver. I help businesses clean up their email infrastructure, harden security settings, and migrate between providers without losing a single message. Whether you're moving to Google Workspace, Microsoft 365, or consolidating domains, I handle the complexity so you don't have to.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Emails landing in spam or not being delivered at all</li>
+            <li>Complex forwarding rules that have grown into a tangled web</li>
+            <li>Fear of data loss during email platform migrations</li>
+            <li>DNS records that are outdated, conflicting, or misconfigured</li>
+            <li>Lack of email authentication causing deliverability issues</li>
+            <li>Multiple domains with inconsistent email handling</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>SPF, DKIM, and DMARC configuration and hardening</li>
+            <li>Mailbox and archive migrations with full data preservation</li>
+            <li>Routing audits across multiple providers and domains</li>
+            <li>DNS cleanup and domain consolidation</li>
+            <li>Staged cutovers with rollback plans</li>
+            <li>Post-migration verification and monitoring</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Reliable email delivery with messages reaching their destination</li>
+            <li>Improved sender reputation and reduced spam classification</li>
+            <li>Clean, documented DNS configuration</li>
+            <li>Seamless migrations with zero data loss</li>
+            <li>Simplified email infrastructure that's easier to maintain</li>
+            <li>Protection against email spoofing and phishing attempts</li>
+          </ul>
+        `,
+        chip: 'Infra',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'
+      },
+      {
+        slug: 'web-hosting',
+        title: 'Web Hosting & Domain Routing',
+        blurb: 'Deploy static or app sites with CI and sensible infra. No mystery boxes.',
+        detail: `
+          <h2>Web Hosting & Domain Routing</h2>
+          <p>From domain purchase to production deployment, I set up web infrastructure that's transparent, maintainable, and fully under your control. Whether you need a simple static site or a full application deployment with CI/CD, I build systems with clear documentation so you're never locked out or dependent on any single person.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Websites hosted on platforms you don't fully control or understand</li>
+            <li>Fear of making changes because there's no staging environment</li>
+            <li>Manual deployments that are error-prone and time-consuming</li>
+            <li>Domain and DNS scattered across multiple providers</li>
+            <li>SSL certificate issues causing security warnings</li>
+            <li>Slow site performance from poor hosting configuration</li>
+          </ul>
+          <h3>Capabilities include:</h3>
+          <ul>
+            <li>DNS, TLS/SSL, and CDN configuration</li>
+            <li>CI/CD pipelines for automated deployments</li>
+            <li>Staging environments for safe testing</li>
+            <li>Zero-downtime cutovers and rollback procedures</li>
+            <li>Domain consolidation and registrar management</li>
+            <li>Performance optimization and caching strategies</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Full ownership and understanding of your web infrastructure</li>
+            <li>Confident deployments with automated testing and rollbacks</li>
+            <li>Faster page loads through proper CDN and caching</li>
+            <li>Clean documentation for future maintenance</li>
+            <li>Reduced hosting costs through right-sized infrastructure</li>
+            <li>Peace of mind with proper SSL and security configuration</li>
+          </ul>
+        `,
+        chip: 'Web',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>'
+      }
+    ];
+
+    const personalServices = [
+      {
+        slug: 'email-management',
+        title: 'Email Management',
+        blurb: 'Organize your inbox, set up filters, and regain control of your email.',
+        detail: `
+          <h2>Email Management</h2>
+          <p>Drowning in emails? I help individuals take back their inbox through smart organization, filtering, and workflow strategies that actually stick. Whether you're overwhelmed by thousands of unread messages or just want a better system, I'll help you create an email routine that reduces stress and saves time.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Inbox overload with hundreds or thousands of unread emails</li>
+            <li>Important messages getting lost in the clutter</li>
+            <li>Spending too much time managing email every day</li>
+            <li>Newsletters and promotions overwhelming your inbox</li>
+            <li>Difficulty finding old emails when you need them</li>
+            <li>Anxiety about missing something important</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>Inbox organization and folder/label structure</li>
+            <li>Automated filters to sort incoming mail</li>
+            <li>Email client setup and optimization</li>
+            <li>Mass unsubscribe and spam management</li>
+            <li>Email backup and archiving strategies</li>
+            <li>Building sustainable email habits</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>A clean, organized inbox you can actually manage</li>
+            <li>Important emails surfaced automatically</li>
+            <li>Less time spent on email each day</li>
+            <li>Confidence that you won't miss critical messages</li>
+            <li>Reduced stress around email management</li>
+            <li>A system you can maintain on your own</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>'
+      },
+      {
+        slug: 'device-maintenance',
+        title: 'Device Maintenance',
+        blurb: 'Keep your computers, tablets, and devices running smoothly.',
+        detail: `
+          <h2>Device Maintenance</h2>
+          <p>Regular maintenance keeps your devices fast, secure, and reliable. I provide tune-ups, updates, and preventive care to extend the life of your computers, tablets, and other technology — helping you avoid costly repairs and frustrating slowdowns.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Computers running slowly or freezing frequently</li>
+            <li>Running out of storage space</li>
+            <li>Outdated software creating security vulnerabilities</li>
+            <li>No backup system in place for important files</li>
+            <li>Pop-ups, suspicious programs, or malware concerns</li>
+            <li>Devices that haven't been properly maintained in years</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>Software updates and security patches</li>
+            <li>Storage cleanup and optimization</li>
+            <li>Malware and virus scans and removal</li>
+            <li>Backup setup and verification</li>
+            <li>Performance optimization and tune-ups</li>
+            <li>Hardware assessment and upgrade recommendations</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Faster, more responsive devices</li>
+            <li>Protected against viruses and security threats</li>
+            <li>Important files safely backed up</li>
+            <li>Extended device lifespan</li>
+            <li>Fewer crashes and technical issues</li>
+            <li>Peace of mind knowing your technology is well-maintained</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>'
+      },
+      {
+        slug: 'basic-troubleshooting',
+        title: 'Basic Troubleshooting',
+        blurb: 'Quick fixes for common tech problems. No issue too small.',
+        detail: `
+          <h2>Basic Troubleshooting</h2>
+          <p>Technology problems are frustrating, especially when you don't know where to start. I provide patient, clear help for everyday tech issues — from printer problems to slow computers to "it just stopped working." No question is too basic, and I explain things in plain language without making you feel judged.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Wi-Fi that keeps disconnecting or won't connect</li>
+            <li>Printers that refuse to print</li>
+            <li>Programs that crash, freeze, or won't open</li>
+            <li>Locked out of accounts or forgotten passwords</li>
+            <li>New devices that won't connect to existing equipment</li>
+            <li>Strange error messages you don't understand</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>Connectivity and Wi-Fi troubleshooting</li>
+            <li>Printer and peripheral setup and problems</li>
+            <li>Software crashes, freezes, and errors</li>
+            <li>Password and account recovery</li>
+            <li>General "how do I...?" questions</li>
+            <li>Connecting devices to TVs, speakers, and displays</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Working technology without the headache</li>
+            <li>Understanding of what went wrong and how to prevent it</li>
+            <li>Confidence to try simple fixes yourself next time</li>
+            <li>All your devices communicating properly</li>
+            <li>Reduced frustration with everyday technology</li>
+            <li>Someone to call before the problem becomes a crisis</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>'
+      },
+      {
+        slug: 'technology-education',
+        title: 'Technology Education',
+        blurb: 'Learn to use your devices and apps with confidence.',
+        detail: `
+          <h2>Technology Education</h2>
+          <p>Technology should empower you, not intimidate you. I offer patient, personalized training sessions to help you master your devices and apps at your own pace. Whether you want to video call family, organize photos, or simply feel more confident with your computer, I meet you where you are and teach in plain language.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Feeling overwhelmed or intimidated by technology</li>
+            <li>Not knowing how to use features on devices you already own</li>
+            <li>Difficulty staying connected with family through video calls</li>
+            <li>Photos scattered everywhere with no organization system</li>
+            <li>Concerns about online safety and scams</li>
+            <li>Learning new apps required for work or personal life</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>One-on-one training sessions at your pace</li>
+            <li>App and software tutorials tailored to your needs</li>
+            <li>Online safety, privacy, and scam awareness</li>
+            <li>Photo and file organization systems</li>
+            <li>Video calling apps like FaceTime, Zoom, and Google Meet</li>
+            <li>Written notes and guides you can reference later</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Confidence using your devices independently</li>
+            <li>Ability to video chat with family and friends</li>
+            <li>Better protection against online scams and threats</li>
+            <li>Organized photos you can actually find and share</li>
+            <li>Skills to learn new technology on your own</li>
+            <li>Reduced anxiety around technology</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>'
+      },
+      {
+        slug: 'intro-to-ai',
+        title: 'Introduction to AI',
+        blurb: 'Understand and start using AI tools like ChatGPT in your daily life.',
+        detail: `
+          <h2>Introduction to AI</h2>
+          <p>AI is changing how we work and live, but it can feel overwhelming or mysterious. I help you understand what AI actually is, what it can and can't do, and show you practical ways to use tools like ChatGPT and Claude in your everyday life — no technical background required.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>Confusion about what AI actually is and how it works</li>
+            <li>Uncertainty about whether AI tools are safe to use</li>
+            <li>Not knowing where to start or which tools to try</li>
+            <li>Frustration getting useful responses from AI assistants</li>
+            <li>Concerns about privacy when using AI services</li>
+            <li>Fear of being left behind as AI becomes more common</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>What AI is and how it works (explained in plain English)</li>
+            <li>Hands-on practice with AI assistants</li>
+            <li>Practical use cases for everyday tasks like writing, research, and planning</li>
+            <li>Understanding AI limitations, hallucinations, and when not to trust it</li>
+            <li>Writing effective prompts to get better results</li>
+            <li>Privacy considerations and safe usage practices</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>Comfortable using AI tools for practical tasks</li>
+            <li>Understanding of what AI can and can't do reliably</li>
+            <li>Time saved on writing, research, and brainstorming</li>
+            <li>Confidence to explore new AI tools as they emerge</li>
+            <li>Ability to evaluate AI claims and hype critically</li>
+            <li>A new skill set that's increasingly valuable in daily life</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1s-2.73 7.08 0 9.79 7.15 2.71 9.88 0c1.36-1.35 2.04-2.92 2.04-4.89h2c0 1.98-.88 4.55-2.64 6.29-3.51 3.48-9.21 3.48-12.72 0-3.5-3.47-3.53-9.11-.02-12.58 3.51-3.47 9.14-3.47 12.65 0L21 3v7.12z"/><path d="M12.5 8v4.25l3.5 2.08-.72 1.21L11 13V8h1.5z"/></svg>'
+      },
+      {
+        slug: 'smartphone-setup',
+        title: 'Smart Phone Setup & Training',
+        blurb: 'Get more from your iPhone or Android with personalized setup and guidance.',
+        detail: `
+          <h2>Smart Phone Setup & Training</h2>
+          <p>Your smartphone can do so much more than make calls and send texts. I help you set up, customize, and learn to use your iPhone or Android with confidence — whether you're getting a new phone or want to get more from the one you have.</p>
+          <h3>Common obstacles I resolve:</h3>
+          <ul>
+            <li>New phone setup feeling overwhelming</li>
+            <li>Difficulty transferring contacts, photos, and data from an old phone</li>
+            <li>Not knowing which apps to download or how to use them</li>
+            <li>Text and icons too small to read comfortably</li>
+            <li>Concerns about phone security and scam calls/texts</li>
+            <li>Photos taking up all your storage space</li>
+          </ul>
+          <h3>What I help with:</h3>
+          <ul>
+            <li>Initial phone setup and data transfer from your old device</li>
+            <li>App installation, organization, and recommendations</li>
+            <li>Camera settings and photo management</li>
+            <li>Accessibility features like larger text, voice control, and hearing aids</li>
+            <li>Security settings, password managers, and safe practices</li>
+            <li>Connecting to Wi-Fi, Bluetooth devices, and smart home equipment</li>
+          </ul>
+          <h3>Possible outcomes:</h3>
+          <ul>
+            <li>A phone set up exactly how you want it</li>
+            <li>All your contacts, photos, and important data transferred safely</li>
+            <li>Confidence using your phone's key features</li>
+            <li>Better protection against scams and security threats</li>
+            <li>Easier-to-read display and more comfortable usage</li>
+            <li>Skills to explore new features independently</li>
+          </ul>
+        `,
+        chip: 'Personal',
+        icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>'
+      }
+    ];
+
+    // Combined for lookups
+    const services = [...businessServices, ...personalServices];
+
+    // ====== Render services grids ======
+    function renderServiceGrid(gridId, serviceList) {
+      const grid = document.getElementById(gridId);
+      serviceList.forEach(svc => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('role','listitem');
+        card.setAttribute('tabindex', '0');
+        card.dataset.slug = svc.slug;
+        card.innerHTML = `
+          <div class="card-head">
+            <div class="icon" aria-hidden="true">${svc.icon || ''}</div>
+            <div>
+              <h4>${svc.title}</h4>
+              <p>${svc.blurb}</p>
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', () => openSheet(svc.slug));
+        grid.appendChild(card);
+      });
+    }
+
+    renderServiceGrid('businessServicesGrid', businessServices);
+    renderServiceGrid('personalServicesGrid', personalServices);
+
+    // ====== Slide-over behavior ======
+    const sheet = document.getElementById('sheet');
+    const overlay = document.getElementById('overlay');
+    const sheetBody = document.getElementById('sheetBody');
+    const closeBtn = document.getElementById('closeSheet');
+    const focusablesSel = 'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])';
+    let lastFocused = null;
+
+    function openSheet(slug) {
+      const svc = services.find(s => s.slug === slug);
+      if (!svc) return;
+      lastFocused = document.activeElement;
+      sheetBody.innerHTML = svc.detail;
+      sheet.dataset.open = 'true';
+      overlay.dataset.open = 'true';
+      overlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      // deep link
+      const url = new URL(window.location);
+      url.hash = `#service/${slug}`;
+      history.pushState({slug}, '', url);
+      // focus management
+      setTimeout(() => {
+        const first = sheet.querySelector(focusablesSel);
+        if (first) first.focus();
+      }, 10);
+    }
+
+    function closeSheet() {
+      sheet.dataset.open = 'false';
+      overlay.dataset.open = 'false';
+      overlay.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+      // remove hash if present
+      if (location.hash.startsWith('#service/')) {
+        history.pushState({}, '', location.pathname + location.search);
+      }
+    }
+
+    overlay.addEventListener('click', closeSheet);
+    closeBtn.addEventListener('click', closeSheet);
+
+    // ESC to close and simple focus trap
+    document.addEventListener('keydown', (e) => {
+      if (sheet.dataset.open === 'true') {
+        // Close on Escape
+        if (e.key === 'Escape') closeSheet();
+
+        // Close on Enter/Space when overlay is focused
+        if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === overlay) {
+          e.preventDefault();
+          closeSheet();
+        }
+
+        // Focus trap
+        if (e.key === 'Tab') {
+          const nodes = sheet.querySelectorAll(focusablesSel);
+          if (!nodes.length) return;
+          const first = nodes[0];
+          const last = nodes[nodes.length - 1];
+          if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+          else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+        }
+      }
+    });
+
+    // Hash routing support for direct links
+    function maybeOpenFromHash() {
+      const m = location.hash.match(/^#service\/(.+)$/);
+      if (m) openSheet(m[1]);
+    }
+    window.addEventListener('popstate', () => {
+      if (location.hash.startsWith('#service/')) maybeOpenFromHash();
+      else closeSheet();
+    });
+    maybeOpenFromHash();
+
+    // ====== The hidden menu: control-click reveals more ======
+    const ctxMenu = document.getElementById('ctxMenu');
+
+    function openCtxMenu(x, y) {
+      ctxMenu.dataset.open = 'true';
+      // measure, then clamp to viewport
+      const rect = ctxMenu.getBoundingClientRect();
+      const px = Math.min(x, window.innerWidth - rect.width - 10);
+      const py = Math.min(y, window.innerHeight - rect.height - 10);
+      ctxMenu.style.left = Math.max(10, px) + 'px';
+      ctxMenu.style.top = Math.max(10, py) + 'px';
+    }
+
+    function closeCtxMenu() {
+      ctxMenu.dataset.open = 'false';
+    }
+
+    document.addEventListener('contextmenu', (e) => {
+      // keep the native menu inside the hidden menu itself
+      if (ctxMenu.contains(e.target)) return;
+      e.preventDefault();
+      openCtxMenu(e.clientX, e.clientY);
+    });
+    document.addEventListener('click', (e) => {
+      if (!ctxMenu.contains(e.target)) closeCtxMenu();
+      else if (e.target.closest('a')) closeCtxMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCtxMenu();
+    });
+    window.addEventListener('scroll', closeCtxMenu, { passive: true });
+    window.addEventListener('resize', closeCtxMenu);
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
