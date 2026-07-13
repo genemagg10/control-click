@@ -300,7 +300,6 @@
       color: var(--text); font-size: 14px;
     }
     .ctx a:hover { background: linear-gradient(90deg, rgba(20,241,198,.14), rgba(108,140,255,.14)); text-decoration: none; }
-    .ctx a[hidden] { display: none; }
     .ctx-sep { height: 1px; background: rgba(255,255,255,.1); margin: 6px 8px; }
     .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -352,7 +351,7 @@
           <p>
             Enterprise‑level IT, without the enterprise‑level price tag. From email migrations to web architecture, I design and implement systems that scale — without the overhead of a full‑time CTO.
           </p>
-          <p class="hint">Psst — try a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) anywhere on this page.</p>
+          <p class="hint">Psst — a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) in the right spot opens more than you'd expect.</p>
         </div>
       </div>
       <div class="hero-card">
@@ -465,7 +464,7 @@
     <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
     <a href="#business">💼 Business services</a>
     <a href="#personal">🏠 Personal services</a>
-    <a href="blog/" id="ctxBlog" hidden>📓 The hidden blog — notes from ⌃click</a>
+    <a href="blog/">📓 The hidden blog — notes from ⌃click</a>
     <div class="ctx-sep"></div>
     <div class="ctx-note">That's the whole idea — a control‑click unlocks more. <span class="handle" style="font-style:normal;">— ⌃click</span></div>
   </nav>
@@ -1041,13 +1040,10 @@
     });
     maybeOpenFromHash();
 
-    // ====== The hidden menu: control-click reveals more ======
+    // ====== The hidden menu: control-click the ⌃click persona to reveal it ======
     const ctxMenu = document.getElementById('ctxMenu');
-    const ctxBlog = document.getElementById('ctxBlog');
 
-    // secret: invoking the menu on a ⌃click spot reveals the hidden blog
-    function openCtxMenu(x, y, secret = false) {
-      ctxBlog.hidden = !secret;
+    function openCtxMenu(x, y) {
       ctxMenu.dataset.open = 'true';
       // measure, then clamp to viewport
       const rect = ctxMenu.getBoundingClientRect();
@@ -1062,10 +1058,10 @@
     }
 
     document.addEventListener('contextmenu', (e) => {
-      // keep the native menu inside the hidden menu itself
-      if (ctxMenu.contains(e.target)) return;
+      // only a ⌃click spot summons the hidden menu; everywhere else stays native
+      if (ctxMenu.contains(e.target) || !e.target.closest('.secret-spot')) return;
       e.preventDefault();
-      openCtxMenu(e.clientX, e.clientY, !!e.target.closest('.secret-spot'));
+      openCtxMenu(e.clientX, e.clientY);
     });
 
     // tap-and-hold a ⌃click spot on touch devices (iOS has no contextmenu)
@@ -1077,7 +1073,7 @@
       pressTimer = setTimeout(() => {
         pressTimer = null;
         suppressNextClick = true;
-        openCtxMenu(pressStart.x, pressStart.y, true);
+        openCtxMenu(pressStart.x, pressStart.y);
       }, 500);
     }, { passive: true });
     document.addEventListener('touchmove', (e) => {
