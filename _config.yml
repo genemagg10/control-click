@@ -7,9 +7,9 @@ description: >-
   Notes from ⌃click — AI adoption, secure networking, email migrations,
   cloud infrastructure, and everyday tech, for people, businesses, and their teams
   in the Bay Area.
-# Leave url blank: GitHub Pages fills it in at build time with the live domain
-# (including the custom domain, once one is configured in Pages settings).
-url: ""
+# url and baseurl are intentionally absent: the GitHub Pages build fills both
+# in from the live Pages settings (project path now, custom domain when one is
+# configured) — but only when the keys are unset, so don't add them here.
 author:
   name: ⌃click
 
