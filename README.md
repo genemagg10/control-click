@@ -9,6 +9,7 @@
 - **⌃click** is also the site's admin persona — the "user" who posts and maintains the content on the site.
 - **The idea:** on a Mac, control‑click (right‑click) opens the hidden menu — more options, more power, one click away. The chevron `⌃` is both the Control key and the crest worn as a mark of leadership.
 - Try control‑clicking anywhere on the site: it opens a custom "hidden menu" easter egg.
+- The blog is hidden one level deeper: right‑click / control‑click (or tap‑and‑hold on mobile) **on the ⌃click persona itself** — the byline in the hero card or the "maintained by ⌃click" footer line — and the hidden menu reveals an extra entry: **📓 The hidden blog**. Invoked anywhere else, the menu doesn't mention the blog at all.
 
 ## Brand assets
 
