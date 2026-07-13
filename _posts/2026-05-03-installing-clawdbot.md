@@ -7,7 +7,7 @@ description: >-
 date: 2026-05-03 11:00:00 -0700
 ---
 
-![The Clawdbot gateway dashboard, connected and healthy](/assets/blog/clawdbot-1.png)
+![The Clawdbot gateway dashboard, connected and healthy]({{ '/assets/blog/clawdbot-1.png' | relative_url }})
 
 I recently set out to install **Clawdbot** on a new machine. On paper, it looked straightforward: install the gateway, connect a model, wire up iMessage, optionally add Tailscale, and you're off to the races. In practice, it turned into one of those experiences that perfectly illustrates the current state of modern developer tooling: incredibly powerful, occasionally sharp-edged, and immensely rewarding once everything clicks.
 
@@ -19,7 +19,7 @@ And in the end: success.
 
 ## The Starting Point: "It Installed… But Nothing Happens"
 
-![Homebrew pouring signal-cli and a long chain of dependencies in the terminal](/assets/blog/clawdbot-2.png)
+![Homebrew pouring signal-cli and a long chain of dependencies in the terminal]({{ '/assets/blog/clawdbot-2.png' | relative_url }})
 
 The initial setup completed cleanly. Clawdbot launched, the TUI came up, and everything *looked* fine — until I sent my first message and got the dreaded:
 
@@ -170,4 +170,4 @@ And now, when I'm installing or configuring the next project, I know something i
 
 I don't have to do it alone.
 
-![Anthropic console credit balance nearly exhausted — the billing side of the story](/assets/blog/clawdbot-3.png)
+![Anthropic console credit balance nearly exhausted — the billing side of the story]({{ '/assets/blog/clawdbot-3.png' | relative_url }})

@@ -56,6 +56,12 @@ Post body in markdown...
 
 That's it — layout, byline, date, permalink (`/blog/slug/`), feed entry, and SEO tags (`jekyll-seo-tag`) are all automatic. The `description` line is optional but good for search results.
 
+Images: commit them to `assets/blog/` and reference them through the `relative_url` filter so they work wherever the site is served (project path today, custom domain later):
+
+```markdown
+![alt text]({{ '/assets/blog/my-image.png' | relative_url }})
+```
+
 ### Structure
 
 | Path | Purpose |
