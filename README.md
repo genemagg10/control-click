@@ -15,9 +15,10 @@
 
 | File | Purpose |
 |---|---|
-| `controlclick-mark.svg` | Square mark: keycap + double chevron (Control key / commander's crest) + cursor click. Used as favicon and avatar. |
-| `controlclick-logo.svg` | Full lockup: mark + "Ctrl+Click" wordmark (for dark backgrounds). |
-| `og-image.png` | Social sharing image. |
+| `controlclick-mark.svg` | Square app-icon mark: a cursor mid right-click popping open a context menu; the highlighted menu row carries the ⌃ chevron (Control key / commander's crest). Used as favicon and avatar. |
+| `controlclick-logo.svg` | Full lockup: the context menu holds "Ctrl+Click" as its highlighted item, cursor clicking at the corner, with teal/blue/pink color echoes behind the panel — a nod to the original Maggio Consulting speech bubble. |
+| `controlclick-logo.png` | PNG render of the lockup (transparent background). |
+| `og-image.png` | Social sharing image, built from the lockup. |
 
 ### Colors
 
