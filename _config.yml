@@ -1,0 +1,42 @@
+# Ctrl+Click — Jekyll config for GitHub Pages
+# The root index.html has no front matter, so Jekyll copies it through untouched.
+
+title: Ctrl+Click
+tagline: Technology Consulting & Support
+description: >-
+  Notes from ⌃click — AI adoption, secure networking, email migrations,
+  cloud infrastructure, and everyday tech, for people, businesses, and their teams
+  in the Bay Area.
+# Leave url blank: GitHub Pages fills it in at build time with the live domain
+# (including the custom domain, once one is configured in Pages settings).
+url: ""
+author:
+  name: ⌃click
+
+timezone: America/Los_Angeles
+markdown: kramdown
+
+permalink: /blog/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+feed:
+  posts_limit: 20
+
+# Every post is automatically laid out and bylined — a new post only needs
+# a title line at the top of its markdown file.
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: ⌃click
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

@@ -1,0 +1,38 @@
+---
+layout: default
+title: Blog
+description: >-
+  The hidden menu — notes from ⌃click on AI adoption, networking, email
+  migrations, and everyday tech for people and businesses in the Bay Area.
+permalink: /blog/
+---
+<section aria-label="Blog introduction">
+  <div class="section-title">
+    <span class="keycap" aria-hidden="true">⌃</span>
+    <h1>The <span class="grad">hidden menu</span></h1>
+  </div>
+  <p class="blog-intro">
+    Notes from <span class="handle">⌃click</span> — practical writing on AI adoption, secure networking,
+    email migrations, and everyday technology for people, businesses, and their teams.
+  </p>
+  <a class="rss-link" href="{{ '/feed.xml' | relative_url }}" aria-label="RSS feed">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18zM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93z"/></svg>
+    subscribe via RSS
+  </a>
+</section>
+
+<section aria-label="Posts">
+  {% for post in site.posts %}
+  <article class="hero-card post-card">
+    <div class="post-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time></div>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <p>{{ post.description | default: post.excerpt | strip_html | normalize_whitespace | truncate: 200 }}</p>
+    <div class="byline">
+      <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="" aria-hidden="true" style="width:24px;height:24px;border-radius:7px;" />
+      <span class="meta">posted by</span>
+      <span class="handle">⌃click</span>
+      <span class="admin-badge">admin</span>
+    </div>
+  </article>
+  {% endfor %}
+</section>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="{{ '/controlclick-mark.svg' | relative_url }}" />
+  {% seo %}
+  {% feed_meta %}
+  <script data-goatcounter="https://genemaggio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <style>
+    /* ====== Design Tokens (matches index.html) ====== */
+    :root {
+      --bg: #0A0F1C;
+      --panel: #111A2B;
+      --muted: #98A2B8;
+      --text: #F6F8FC;
+      --teal: #14F1C6;
+      --blue: #6C8CFF;
+      --pink: #FF5C8A;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-1: 0 10px 30px rgba(0,0,0,.45);
+      --shadow-2: 0 14px 50px rgba(0,0,0,.6);
+      --maxw: 860px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100vh; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(20, 241, 198, 0.08), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(108, 140, 255, 0.09), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(255, 92, 138, 0.05), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 28px 20px; flex: 1; width: 100%; }
+
+    .grad {
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .plus { color: var(--pink); }
+
+    .keycap {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 30px; height: 30px; padding: 0 7px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #1D2A40, #0C1322);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+      color: var(--teal);
+      font-weight: 700; font-size: 16px; line-height: 1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* ====== Header ====== */
+    header.site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: linear-gradient(to bottom, rgba(10,15,28,.95), rgba(10,15,28,.7), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 14px 20px; max-width: 1200px; margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand a { display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .brand a:hover { text-decoration: none; }
+    .brand img { height: 42px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
+    .brand h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a[aria-current="page"] { color: var(--teal); }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(135deg, rgba(20,241,198,.18), rgba(108,140,255,.18)); color: var(--text); box-shadow: var(--shadow-1);
+    }
+    .cta:hover { filter: brightness(1.08); text-decoration: none; }
+
+    /* ====== ⌃click byline ====== */
+    .byline { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
+    .byline img { width: 30px; height: 30px; border-radius: 9px; }
+    .handle {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-weight: 700; font-size: 14px; color: var(--teal);
+    }
+    .admin-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 999px;
+      border: 1px solid rgba(20,241,198,.4); color: var(--teal);
+      text-transform: uppercase; letter-spacing: .7px; font-weight: 700;
+    }
+    .byline .meta { font-size: 12px; color: var(--muted); }
+
+    /* ====== Cards (blog index) ====== */
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius-lg);
+      padding: 22px; box-shadow: var(--shadow-1);
+    }
+    .section-title { display:flex; align-items:center; gap:12px; margin: 10px 0 14px; }
+    .section-title h1, .section-title h2 { margin: 0; font-size: clamp(24px, 3.2vw, 34px); letter-spacing: -.4px; }
+
+    .post-card { margin-bottom: 16px; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .post-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.18); box-shadow: var(--shadow-2); }
+    .post-card h2 { margin: 4px 0 8px; font-size: 22px; letter-spacing: -.3px; }
+    .post-card h2 a { color: var(--text); }
+    .post-card h2 a:hover { text-decoration: none; }
+    .post-card:hover h2 a { background: linear-gradient(90deg, var(--teal), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .post-card p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+    .post-card .byline { margin: 0; }
+    .post-date {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; color: var(--muted); letter-spacing: .4px;
+    }
+
+    .blog-intro { color: var(--muted); margin: 0 0 8px; }
+    .rss-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--muted); margin-bottom: 22px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .rss-link:hover { color: var(--teal); text-decoration: none; }
+
+    /* ====== Post pages ====== */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--muted); margin-bottom: 18px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .back-link:hover { color: var(--teal); text-decoration: none; }
+
+    .post-title { font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -.5px; margin: 6px 0 14px; }
+
+    .post-body { font-size: 17px; color: #d7d7e2; }
+    .post-body h2 { font-size: 24px; letter-spacing: -.3px; margin: 34px 0 10px; color: var(--text); }
+    .post-body h3 { font-size: 19px; margin: 28px 0 8px; color: var(--text); }
+    .post-body p { margin: 0 0 16px; }
+    .post-body ul, .post-body ol { margin: 0 0 16px; padding-left: 24px; }
+    .post-body li { margin-bottom: 6px; }
+    .post-body img { max-width: 100%; border-radius: var(--radius-md); }
+    .post-body hr { border: none; height: 1px; background: rgba(255,255,255,.1); margin: 28px 0; }
+    .post-body blockquote {
+      margin: 0 0 16px; padding: 12px 18px;
+      border-left: 3px solid var(--teal);
+      background: rgba(20,241,198,.05);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: var(--muted);
+    }
+    .post-body blockquote p:last-child { margin-bottom: 0; }
+    .post-body code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em; padding: 2px 6px; border-radius: 5px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+    }
+    .post-body pre {
+      background: #0C1322; border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-md); padding: 16px; overflow-x: auto;
+      margin: 0 0 16px;
+    }
+    .post-body pre code { background: none; border: none; padding: 0; font-size: 14px; }
+    .post-body kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; padding: 1px 6px; border-radius: 5px;
+      border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
+      background: rgba(255,255,255,.05); color: var(--text);
+    }
+    .post-body table { border-collapse: collapse; margin: 0 0 16px; width: 100%; }
+    .post-body th, .post-body td { border: 1px solid rgba(255,255,255,.12); padding: 8px 12px; text-align: left; font-size: 15px; }
+    .post-body th { background: rgba(255,255,255,.04); }
+
+    .post-footer {
+      margin-top: 36px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .post-footer .byline { margin: 0; }
+
+    /* ====== Footer ====== */
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    footer.site .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; opacity: .8; }
+
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 620px) {
+      .brand h1 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-head" aria-label="Site header">
+    <div class="nav">
+      <div class="brand">
+        <a href="{{ '/' | relative_url }}" aria-label="Ctrl+Click home">
+          <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="Ctrl+Click logo" />
+          <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span></h1>
+        </a>
+      </div>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="{{ '/#business' | relative_url }}">Business</a>
+        <a href="{{ '/#personal' | relative_url }}">Personal</a>
+        <a href="{{ '/blog/' | relative_url }}" aria-current="page">Blog</a>
+        <a href="{{ '/#contact' | relative_url }}">Contact</a>
+      </nav>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" aria-label="Schedule a discussion">Schedule a Discussion</a>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    {{ content }}
+
+    <footer class="site">
+      <div>&copy; {{ site.time | date: '%Y' }} Ctrl+Click — formerly Maggio Consulting — All rights reserved</div>
+      <div class="mono" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
+    </footer>
+  </main>
+</body>
+</html>
