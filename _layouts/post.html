@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<article class="post" aria-label="Blog post">
+  <a class="back-link" href="{{ '/blog/' | relative_url }}"><span aria-hidden="true">⌃</span> back to the blog</a>
+
+  <h1 class="post-title">{{ page.title }}</h1>
+
+  <div class="byline">
+    <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="" aria-hidden="true" />
+    <span class="meta">posted by</span>
+    <span class="handle">⌃click</span>
+    <span class="admin-badge">admin</span>
+    <span class="meta">· <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></span>
+  </div>
+
+  <div class="post-body">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Schedule a Discussion</a>
+    <span class="byline">
+      <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="" aria-hidden="true" style="width:24px;height:24px;border-radius:7px;" />
+      <span class="meta">posted by</span>
+      <span class="handle">⌃click</span>
+      <span class="admin-badge">admin</span>
+    </span>
+  </footer>
+</article>
