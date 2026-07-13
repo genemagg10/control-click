@@ -79,11 +79,11 @@
     }
     .nav {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 14px 20px; max-width: var(--maxw); margin: 0 auto;
+      gap: 16px; padding: 16px 20px; max-width: var(--maxw); margin: 0 auto;
     }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img { height: 42px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
-    .brand h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; font-weight: 700; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img { height: 44px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
+    .brand h1 { margin: 0; font-size: 22px; letter-spacing: .6px; }
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
@@ -95,13 +95,13 @@
 
     /* ====== Hero ====== */
     .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; padding: 28px 0 10px; }
-    .hero h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1.1; margin: 10px 0 14px; letter-spacing: -.5px; }
-    .hero p { color: var(--muted); margin: 0 0 14px; }
+    .hero h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1.1; margin: 6px 0 14px; }
+    .hero p { color: var(--muted); margin: 0 0 18px; }
     .hero-card {
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border: 1px solid rgba(255,255,255,.07);
       border-radius: var(--radius-lg);
-      padding: 22px; box-shadow: var(--shadow-1);
+      padding: 20px; box-shadow: var(--shadow-1);
     }
     .formerly {
       display: inline-flex; align-items: center; gap: 8px;
@@ -146,7 +146,7 @@
     .story-glyph { font-size: 26px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 
     /* ====== Services ====== */
-    .section-title { display:flex; align-items:center; gap:12px; margin: 34px 0 14px; }
+    .section-title { display:flex; align-items:center; gap:10px; margin: 28px 0 12px; }
     .section-title h3 { margin: 0; font-size: 20px; letter-spacing:.4px; }
 
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
@@ -318,7 +318,7 @@
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
-      .brand h1 { font-size: 18px; }
+      .brand h1 { display: none; }
     }
   </style>
 </head>
@@ -343,15 +343,17 @@
     <!-- ====== Hero ====== -->
     <section class="hero" aria-label="Introduction">
       <div>
-        <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
-        <h2>Unlock the <span class="grad">hidden menu</span> of your technology.</h2>
-        <p>
-          On a Mac, control‑click opens the menu most people never see — more options, more power, one click away. That's what I do for people and businesses: I help you take control of your technology, personally and with your teams — adopting AI, securing networks, building reliable infrastructure, and making everyday tech feel effortless.
-        </p>
-        <p>
-          Enterprise‑level IT, without the enterprise‑level price tag. From email migrations to web architecture, I design and implement systems that scale — without the overhead of a full‑time CTO.
-        </p>
-        <p class="hint">Psst — try a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) anywhere on this page.</p>
+        <div class="hero-card">
+          <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
+          <h2>Unlock the <span class="grad">hidden menu</span> of your technology.</h2>
+          <p>
+            On a Mac, control‑click opens the menu most people never see — more options, more power, one click away. That's what I do for people and businesses: I help you take control of your technology, personally and with your teams — adopting AI, securing networks, building reliable infrastructure, and making everyday tech feel effortless.
+          </p>
+          <p>
+            Enterprise‑level IT, without the enterprise‑level price tag. From email migrations to web architecture, I design and implement systems that scale — without the overhead of a full‑time CTO.
+          </p>
+          <p class="hint">Psst — try a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) anywhere on this page.</p>
+        </div>
       </div>
       <div class="hero-card">
         <div class="byline secret-spot">
