@@ -1,7 +1,7 @@
 # Ctrl+Click: Jekyll config for GitHub Pages
 # The root index.html has no front matter, so Jekyll copies it through untouched.
 
-title: Ctrl+Click
+title: "Ctrl+Click: AI & IT Solutions"
 tagline: Technology Consulting & Support
 description: >-
   Notes from ⌃click on AI adoption, secure networking, email migrations,

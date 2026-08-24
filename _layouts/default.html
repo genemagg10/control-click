@@ -82,6 +82,7 @@
     .brand a:hover { text-decoration: none; }
     .brand img { height: 42px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
     .brand h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; font-weight: 700; }
+    .brand-suffix { font-size: 15px; font-weight: 600; letter-spacing: .2px; color: var(--muted); }
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
@@ -201,6 +202,7 @@
     }
     @media (max-width: 620px) {
       .brand h1 { font-size: 18px; }
+      .brand-suffix { display: none; }
     }
   </style>
 </head>
@@ -210,7 +212,7 @@
       <div class="brand">
         <a href="{{ '/' | relative_url }}" aria-label="Ctrl+Click home">
           <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="Ctrl+Click logo" />
-          <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span></h1>
+          <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span><span class="brand-suffix">: AI &amp; IT Solutions</span></h1>
         </a>
       </div>
       <nav class="nav-links" aria-label="Sections">
@@ -227,7 +229,7 @@
     {{ content }}
 
     <footer class="site">
-      <div>&copy; {{ site.time | date: '%Y' }} Ctrl+Click, formerly Maggio Consulting. All rights reserved.</div>
+      <div>&copy; {{ site.time | date: '%Y' }} Ctrl+Click: AI &amp; IT Solutions. Formerly Maggio Consulting. All rights reserved.</div>
       <div class="mono" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
     </footer>
   </main>

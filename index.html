@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ctrl+Click: Technology Consulting &amp; Support</title>
+  <title>Ctrl+Click: AI &amp; IT Solutions</title>
   <meta name="description" content="Ctrl+Click (formerly Maggio Consulting): AI adoption, secure networking, cloud infrastructure, and personal tech support for people, businesses, and their teams in the Bay Area." />
   <link rel="icon" type="image/svg+xml" href="controlclick-mark.svg" />
-  <meta property="og:title" content="Ctrl+Click: Technology Consulting &amp; Support" />
+  <meta property="og:title" content="Ctrl+Click: AI &amp; IT Solutions" />
   <meta property="og:description" content="Enterprise-level IT, without the enterprise-level price tag. AI automation, secure networking, and reliable cloud infrastructure for people, businesses, and their teams." />
   <meta property="og:image" content="og-image.png" />
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
@@ -84,6 +84,7 @@
     .brand { display: flex; align-items: center; gap: 14px; }
     .brand img { height: 44px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
     .brand h1 { margin: 0; font-size: 22px; letter-spacing: .6px; }
+    .brand-suffix { font-size: 15px; font-weight: 600; letter-spacing: .2px; color: var(--muted); }
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
@@ -132,8 +133,8 @@
     }
     .byline .meta { font-size: 12px; color: var(--muted); }
 
-    /* secret spots: right-click / control-click / tap-and-hold the ⌃click persona */
-    .secret-spot {
+    /* secret spots: right-click / control-click / tap-and-hold the ⌃click persona or the title */
+    .secret-spot, .about-spot {
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
@@ -282,6 +283,11 @@
       backdrop-filter: blur(8px);
     }
     .ctx[data-open="true"] { display: block; }
+    .ctx[data-mode="about"] { width: min(400px, calc(100vw - 20px)); }
+    .ctx-group { display: none; }
+    .ctx[data-mode="persona"] .ctx-group[data-group="persona"] { display: block; }
+    .ctx[data-mode="about"] .ctx-group[data-group="about"] { display: block; }
+    .ctx-copy { margin: 0; padding: 2px 12px 10px; font-size: 13px; line-height: 1.6; color: var(--muted); }
     .ctx-title {
       padding: 8px 12px 6px;
       font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
@@ -318,9 +324,9 @@
   <!-- ====== Top Nav ====== -->
   <header class="site-head" aria-label="Site header">
     <div class="nav">
-      <div class="brand">
+      <div class="brand about-spot" title="Control‑click for more">
         <img src="controlclick-mark.svg" alt="Ctrl+Click logo" />
-        <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span></h1>
+        <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span><span class="brand-suffix">: AI &amp; IT Solutions</span></h1>
       </div>
       <nav class="nav-links" aria-label="Sections">
         <a href="#business">Business</a>
@@ -340,9 +346,6 @@
           <h2>Enterprise‑Level IT, <span class="grad">Without the Enterprise‑Level Price Tag</span></h2>
           <p>
             Operate smarter through AI automation, secure networking, and reliable cloud infrastructure. From email migrations to web architecture, we design and implement systems that scale, without the overhead of a full‑time CTO.
-          </p>
-          <p>
-            On a Mac, control‑click opens the menu most people never see: more options, more power, one click away. That's what we do for people and businesses. We help you take control of your technology, personally and with your teams, by adopting AI, securing networks, building reliable infrastructure, implementing collaboration tools, and making everyday tech feel effortless.
           </p>
           <p class="hint">Psst: a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) in the right spot opens more than you'd expect.</p>
         </div>
@@ -406,7 +409,7 @@
     </section>
 
     <footer class="site">
-      <div>&copy; <span id="year"></span> Ctrl+Click, formerly Maggio Consulting. All rights reserved.</div>
+      <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions. Formerly Maggio Consulting. All rights reserved.</div>
       <div class="mono secret-spot" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
     </footer>
   </main>
@@ -432,15 +435,25 @@
   </aside>
 
   <!-- ====== The hidden menu (custom context menu) ====== -->
-  <nav class="ctx" id="ctxMenu" data-open="false" aria-label="Hidden quick menu">
-    <div class="ctx-title">⌃Click: you found the hidden menu</div>
-    <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
-    <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
-    <a href="#business">💼 Business services</a>
-    <a href="#personal">🏠 Personal services</a>
-    <a href="blog/">📓 The hidden blog: notes from ⌃click</a>
-    <div class="ctx-sep"></div>
-    <div class="ctx-note">That's the whole idea: a control‑click unlocks more. <span class="handle" style="font-style:normal;">· ⌃click</span></div>
+  <nav class="ctx" id="ctxMenu" data-open="false" data-mode="persona" aria-label="Hidden quick menu">
+    <div class="ctx-group" data-group="persona">
+      <div class="ctx-title">⌃Click: you found the hidden menu</div>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+      <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
+      <a href="#business">💼 Business services</a>
+      <a href="#personal">🏠 Personal services</a>
+      <a href="blog/">📓 The hidden blog: notes from ⌃click</a>
+      <div class="ctx-sep"></div>
+      <div class="ctx-note">That's the whole idea: a control‑click unlocks more. <span class="handle" style="font-style:normal;">· ⌃click</span></div>
+    </div>
+    <div class="ctx-group" data-group="about">
+      <div class="ctx-title">⌃Click: what we do</div>
+      <p class="ctx-copy">On a Mac, control‑click opens the menu most people never see: more options, more power, one click away. That's what we do for people and businesses. We help you take control of your technology, personally and with your teams, by adopting AI, securing networks, building reliable infrastructure, implementing collaboration tools, and making everyday tech feel effortless.</p>
+      <div class="ctx-sep"></div>
+      <a href="#business">💼 Business services</a>
+      <a href="#personal">🏠 Personal services</a>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+    </div>
   </nav>
 
   <script>
@@ -1014,10 +1027,18 @@
     });
     maybeOpenFromHash();
 
-    // ====== The hidden menu: control-click the ⌃click persona to reveal it ======
+    // ====== The hidden menu: control-click the ⌃click persona or the site title ======
     const ctxMenu = document.getElementById('ctxMenu');
 
-    function openCtxMenu(x, y) {
+    // the persona spots open the quick menu; the title opens the "what we do" panel
+    function spotMode(target) {
+      if (target.closest('.secret-spot')) return 'persona';
+      if (target.closest('.about-spot')) return 'about';
+      return null;
+    }
+
+    function openCtxMenu(x, y, mode) {
+      ctxMenu.dataset.mode = mode;
       ctxMenu.dataset.open = 'true';
       // measure, then clamp to viewport
       const rect = ctxMenu.getBoundingClientRect();
@@ -1033,21 +1054,24 @@
 
     document.addEventListener('contextmenu', (e) => {
       // only a ⌃click spot summons the hidden menu; everywhere else stays native
-      if (ctxMenu.contains(e.target) || !e.target.closest('.secret-spot')) return;
+      if (ctxMenu.contains(e.target)) return;
+      const mode = spotMode(e.target);
+      if (!mode) return;
       e.preventDefault();
-      openCtxMenu(e.clientX, e.clientY);
+      openCtxMenu(e.clientX, e.clientY, mode);
     });
 
     // tap-and-hold a ⌃click spot on touch devices (iOS has no contextmenu)
-    let pressTimer = null, pressStart = null, suppressNextClick = false;
+    let pressTimer = null, pressStart = null, pressMode = null, suppressNextClick = false;
     document.addEventListener('touchstart', (e) => {
-      if (!e.target.closest('.secret-spot')) return;
+      pressMode = spotMode(e.target);
+      if (!pressMode) return;
       const t = e.touches[0];
       pressStart = { x: t.clientX, y: t.clientY };
       pressTimer = setTimeout(() => {
         pressTimer = null;
         suppressNextClick = true;
-        openCtxMenu(pressStart.x, pressStart.y);
+        openCtxMenu(pressStart.x, pressStart.y, pressMode);
       }, 500);
     }, { passive: true });
     document.addEventListener('touchmove', (e) => {
