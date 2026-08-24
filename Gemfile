@@ -1,4 +1,4 @@
-# For local preview only — GitHub Pages builds the site natively.
+# For local preview only. GitHub Pages builds the site natively.
 #   bundle install
 #   bundle exec jekyll serve
 source "https://rubygems.org"
