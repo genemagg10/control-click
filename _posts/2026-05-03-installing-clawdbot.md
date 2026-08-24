@@ -2,7 +2,7 @@
 title: "Installing Clawdbot: Friction, Persistence, and the Power of Having ChatGPT With You"
 description: >-
   Installing Clawdbot on a new machine turned into a lesson in silent failures,
-  rate limits, concurrency, and macOS permissions — and in how AI as a thinking
+  rate limits, concurrency, and macOS permissions, and in how AI as a thinking
   partner makes complexity navigable.
 date: 2026-05-03 11:00:00 -0700
 ---
@@ -11,7 +11,7 @@ date: 2026-05-03 11:00:00 -0700
 
 I recently set out to install **Clawdbot** on a new machine. On paper, it looked straightforward: install the gateway, connect a model, wire up iMessage, optionally add Tailscale, and you're off to the races. In practice, it turned into one of those experiences that perfectly illustrates the current state of modern developer tooling: incredibly powerful, occasionally sharp-edged, and immensely rewarding once everything clicks.
 
-What made the difference this time wasn't just persistence — it was having **ChatGPT available as a thinking partner while I worked through the install**.
+What made the difference this time wasn't just persistence. It was having **ChatGPT available as a thinking partner while I worked through the install**.
 
 This wasn't a passive "search and copy-paste" experience. It was active problem solving, debugging, reasoning about logs, and gradually building a mental model of how the system actually works.
 
@@ -21,7 +21,7 @@ And in the end: success.
 
 ![Homebrew pouring signal-cli and a long chain of dependencies in the terminal]({{ '/assets/blog/clawdbot-2.png' | relative_url }})
 
-The initial setup completed cleanly. Clawdbot launched, the TUI came up, and everything *looked* fine — until I sent my first message and got the dreaded:
+The initial setup completed cleanly. Clawdbot launched, the TUI came up, and everything *looked* fine, until I sent my first message and got the dreaded:
 
 ```
 (no output)
@@ -47,7 +47,7 @@ Early on, I saw lines like:
 tokens 36k / 1.0m (4%)
 ```
 
-My instinctive reaction was: *I clearly have plenty of tokens — why isn't this working?*
+My instinctive reaction was: *I clearly have plenty of tokens, so why isn't this working?*
 
 This turned out to be my first major learning moment.
 
@@ -73,7 +73,7 @@ Max concurrent requests
 
 It wasn't there. Not under Workspace. Not under Model. Not under Skills.
 
-This could have been a dead end — until I learned that in this build, **agent concurrency is configured directly in the raw JSON config**.
+This could have been a dead end, until I learned that in this build, **agent concurrency is configured directly in the raw JSON config**.
 
 Manually editing the config to force:
 
@@ -94,19 +94,19 @@ This was a huge turning point. The system didn't need more credits. It needed **
 
 Another layer of complexity came from enabling iMessage support.
 
-On macOS, accessing Messages isn't just a technical problem — it's a **privacy permissions problem**. Until Full Disk Access was correctly granted to the Terminal and the helper process, Clawdbot couldn't read the Messages database.
+On macOS, accessing Messages isn't just a technical problem. It's a **privacy permissions problem**. Until Full Disk Access was correctly granted to the Terminal and the helper process, Clawdbot couldn't read the Messages database.
 
 The resulting errors were confusing at first because the helper would emit plain-text permission errors, which Clawdbot then failed to parse as JSON.
 
-Once permissions were fixed, iMessage worked exactly as designed — including the pairing system.
+Once permissions were fixed, iMessage worked exactly as designed, including the pairing system.
 
-I actually appreciated this part: Clawdbot doesn't blindly respond to anyone who texts your machine. It requires explicit approval. And once I learned how to put it into **silent allow-list mode**, I was able to configure it so only *I* could interact with the bot — no pairing messages, no accidental replies.
+I actually appreciated this part: Clawdbot doesn't blindly respond to anyone who texts your machine. It requires explicit approval. And once I learned how to put it into **silent allow-list mode**, I was able to configure it so only *I* could interact with the bot: no pairing messages, no accidental replies.
 
 ## Tailscale, Sudo, and Drawing Clear Boundaries
 
 As I layered in Tailscale, another lesson surfaced: **not every tool should be allowed to do everything**.
 
-At one point, the agent attempted to execute commands that required sudo, which immediately failed in a non-interactive environment. The solution wasn't to "make sudo work" — it was to **explicitly prevent the agent from ever trying**.
+At one point, the agent attempted to execute commands that required sudo, which immediately failed in a non-interactive environment. The solution wasn't to "make sudo work." It was to **explicitly prevent the agent from ever trying**.
 
 This was empowering rather than limiting. I learned how to:
 
@@ -114,7 +114,7 @@ This was empowering rather than limiting. I learned how to:
 - Treat the agent as an advisor, not a root user
 - Keep security boundaries clear
 
-Once again, Clawdbot wasn't the problem — it was doing exactly what it was allowed to do. Tightening those permissions made the system *more* reliable.
+Once again, Clawdbot wasn't the problem. It was doing exactly what it was allowed to do. Tightening those permissions made the system *more* reliable.
 
 ## The Moment It All Came Together
 
@@ -130,13 +130,13 @@ I sent a message.
 
 And it responded.
 
-Not just once — but reliably.
+Not just once, but reliably.
 
 At that point, Clawdbot stopped feeling like a fragile experiment and started feeling like **infrastructure**. Something I could trust. Something I could build on.
 
 ## Why This Experience Felt Different
 
-What stood out most wasn't that the install was flawless — it wasn't.
+What stood out most wasn't that the install was flawless. It wasn't.
 
 What stood out was that **I never felt stuck**.
 
@@ -155,7 +155,7 @@ Instead of fighting tools, I was **learning systems**.
 
 ## Final Thoughts
 
-Installing Clawdbot ended up being more than a setup task. It was a real-world example of how AI changes the developer experience — not by magically removing complexity, but by **making complexity navigable**.
+Installing Clawdbot ended up being more than a setup task. It was a real-world example of how AI changes the developer experience, not by magically removing complexity, but by **making complexity navigable**.
 
 I came out of it with:
 
@@ -164,10 +164,10 @@ I came out of it with:
 - more confidence editing configs directly
 - and a strong sense of empowerment
 
-This is what modern tooling *should* feel like: challenging, yes — but paired with the right support, also deeply rewarding.
+This is what modern tooling *should* feel like: challenging, yes, but paired with the right support, also deeply rewarding.
 
 And now, when I'm installing or configuring the next project, I know something important:
 
 I don't have to do it alone.
 
-![Anthropic console credit balance nearly exhausted — the billing side of the story]({{ '/assets/blog/clawdbot-3.png' | relative_url }})
+![Anthropic console credit balance nearly exhausted, the billing side of the story]({{ '/assets/blog/clawdbot-3.png' | relative_url }})
