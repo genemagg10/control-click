@@ -139,12 +139,6 @@
       user-select: none;
     }
 
-    /* ====== Brand story ====== */
-    .story { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-top: 30px; }
-    .story .hero-card h4 { margin: 10px 0 6px; font-size: 17px; }
-    .story .hero-card p { margin: 0; color: var(--muted); font-size: 14px; }
-    .story-glyph { font-size: 26px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-
     /* ====== Services ====== */
     .section-title { display:flex; align-items:center; gap:10px; margin: 28px 0 12px; }
     .section-title h3 { margin: 0; font-size: 20px; letter-spacing:.4px; }
@@ -311,7 +305,6 @@
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; }
       .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .story { grid-template-columns: 1fr; }
       #contact { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
@@ -344,12 +337,12 @@
       <div>
         <div class="hero-card">
           <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
-          <h2>Unlock the <span class="grad">hidden menu</span> of your technology.</h2>
+          <h2>Enterprise‑Level IT, <span class="grad">Without the Enterprise‑Level Price Tag</span></h2>
           <p>
-            On a Mac, control‑click opens the menu most people never see — more options, more power, one click away. That's what I do for people and businesses: I help you take control of your technology, personally and with your teams — adopting AI, securing networks, building reliable infrastructure, and making everyday tech feel effortless.
+            Operate smarter through AI automation, secure networking, and reliable cloud infrastructure. From email migrations to web architecture, we design and implement systems that scale — without the overhead of a full‑time CTO.
           </p>
           <p>
-            Enterprise‑level IT, without the enterprise‑level price tag. From email migrations to web architecture, I design and implement systems that scale — without the overhead of a full‑time CTO.
+            On a Mac, control‑click opens the menu most people never see — more options, more power, one click away. That's what we do for people and businesses: We help you take control of your technology, personally and with your teams — adopting AI, securing networks, building reliable infrastructure, implementing collaboration tools, and making everyday tech feel effortless.
           </p>
           <p class="hint">Psst — a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) in the right spot opens more than you'd expect.</p>
         </div>
@@ -369,25 +362,6 @@
           <li>Email migrations and domain routing cleanups</li>
         </ul>
         <small style="color:var(--muted)">Ask about fixed‑scope packages.</small>
-      </div>
-    </section>
-
-    <!-- ====== Why Ctrl+Click ====== -->
-    <section class="story" aria-label="The name">
-      <div class="hero-card">
-        <span class="keycap" style="min-width:44px;height:44px;font-size:26px;border-radius:11px;" aria-hidden="true">⌃</span>
-        <h4>Ctrl</h4>
-        <p>The chevron is the Mac's Control key — and the crest worn as a mark of leadership. It stands for calm, organized command of your systems: networks, identity, email, and cloud.</p>
-      </div>
-      <div class="hero-card">
-        <span class="story-glyph" style="color:var(--pink)" aria-hidden="true">+</span>
-        <h4>Click</h4>
-        <p>Simple, human help. Plain‑language teaching, patient troubleshooting, and fixes that stick — for you, your family, and your team.</p>
-      </div>
-      <div class="hero-card">
-        <span class="story-glyph grad" aria-hidden="true">⌃Click</span>
-        <h4>Together</h4>
-        <p>Control‑click reveals the options hiding in plain sight. Together we unlock what your technology can really do — from AI adoption and automation to infrastructure you fully own and understand.</p>
       </div>
     </section>
 
