@@ -1,14 +1,15 @@
 # Ctrl+Click
 
-**Ctrl+Click** (formerly [Maggio Consulting](https://it.maggio.xyz)) provides technology consulting and support for people, businesses, and their teams.
+**Ctrl+Click: AI & IT Solutions** (formerly [Maggio Consulting](https://it.maggio.xyz)) provides technology consulting and support for people, businesses, and their teams.
 
 ## The brand
 
-- **Primary name:** `Ctrl+Click`, used everywhere by default.
+- **Primary name:** `Ctrl+Click: AI & IT Solutions`, used everywhere by default. The `: AI & IT Solutions` suffix is a muted sub-label next to the wordmark, hidden on narrow screens.
 - **Technical/hackery variant:** `⌃Click`, the Mac Control symbol in front of "Click". Used sparingly for code-flavored accents.
 - **⌃click** is also the site's admin persona, the "user" who posts and maintains the content on the site.
 - **The idea:** on a Mac, control‑click (right‑click) opens the hidden menu: more options, more power, one click away. The chevron `⌃` is both the Control key and the crest worn as a mark of leadership.
 - Try control‑clicking anywhere on the site: it opens a custom "hidden menu" easter egg.
+- Control-click / right-click **the site title in the header** and the hidden menu opens in its "what we do" mode instead: the control-click explainer that used to sit in the hero, plus links to the service sections. The two modes share one `#ctxMenu` element and are switched by its `data-mode` attribute (`persona` for `.secret-spot`, `about` for `.about-spot`).
 - The blog is hidden one level deeper: right‑click / control‑click (or tap‑and‑hold on mobile) **on the ⌃click persona itself** (the byline in the hero card or the "maintained by ⌃click" footer line) and the hidden menu reveals an extra entry: **📓 The hidden blog**. Invoked anywhere else, the menu doesn't mention the blog at all.
 
 ## Brand assets
