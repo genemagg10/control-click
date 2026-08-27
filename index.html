@@ -124,6 +124,7 @@
       border-radius: var(--radius-lg);
       padding: 20px; box-shadow: var(--shadow-1);
     }
+    .contact-grid { margin-top: 42px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .formerly {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 5px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .4px;
@@ -331,7 +332,8 @@
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; }
       .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      #contact { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-events { order: -1; }
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
@@ -410,14 +412,14 @@
     <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list"></div>
 
     <!-- ====== Contact & Events ====== -->
-    <section id="contact" style="margin-top:42px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-      <div class="hero-card">
+    <section id="contact" class="contact-grid">
+      <div class="hero-card contact-touch">
         <h3 style="margin:0 0 8px">Get in Touch</h3>
         <p style="margin:0 0 12px;color:var(--muted)">Send a message or schedule a call to discuss your needs or explore your curiosities. We respond quickly.</p>
         <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Scheduling</a>
         <a class="cta" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener" style="margin-left:8px">Messaging</a>
       </div>
-      <div class="hero-card">
+      <div class="hero-card contact-events">
         <h3 style="margin:0 0 8px">Upcoming Events</h3>
         <div style="display:flex; align-items:flex-start; gap:16px; margin-top:12px;">
           <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; flex-shrink:0;">
