@@ -3,21 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/svg+xml" href="{{ '/controlclick-mark.svg' | relative_url }}" />
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/brand/favicon.svg' | relative_url }}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/brand/favicon-32.png' | relative_url }}" />
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/brand/favicon-16.png' | relative_url }}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/brand/apple-touch-icon.png' | relative_url }}" />
   {% seo %}
   {% feed_meta %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
     /* ====== Design Tokens (matches index.html) ====== */
     :root {
-      --bg: #0A0F1C;
-      --panel: #111A2B;
-      --muted: #98A2B8;
-      --text: #F6F8FC;
-      --teal: #14F1C6;
-      --blue: #6C8CFF;
-      --pink: #FF5C8A;
+      --navy: #0E1626;
+      --bg: #0A101E;
+      --panel: #131F36;
+      --muted: #94A0B4;
+      --text: #F2F5F7;
+      --teal: #1E9C8C;
+      --teal-bright: #2FBCA9;
+      --coral: #E8674C;
+      /* legacy aliases kept so existing rules resolve to the new brand palette */
+      --blue: #2FBCA9;
+      --pink: #E8674C;
+      --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
@@ -32,9 +44,9 @@
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% -10%, rgba(20, 241, 198, 0.08), transparent),
-                  radial-gradient(1000px 600px at 85% 10%, rgba(108, 140, 255, 0.09), transparent),
-                  radial-gradient(800px 500px at 50% 110%, rgba(255, 92, 138, 0.05), transparent),
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.12), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.10), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.06), transparent),
                   var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -64,7 +76,7 @@
       box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
       color: var(--teal);
       font-weight: 700; font-size: 16px; line-height: 1;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
     }
 
     /* ====== Header ====== */
@@ -80,16 +92,22 @@
     .brand { display: flex; align-items: center; gap: 12px; }
     .brand a { display: flex; align-items: center; gap: 12px; color: var(--text); }
     .brand a:hover { text-decoration: none; }
-    .brand img { height: 42px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
-    .brand h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; font-weight: 700; }
-    .brand-suffix { font-size: 15px; font-weight: 600; letter-spacing: .2px; color: var(--muted); }
+    .wordmark {
+      display: inline-flex; align-items: center; gap: 0;
+      font-family: var(--font-brand); font-weight: 800;
+      font-size: 24px; letter-spacing: -.5px; line-height: 1;
+    }
+    .wm-caret { width: 20px; height: 15px; flex-shrink: 0; margin-right: 7px; }
+    .wm-ctrl { color: var(--text); }
+    .wm-click { color: var(--teal); }
+    .brand-suffix { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .nav-links a[aria-current="page"] { color: var(--teal); }
 
     .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
-      background: linear-gradient(135deg, rgba(20,241,198,.18), rgba(108,140,255,.18)); color: var(--text); box-shadow: var(--shadow-1);
+      background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
     }
     .cta:hover { filter: brightness(1.08); text-decoration: none; }
 
@@ -97,12 +115,12 @@
     .byline { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
     .byline img { width: 30px; height: 30px; border-radius: 9px; }
     .handle {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-weight: 700; font-size: 14px; color: var(--teal);
     }
     .admin-badge {
       font-size: 10px; padding: 2px 8px; border-radius: 999px;
-      border: 1px solid rgba(20,241,198,.4); color: var(--teal);
+      border: 1px solid rgba(30,156,140,.45); color: var(--teal);
       text-transform: uppercase; letter-spacing: .7px; font-weight: 700;
     }
     .byline .meta { font-size: 12px; color: var(--muted); }
@@ -126,7 +144,7 @@
     .post-card p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
     .post-card .byline { margin: 0; }
     .post-date {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 12px; color: var(--muted); letter-spacing: .4px;
     }
 
@@ -134,7 +152,7 @@
     .rss-link {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 13px; color: var(--muted); margin-bottom: 22px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
     }
     .rss-link:hover { color: var(--teal); text-decoration: none; }
 
@@ -142,7 +160,7 @@
     .back-link {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 13px; color: var(--muted); margin-bottom: 18px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
     }
     .back-link:hover { color: var(--teal); text-decoration: none; }
 
@@ -159,13 +177,13 @@
     .post-body blockquote {
       margin: 0 0 16px; padding: 12px 18px;
       border-left: 3px solid var(--teal);
-      background: rgba(20,241,198,.05);
+      background: rgba(30,156,140,.07);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       color: var(--muted);
     }
     .post-body blockquote p:last-child { margin-bottom: 0; }
     .post-body code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: .88em; padding: 2px 6px; border-radius: 5px;
       background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
     }
@@ -176,7 +194,7 @@
     }
     .post-body pre code { background: none; border: none; padding: 0; font-size: 14px; }
     .post-body kbd {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 12px; padding: 1px 6px; border-radius: 5px;
       border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
       background: rgba(255,255,255,.05); color: var(--text);
@@ -195,13 +213,13 @@
 
     /* ====== Footer ====== */
     footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
-    footer.site .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; opacity: .8; }
+    footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
 
     @media (max-width: 960px) {
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
-      .brand h1 { font-size: 18px; }
+      .wordmark { font-size: 20px; }
       .brand-suffix { display: none; }
     }
   </style>
@@ -210,9 +228,11 @@
   <header class="site-head" aria-label="Site header">
     <div class="nav">
       <div class="brand">
-        <a href="{{ '/' | relative_url }}" aria-label="Ctrl+Click home">
-          <img src="{{ '/controlclick-mark.svg' | relative_url }}" alt="Ctrl+Click logo" />
-          <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span><span class="brand-suffix">: AI &amp; IT Solutions</span></h1>
+        <a href="{{ '/' | relative_url }}" aria-label="Ctrl+Click: AI & IT Solutions home">
+          <span class="wordmark" aria-hidden="true">
+            <svg class="wm-caret" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 23 L20 8 L35 23" stroke="#1E9C8C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wm-ctrl">Ctrl+</span><span class="wm-click">Click</span>
+          </span>
+          <span class="brand-suffix">AI &amp; IT Solutions</span>
         </a>
       </div>
       <nav class="nav-links" aria-label="Sections">
