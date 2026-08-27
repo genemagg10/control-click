@@ -5,22 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ctrl+Click: AI &amp; IT Solutions</title>
   <meta name="description" content="Ctrl+Click (formerly Maggio Consulting): AI adoption, secure networking, cloud infrastructure, and personal tech support for people, businesses, and their teams in the Bay Area." />
-  <link rel="icon" type="image/svg+xml" href="controlclick-mark.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
   <meta property="og:title" content="Ctrl+Click: AI &amp; IT Solutions" />
   <meta property="og:description" content="Enterprise-level IT, without the enterprise-level price tag. AI automation, secure networking, and reliable cloud infrastructure for people, businesses, and their teams." />
   <meta property="og:image" content="og-image.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
     /* ====== Design Tokens ====== */
     :root {
-      --bg: #0A0F1C;
-      --panel: #111A2B;
-      --muted: #98A2B8;
-      --text: #F6F8FC;
-      --teal: #14F1C6;
-      --blue: #6C8CFF;
-      --pink: #FF5C8A;
+      --navy: #0E1626;
+      --bg: #0A101E;
+      --panel: #131F36;
+      --muted: #94A0B4;
+      --text: #F2F5F7;
+      --teal: #1E9C8C;
+      --teal-bright: #2FBCA9;
+      --coral: #E8674C;
+      /* legacy aliases kept so existing rules resolve to the new brand palette */
+      --blue: #2FBCA9;
+      --pink: #E8674C;
+      --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
@@ -35,9 +47,9 @@
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% -10%, rgba(20, 241, 198, 0.08), transparent),
-                  radial-gradient(1000px 600px at 85% 10%, rgba(108, 140, 255, 0.09), transparent),
-                  radial-gradient(800px 500px at 50% 110%, rgba(255, 92, 138, 0.05), transparent),
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.12), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.10), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.06), transparent),
                   var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -68,7 +80,7 @@
       box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
       color: var(--teal);
       font-weight: 700; font-size: 16px; line-height: 1;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
     }
 
     /* ====== Header ====== */
@@ -82,15 +94,23 @@
       gap: 16px; padding: 16px 20px; max-width: var(--maxw); margin: 0 auto;
     }
     .brand { display: flex; align-items: center; gap: 14px; }
-    .brand img { height: 44px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); }
-    .brand h1 { margin: 0; font-size: 22px; letter-spacing: .6px; }
-    .brand-suffix { font-size: 15px; font-weight: 600; letter-spacing: .2px; color: var(--muted); }
+    .brand > a, .brand > .wordmark-wrap { display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .brand a:hover { text-decoration: none; }
+    .wordmark {
+      display: inline-flex; align-items: center; gap: 0;
+      font-family: var(--font-brand); font-weight: 800;
+      font-size: 26px; letter-spacing: -.5px; line-height: 1;
+    }
+    .wm-caret { width: 22px; height: 16px; flex-shrink: 0; margin-right: 8px; }
+    .wm-ctrl { color: var(--text); }
+    .wm-click { color: var(--teal); }
+    .brand-suffix { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
 
     .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
-      background: linear-gradient(135deg, rgba(20,241,198,.18), rgba(108,140,255,.18)); color: var(--text); box-shadow: var(--shadow-1);
+      background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
     }
     .cta:hover { filter: brightness(1.08); text-decoration: none; }
 
@@ -113,7 +133,7 @@
     .formerly b { color: var(--text); font-weight: 600; }
     .hint { color: var(--muted); font-size: 13px; opacity: .85; }
     .hint kbd {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 12px; padding: 1px 6px; border-radius: 5px;
       border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
       background: rgba(255,255,255,.05); color: var(--text);
@@ -123,12 +143,12 @@
     .byline { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
     .byline img { width: 30px; height: 30px; border-radius: 9px; }
     .handle {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-weight: 700; font-size: 14px; color: var(--teal);
     }
     .admin-badge {
       font-size: 10px; padding: 2px 8px; border-radius: 999px;
-      border: 1px solid rgba(20,241,198,.4); color: var(--teal);
+      border: 1px solid rgba(30,156,140,.45); color: var(--teal);
       text-transform: uppercase; letter-spacing: .7px; font-weight: 700;
     }
     .byline .meta { font-size: 12px; color: var(--muted); }
@@ -166,8 +186,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 20% 20%, rgba(20,241,198,.28), transparent 60%),
-                  radial-gradient(circle at 80% 0%, rgba(108,140,255,.32), transparent 60%),
+      background: radial-gradient(circle at 20% 20%, rgba(30,156,140,.32), transparent 60%),
+                  radial-gradient(circle at 80% 0%, rgba(232,103,76,.28), transparent 60%),
                   #16203320;
       border: 1px solid rgba(255,255,255,.1);
       box-shadow: 0 2px 0 rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.07);
@@ -292,20 +312,20 @@
       padding: 8px 12px 6px;
       font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
       color: var(--teal); font-weight: 700;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
     }
     .ctx a {
       display: flex; align-items: center; gap: 10px;
       padding: 9px 12px; border-radius: 8px;
       color: var(--text); font-size: 14px;
     }
-    .ctx a:hover { background: linear-gradient(90deg, rgba(20,241,198,.14), rgba(108,140,255,.14)); text-decoration: none; }
+    .ctx a:hover { background: linear-gradient(90deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); text-decoration: none; }
     .ctx-sep { height: 1px; background: rgba(255,255,255,.1); margin: 6px 8px; }
     .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
 
     /* ====== Footer ====== */
     footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
-    footer.site .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; opacity: .8; }
+    footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
 
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
@@ -316,7 +336,8 @@
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
-      .brand h1 { display: none; }
+      .brand-suffix { display: none; }
+      .wordmark { font-size: 22px; }
     }
   </style>
 </head>
@@ -324,9 +345,13 @@
   <!-- ====== Top Nav ====== -->
   <header class="site-head" aria-label="Site header">
     <div class="nav">
-      <div class="brand about-spot" title="Control‑click for more">
-        <img src="controlclick-mark.svg" alt="Ctrl+Click logo" />
-        <h1>Ctrl<span class="plus">+</span><span class="grad">Click</span><span class="brand-suffix">: AI &amp; IT Solutions</span></h1>
+      <div class="brand about-spot" title="Control-click for more">
+        <span class="wordmark-wrap" role="img" aria-label="Ctrl+Click: AI & IT Solutions">
+          <span class="wordmark" aria-hidden="true">
+            <svg class="wm-caret" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 23 L20 8 L35 23" stroke="#1E9C8C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wm-ctrl">Ctrl+</span><span class="wm-click">Click</span>
+          </span>
+          <span class="brand-suffix">AI &amp; IT Solutions</span>
+        </span>
       </div>
       <nav class="nav-links" aria-label="Sections">
         <a href="#business">Business</a>
@@ -345,7 +370,7 @@
           <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
           <h2>Enterprise‑Level IT, <span class="grad">Without the Enterprise‑Level Price Tag</span></h2>
           <p>
-            Operate smarter through AI automation, secure networking, and reliable cloud infrastructure. From email migrations to web architecture, we design and implement systems that scale, without the overhead of a full‑time CTO.
+            Operate smarter with AI automation, secure networking, and reliable cloud infrastructure. From email and web migrations with zero data loss to team collaboration tools people actually use, we build systems that scale, plus the hands-on training to run them, without the cost of a full-time IT department.
           </p>
           <p class="hint">Psst: a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) in the right spot opens more than you'd expect.</p>
         </div>
@@ -395,14 +420,14 @@
       <div class="hero-card">
         <h3 style="margin:0 0 8px">Upcoming Events</h3>
         <div style="display:flex; align-items:flex-start; gap:16px; margin-top:12px;">
-          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(20,241,198,.15), rgba(108,140,255,.15)); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; flex-shrink:0;">
+          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; flex-shrink:0;">
             <div style="font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--teal); font-weight:600; line-height:1.3;">1st Wed</div>
             <div style="font-size:11px; color:var(--muted); margin-top:2px;">Monthly</div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--teal)" style="margin-top:6px; opacity:.7;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
           </div>
           <div style="flex:1;">
-            <div style="font-weight:500; font-size:16px;">AI &amp; Technology Chat + Coffee</div>
-            <p style="margin:4px 0 0; color:var(--muted); font-size:14px;">Casual meetup to explore AI tools, share discoveries, and ask questions over coffee.</p>
+            <div style="font-weight:500; font-size:16px;">AI &amp; Coffee</div>
+            <p style="margin:4px 0 0; color:var(--muted); font-size:14px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what's possible. All levels welcome.</p>
           </div>
         </div>
       </div>

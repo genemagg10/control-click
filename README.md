@@ -14,26 +14,36 @@
 
 ## Brand assets
 
+The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups, avatars, wordmarks, and the one-page `Ctrl+Click-Brand-Sheet.pdf`). The site pulls the pieces it needs into `assets/brand/`. The mark is the layered keycap: a control key with a hidden layer peeking out behind it, and the caret set in the reveal color so it reads as a window down to what's underneath. The wordmark carries the name in Archivo, with `Click` and the caret in teal.
+
 | File | Purpose |
 |---|---|
-| `controlclick-mark.svg` | Square app-icon mark: a cursor mid right-click popping open a context menu; the highlighted menu row carries the ⌃ chevron (Control key / commander's crest). Used as favicon and avatar. |
-| `controlclick-logo.svg` | Full lockup: the context menu holds "Ctrl+Click" as its highlighted item, cursor clicking at the corner, with teal/blue/pink color echoes behind the panel, a nod to the original Maggio Consulting speech bubble. |
-| `controlclick-logo.png` | PNG render of the lockup (transparent background). |
-| `og-image.png` | Social sharing image, built from the lockup. |
+| `controlclick-mark.svg` | The keycap mark on a transparent ground. Used as the small avatar next to the ⌃click persona. |
+| `assets/brand/favicon.svg` | The keycap mark on a navy tile, for the browser tab. |
+| `assets/brand/favicon-32.png`, `favicon-16.png` | Raster favicons for the browser tab. |
+| `assets/brand/apple-touch-icon.png` | 180px navy app-icon tile for iOS home screens. |
+| `assets/brand/wordmark-horizontal-dark.png` | Horizontal wordmark for dark grounds. |
+| `og-image.png` | Social sharing image: the wordmark, tagline, and former name on the brand navy. |
 
 ### Colors
 
 | Token | Value | Role |
 |---|---|---|
-| Ink | `#0A0F1C` | Background |
-| Panel | `#111A2B` | Cards, sheets |
-| Teal | `#14F1C6` | Primary accent (chevron gradient start) |
-| Blue | `#6C8CFF` | Secondary accent (chevron gradient end) |
-| Pink | `#FF5C8A` | The `+` / click sparks, used sparingly |
+| Navy | `#0E1626` | Ink, dark grounds, app-icon tile |
+| Off-white | `#F2F5F7` | Text, light grounds |
+| Teal | `#1E9C8C` | Primary accent, the reveal, `Click`, the caret |
+| Coral | `#E8674C` | Warm accent for buttons and the meetup |
+
+### Type
+
+- **Archivo** (800) for the wordmark.
+- **JetBrains Mono** (500) for the service line and mono accents.
+
+Both are free on Google Fonts and loaded in the page `<head>`.
 
 ## The site
 
-Single self-contained `index.html` (no build step for the homepage itself; Jekyll copies it through untouched because it has no front matter). It carries forward all content from the Maggio Consulting site: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing), six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training), scheduling/messaging links, and the monthly AI & Technology Chat + Coffee event.
+Single self-contained `index.html` (no build step for the homepage itself; Jekyll copies it through untouched because it has no front matter). It carries forward all content from the Maggio Consulting site: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing), six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training), scheduling/messaging links, and the free monthly AI & Coffee meetup.
 
 ## The blog
 
