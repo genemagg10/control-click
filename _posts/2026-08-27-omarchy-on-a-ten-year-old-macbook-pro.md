@@ -7,6 +7,8 @@ description: >-
 date: 2026-08-27 08:00:00 -0700
 ---
 
+![The Omarchy desktop: a minimalist pink-and-purple mountain sunset with a stag, and a tiling window manager's top bar]({{ '/assets/blog/omarchy-desktop.png' | relative_url }})
+
 This started with me wanting a new Mac Studio.
 
 By the time I configured the machine I actually wanted, with enough memory and processing
