@@ -61,8 +61,12 @@ My first attempt went nowhere. The boot image appeared, but the process never pr
 turned out I had plugged the thumb drive into a secondary monitor instead of directly into the
 MacBook. I moved it to the computer, restarted, and tried again.
 
+![The Omarchy boot screen stalled on the external monitor, the logo frozen instead of progressing]({{ '/assets/blog/omarchy-boot-hang.jpg' | relative_url }})
+
 This time Omarchy installed in 3 minutes and 42 seconds. I was logged in and using the system in
 under five minutes.
+
+![Omarchy installing, the progress bar running across both the MacBook's own screen and the external monitor]({{ '/assets/blog/omarchy-installing.jpg' | relative_url }})
 
 That was amazing.
 
@@ -71,6 +75,8 @@ That was amazing.
 After getting used to the weight of macOS and Windows, Omarchy felt incredibly fast. Browser
 tabs flew. Terminal windows popped open instantly. Before long, I had all four frontier models
 working on tasks through their web interfaces while I moved around the rest of the system.
+
+![Four AI coding CLIs tiled on the Omarchy desktop at once: Claude Code, OpenAI Codex, Gemini, and Grok]({{ '/assets/blog/omarchy-four-models.jpg' | relative_url }})
 
 The little Intel MacBook handled 4K video on YouTube while I kept other browser tabs and terminal
 windows open. For ordinary daily work, it often felt faster than my current computer. Not faster
