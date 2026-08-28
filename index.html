@@ -14,7 +14,11 @@
   <meta property="og:image" content="og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&family=VT323&display=swap" />
+  <link rel="stylesheet" href="assets/expert-mode.css" />
+  <!-- Expert mode is opt-in and remembered per browser. Apply the class before
+       first paint so a returning visitor never sees a flash of the normal site. -->
+  <script>try{if(localStorage.getItem('ctrlclick:expert')==='on'){document.documentElement.classList.add('expert');}}catch(e){}</script>
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
@@ -365,7 +369,14 @@
         <a href="#personal">Personal</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Schedule a discussion">Schedule a Discussion</a>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Switch to the CLI (terminal) view">
+          <span class="et-caret" aria-hidden="true">⌃</span>
+          <span class="et-label-off">expert mode <span class="et-state">off</span></span>
+          <span class="et-label-on">exit CLI</span>
+        </button>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Schedule a discussion">Schedule a Discussion</a>
+      </div>
     </div>
   </header>
 
@@ -1133,6 +1144,23 @@
 
     // Year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Expose the slide-over opener so the expert-mode command line can drive it.
+    window.openSheet = openSheet;
   </script>
+
+  <!-- ====== Expert mode (opt-in CLI view) ====== -->
+  <script>
+    window.CTRLCLICK_LINKS = {
+      home: 'index.html',
+      blog: 'blog/',
+      business: '#business',
+      personal: '#personal',
+      contact: '#contact',
+      schedule: 'https://calendar.app.google/QtYaUwA72XbuKN468',
+      message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
+    };
+  </script>
+  <script src="assets/expert-mode.js" defer></script>
 </body>
 </html>
