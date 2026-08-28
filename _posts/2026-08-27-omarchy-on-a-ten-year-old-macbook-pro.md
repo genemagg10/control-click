@@ -4,7 +4,7 @@ description: >-
   A new Mac Studio sent me looking at local AI. A very slow experiment sent me
   in the other direction: putting Omarchy on a 2016 Intel MacBook Pro with 8GB
   of RAM and seeing how useful an old computer could become.
-date: 2026-08-28 08:00:00 -0700
+date: 2026-08-27 08:00:00 -0700
 ---
 
 This started with me wanting a new Mac Studio.

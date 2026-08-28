@@ -4,7 +4,7 @@ description: >-
   Building a personal operating system with Claude, a curiosity-driven
   experiment, and the fork in the road that made it fascinating: I chose a
   wiki over RAG, and here is why.
-date: 2026-08-27 12:00:00 -0700
+date: 2026-08-17 12:00:00 -0700
 ---
 
 For the last few months I've been building a thing I call **Life-Journal**. It isn't a
