@@ -34,13 +34,12 @@
      `cli-home` marker — set in the page <head> — gates the takeover behaviour. */
   function isCliHome() { return root.classList.contains("cli-home"); }
 
-  /* The takeover is desktop-only for now: on mobile, expert mode stays the
-     lighter reskin + bottom command bar (the easter egg). `cli-full` is the
-     live "takeover is active" flag, kept in sync with expert state + width. */
-  var DESKTOP = window.matchMedia ? window.matchMedia("(min-width: 700px)") : { matches: true, addEventListener: function () {}, addListener: function () {} };
+  /* `cli-full` is the live "takeover is active" flag — the landing page becomes
+     a full-screen terminal on every screen size (desktop and mobile alike).
+     Entering expert mode stays a hidden easter egg. */
   function fullCliActive() { return root.classList.contains("cli-full"); }
   function updateCliFull() {
-    root.classList.toggle("cli-full", isOn() && isCliHome() && DESKTOP.matches);
+    root.classList.toggle("cli-full", isOn() && isCliHome());
   }
   function reduceMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -406,6 +405,8 @@
     els.output.appendChild(pre);
     openOutput();
     print("", "out");
+    print("Enterprise-Level IT, Without the Enterprise-Level Price Tag", "head");
+    print("", "out");
     print("ctrl+click — a shell for everything we do.", "ok");
     print("// formerly Maggio Consulting", "out");
     print("", "out");
@@ -484,9 +485,8 @@
       injectTitlebar();
       updateCliFull();
       syncToggle();
-      // When the desktop takeover is active the terminal IS the page — so a
-      // returning visitor needs the banner/suggestions drawn on load, not just
-      // on toggle. On mobile (no takeover) we leave the reskin as it was.
+      // The terminal IS the page here, so a returning visitor needs the
+      // banner/suggestions drawn on load, not just on toggle.
       if (fullCliActive()) {
         boot();
         if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
@@ -494,25 +494,6 @@
     } else {
       syncToggle();
     }
-
-    // Keep the takeover in sync as the viewport crosses the desktop threshold
-    // (e.g. a desktop window resized narrow, or a device rotated).
-    var onBreakpoint = function () {
-      if (!isOn()) { updateCliFull(); return; }
-      var was = fullCliActive();
-      updateCliFull();
-      var now = fullCliActive();
-      if (was === now) return;
-      // Entering the takeover needs the banner; leaving it hands control back
-      // to the reskin + bottom bar, so start that from a clean slate.
-      clearOutput();
-      if (now) {
-        boot();
-        if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
-      }
-    };
-    if (DESKTOP.addEventListener) DESKTOP.addEventListener("change", onBreakpoint);
-    else if (DESKTOP.addListener) DESKTOP.addListener(onBreakpoint);
   }
 
   /* Public API so the hidden context menu (or anything else) can drive the

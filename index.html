@@ -18,12 +18,12 @@
   <link rel="stylesheet" href="assets/expert-mode.css?v=5" />
   <!-- Expert mode is opt-in and remembered per browser. Apply the class before
        first paint so a returning visitor never sees a flash of the normal site.
-       `cli-home` marks THIS page (the landing page) as the one that CAN turn
-       into a full-screen terminal. `cli-full` is the takeover itself — for now
-       it's desktop-only, so mobile keeps expert mode as the lighter reskin
-       easter egg. Both are set here (before paint) to avoid a flash, and the
-       expert-mode script keeps `cli-full` in sync as the viewport changes. -->
-  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');if(window.matchMedia&&window.matchMedia('(min-width:700px)').matches){d.classList.add('cli-full');}}}catch(e){}</script>
+       `cli-home` marks THIS page (the landing page) as the one that turns into
+       a full-screen terminal; `cli-full` is the takeover itself, applied on
+       every screen size (desktop and mobile alike). Entering expert mode stays
+       a hidden easter egg. The blog gets neither marker, so it keeps its
+       lighter terminal reskin. -->
+  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
@@ -1252,6 +1252,6 @@
       message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
     };
   </script>
-  <script src="assets/expert-mode.js?v=4" defer></script>
+  <script src="assets/expert-mode.js?v=5" defer></script>
 </body>
 </html>
