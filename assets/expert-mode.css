@@ -529,17 +529,17 @@ html.expert .term-output::-webkit-scrollbar-track { background: transparent; }
 }
 
 /* =====================================================================
-   FULL-SCREEN CLI TAKEOVER — landing page, desktop only (html.expert.cli-full)
-   On the home page at desktop widths, expert mode stops reskinning the
-   marketing site and becomes a real terminal: the shell fills the viewport,
-   the website content steps aside, and there are no side frames — just the
-   ⌃click banner, a few suggestions, and one command line.
+   FULL-SCREEN CLI TAKEOVER — landing page (html.expert.cli-full)
+   On the home page, expert mode stops reskinning the marketing site and
+   becomes a real terminal on every screen size: the shell fills the
+   viewport, the website content steps aside, and there are no side frames
+   — just the ⌃click banner, a few suggestions, and one command line. On
+   mobile this replaces the stacked output panel + floating bar that ate
+   half the screen with a single bottom input line.
 
-   The `cli-full` class is applied only when the page is the landing page
-   (`cli-home`) AND the viewport is wide enough; the expert-mode script keeps
-   it in sync on resize. On mobile the class is absent, so expert mode falls
-   back to the lighter reskin + bottom command bar (the easter egg) for now.
-   The blog never gets `cli-home`/`cli-full`, so none of this touches it.
+   `cli-full` means the takeover is active (the landing page in expert
+   mode). Entering expert mode stays a hidden easter egg. The blog never
+   gets `cli-home`/`cli-full`, so none of this touches it.
    ===================================================================== */
 html.expert.cli-full,
 html.expert.cli-full body { height: 100%; }
