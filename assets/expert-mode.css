@@ -503,24 +503,24 @@ html.expert .term-output::-webkit-scrollbar-track { background: transparent; }
 
 /* =====================================================================
    Expert-mode header on mobile
-   The terminal reskin uses a wider monospace face, so the wordmark and
-   the "Schedule a Discussion" / toggle buttons need a touch less type to
-   sit tidily on narrow screens without running off the right edge.
+   The terminal reskin uses a wider monospace face, so the wordmark and the
+   "Schedule a Discussion" button need a touch less type to sit tidily on
+   narrow screens without running off the right edge.
    ===================================================================== */
 @media (max-width: 620px) {
-  html.expert .wordmark { font-size: 17px; }
+  html.expert .wordmark { font-size: 20px; }
   html.expert .header-actions .cta { font-size: 12px; padding: 8px 10px; box-shadow: 2px 2px 0 rgba(47,188,169,.18); }
-  html.expert .header-actions .expert-toggle { font-size: 11px; }
 }
 @media (max-width: 400px) {
-  html.expert .wordmark { font-size: 15px; }
-  html.expert .brand-suffix { font-size: 10px; }
+  html.expert .wordmark { font-size: 18px; }
+  html.expert .brand-suffix { font-size: 11px; }
   html.expert .header-actions .cta { font-size: 11px; padding: 7px 9px; }
-  html.expert .header-actions .expert-toggle { font-size: 10px; }
 }
 @media (max-width: 360px) {
   html.expert .nav { padding: 10px 12px; }
-  html.expert .wordmark { font-size: 14px; }
+  html.expert .wordmark { font-size: 16px; }
   html.expert .header-actions .cta { font-size: 10px; padding: 7px 8px; }
-  html.expert .header-actions .expert-toggle { font-size: 9px; padding: 6px 8px; }
+}
+@media (max-width: 340px) {
+  html.expert .wordmark { font-size: 14px; }
 }
