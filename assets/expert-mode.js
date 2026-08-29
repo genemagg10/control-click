@@ -266,6 +266,9 @@
           return s.slug === q || s.slug.indexOf(q) > -1 || s.title.toLowerCase().indexOf(q) > -1;
         })[0];
         if (!hit) { print("no service matches \"" + q + "\". try: ls", "err"); return; }
+        // Full CLI: render the service's man page right in the terminal instead
+        // of the slide-over sidebar. Elsewhere, fall back to the sheet.
+        if (fullCliActive() && renderServiceDetail(hit.slug)) return;
         print("→ opening " + hit.slug, "ok");
         if (typeof window.openSheet === "function") window.openSheet(hit.slug);
         else window.location.hash = "#service/" + hit.slug;
@@ -357,6 +360,69 @@
     printChips(svc.map(function (s) {
       return { cmd: "open " + s.slug, label: s.slug };
     }));
+  }
+
+  /* Render a service's detail copy as terminal text (a "man page"), reading the
+     catalogue the landing page exposes on window.CTRLCLICK_SERVICES. Returns
+     false if the data isn't available, so the caller can fall back to the sheet. */
+  function renderServiceDetail(slug) {
+    var list = window.CTRLCLICK_SERVICES;
+    if (!list || !list.length) return false;
+    var svc = list.filter(function (s) { return s.slug === slug; })[0];
+    if (!svc || !svc.detail) return false;
+
+    print("man " + (svc.title || slug), "head");
+    if (svc.chip) print("category: " + svc.chip, "out");
+    if (svc.blurb) print(svc.blurb, "out");
+
+    var tmp = document.createElement("div");
+    tmp.innerHTML = svc.detail;
+    htmlToTerminal(tmp, svc.title);
+
+    print("", "out");
+    print("book it:  schedule   ·   back to the list:  ls / business / personal", "out");
+    printChips([
+      { cmd: "schedule", label: "schedule" },
+      { cmd: "message", label: "message" },
+      { cmd: "ls", label: "ls" }
+    ]);
+    return true;
+  }
+
+  /* Walk the detail HTML and print terminal-friendly lines: headings become
+     "## " rows, list items become "- " rows, paragraphs print as-is. The
+     leading <h2> just repeats the title, so it's skipped. */
+  function htmlToTerminal(node, title) {
+    var kids = node.childNodes;
+    for (var i = 0; i < kids.length; i++) {
+      var child = kids[i];
+      if (child.nodeType === 3) {                 // text node
+        var t = child.textContent.replace(/\s+/g, " ").trim();
+        if (t) print(t, "out");
+        continue;
+      }
+      if (child.nodeType !== 1) continue;          // skip comments etc.
+      var tag = child.tagName.toLowerCase();
+      var text = child.textContent.replace(/\s+/g, " ").trim();
+      if (tag === "h2") {
+        if (title && text === title.trim()) continue; // avoid repeating the title
+        print("", "out");
+        print("## " + text, "ok");
+      } else if (tag === "h3" || tag === "h4") {
+        print("", "out");
+        print("## " + text, "ok");
+      } else if (tag === "p") {
+        if (text) print(text, "out");
+      } else if (tag === "ul" || tag === "ol") {
+        child.querySelectorAll("li").forEach(function (li) {
+          print("  - " + li.textContent.replace(/\s+/g, " ").trim(), "out");
+        });
+      } else if (tag === "li") {
+        print("  - " + text, "out");
+      } else {
+        htmlToTerminal(child, title);              // recurse through wrappers
+      }
+    }
   }
 
   function runCommand(raw) {
