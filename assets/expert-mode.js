@@ -388,6 +388,15 @@
     else { syncToggle(); }
   }
 
+  /* Public API so the hidden context menu (or anything else) can drive the
+     mode without needing a visible header toggle. */
+  window.CtrlClickExpert = {
+    toggle: function () { setMode(!isOn()); },
+    enable: function () { setMode(true); },
+    disable: function () { setMode(false); },
+    isOn: isOn
+  };
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -114,6 +114,10 @@
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
+    /* The header toggle is the always-visible EXIT from expert mode; entering
+       is the hidden Easter egg, so the button only appears once expert is on. */
+    .header-actions .expert-toggle { display: none; }
+    html.expert .header-actions .expert-toggle { display: inline-flex; }
 
     .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
       background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
@@ -327,6 +331,22 @@
       color: var(--text); font-size: 14px;
     }
     .ctx a:hover { background: linear-gradient(90deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); text-decoration: none; }
+    /* Expert-mode toggle row (the Easter egg lives in the hidden menu) */
+    .ctx-action {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 9px 12px; border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit;
+      background: none; border: 0; text-align: left; cursor: pointer;
+    }
+    .ctx-action:hover { background: linear-gradient(90deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); }
+    .ctx-action .ctx-ico { color: var(--teal); font-weight: 700; width: 16px; text-align: center; }
+    .ctx-expert-tag {
+      font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+      border: 1px solid rgba(255,255,255,.18); border-radius: 5px; padding: 1px 6px; margin-left: 2px;
+    }
+    .ctx-expert-on { display: none; }
+    html.expert .ctx-expert-off { display: none; }
+    html.expert .ctx-expert-on { display: inline; }
     .ctx-sep { height: 1px; background: rgba(255,255,255,.1); margin: 6px 8px; }
     .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -344,35 +364,29 @@
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
-      .wordmark { font-size: 20px; }
+      .wordmark { font-size: 27px; }
 
       /* Tighten the gap between the header and the first card on mobile */
       .container { padding-top: 14px; }
       .hero { padding-top: 4px; }
 
       /* Mobile header: wordmark + "AI & IT Solutions" stacked on the left,
-         Schedule + expert-mode buttons grouped and stacked on the top-right. */
+         enlarged and centered against the Schedule a Discussion button. */
       .nav {
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: nowrap;
         gap: 12px;
         padding: 14px 18px;
       }
-      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 3px; }
-      .brand-suffix { display: inline; }
-      .header-actions {
-        flex-direction: column-reverse;
-        align-items: flex-end;
-        gap: 8px;
-        flex-shrink: 0;
-      }
+      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .brand-suffix { display: inline; font-size: 13px; letter-spacing: .5px; }
+      .header-actions { flex-shrink: 0; }
       .header-actions .cta { white-space: nowrap; padding: 9px 14px; font-size: 13px; }
-      .header-actions .expert-toggle { padding: 7px 10px; font-size: 11px; }
     }
     @media (max-width: 400px) {
-      /* Keep the wordmark and buttons on one row on the narrowest screens */
-      .wordmark { font-size: 18px; }
-      .brand-suffix { font-size: 11px; letter-spacing: .4px; }
+      /* Ease the wordmark down so it still clears the buttons on one row */
+      .wordmark { font-size: 24px; }
+      .brand-suffix { font-size: 12px; letter-spacing: .4px; }
       .header-actions .cta { padding: 8px 12px; }
     }
     @media (max-width: 360px) {
@@ -381,8 +395,12 @@
 
       /* Squeeze the header a touch more so nothing overflows on tiny screens */
       .nav { padding: 12px 14px; gap: 10px; }
+      .wordmark { font-size: 22px; }
       .header-actions .cta { font-size: 12px; padding: 8px 11px; }
-      .header-actions .expert-toggle { font-size: 10px; padding: 6px 9px; }
+    }
+    @media (max-width: 340px) {
+      /* Very small phones: ease the wordmark down so it clears the buttons */
+      .wordmark { font-size: 19px; }
     }
   </style>
 </head>
@@ -404,7 +422,9 @@
         <a href="#contact">Contact</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Switch to the CLI (terminal) view">
+        <!-- Only visible once expert mode is on, so the exit is always reachable.
+             Entering expert mode stays a hidden Easter egg in the ⌃click menu. -->
+        <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Return to the normal site">
           <span class="et-caret" aria-hidden="true">⌃</span>
           <span class="et-label-off">expert mode <span class="et-state">off</span></span>
           <span class="et-label-on">exit CLI</span>
@@ -521,6 +541,12 @@
       <a href="#personal">🏠 Personal services</a>
       <a href="blog/">📓 The hidden blog: notes from ⌃click</a>
       <div class="ctx-sep"></div>
+      <button type="button" class="ctx-action js-expert-toggle">
+        <span class="ctx-ico" aria-hidden="true">⌃</span>
+        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
+        <span class="ctx-expert-on">Exit expert mode</span>
+      </button>
+      <div class="ctx-sep"></div>
       <div class="ctx-note">That's the whole idea: a control‑click unlocks more. <span class="handle" style="font-style:normal;">· ⌃click</span></div>
     </div>
     <div class="ctx-group" data-group="about">
@@ -530,6 +556,12 @@
       <a href="#business">💼 Business services</a>
       <a href="#personal">🏠 Personal services</a>
       <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+      <div class="ctx-sep"></div>
+      <button type="button" class="ctx-action js-expert-toggle">
+        <span class="ctx-ico" aria-hidden="true">⌃</span>
+        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
+        <span class="ctx-expert-on">Exit expert mode</span>
+      </button>
     </div>
   </nav>
 
@@ -1163,6 +1195,15 @@
       // the ghost click, if any, arrives right after the finger lifts
       if (suppressNextClick) setTimeout(() => { suppressNextClick = false; }, 400);
     }));
+
+    // Expert mode is a hidden Easter egg: toggle it from the hidden menu.
+    ctxMenu.addEventListener('click', (e) => {
+      const toggle = e.target.closest('.js-expert-toggle');
+      if (!toggle) return;
+      e.preventDefault();
+      if (window.CtrlClickExpert) window.CtrlClickExpert.toggle();
+      closeCtxMenu();
+    });
 
     document.addEventListener('click', (e) => {
       // swallow the ghost click that follows a long-press so it can't close the menu
