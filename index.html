@@ -114,6 +114,10 @@
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
+    /* The header toggle is the always-visible EXIT from expert mode; entering
+       is the hidden Easter egg, so the button only appears once expert is on. */
+    .header-actions .expert-toggle { display: none; }
+    html.expert .header-actions .expert-toggle { display: inline-flex; }
 
     .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
       background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
@@ -418,6 +422,13 @@
         <a href="#contact">Contact</a>
       </nav>
       <div class="header-actions">
+        <!-- Only visible once expert mode is on, so the exit is always reachable.
+             Entering expert mode stays a hidden Easter egg in the ⌃click menu. -->
+        <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Return to the normal site">
+          <span class="et-caret" aria-hidden="true">⌃</span>
+          <span class="et-label-off">expert mode <span class="et-state">off</span></span>
+          <span class="et-label-on">exit CLI</span>
+        </button>
         <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Schedule a discussion">Schedule a Discussion</a>
       </div>
     </div>

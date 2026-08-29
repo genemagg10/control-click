@@ -508,19 +508,22 @@ html.expert .term-output::-webkit-scrollbar-track { background: transparent; }
    narrow screens without running off the right edge.
    ===================================================================== */
 @media (max-width: 620px) {
-  html.expert .wordmark { font-size: 20px; }
+  html.expert .wordmark { font-size: 17px; }
+  /* Expert mode shows two buttons (exit CLI + Schedule): stack them, with
+     Schedule anchored top-right and the always-visible exit just below. */
+  html.expert .header-actions { flex-direction: column-reverse; align-items: flex-end; gap: 8px; }
   html.expert .header-actions .cta { font-size: 12px; padding: 8px 10px; box-shadow: 2px 2px 0 rgba(47,188,169,.18); }
+  html.expert .header-actions .expert-toggle { font-size: 11px; padding: 7px 10px; }
 }
 @media (max-width: 400px) {
-  html.expert .wordmark { font-size: 18px; }
-  html.expert .brand-suffix { font-size: 11px; }
+  html.expert .wordmark { font-size: 15px; }
+  html.expert .brand-suffix { font-size: 10px; }
   html.expert .header-actions .cta { font-size: 11px; padding: 7px 9px; }
+  html.expert .header-actions .expert-toggle { font-size: 10px; }
 }
 @media (max-width: 360px) {
   html.expert .nav { padding: 10px 12px; }
-  html.expert .wordmark { font-size: 16px; }
-  html.expert .header-actions .cta { font-size: 10px; padding: 7px 8px; }
-}
-@media (max-width: 340px) {
   html.expert .wordmark { font-size: 14px; }
+  html.expert .header-actions .cta { font-size: 10px; padding: 7px 8px; }
+  html.expert .header-actions .expert-toggle { font-size: 9px; padding: 6px 8px; }
 }
