@@ -113,6 +113,7 @@
     .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
 
     .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
       background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
@@ -344,11 +345,32 @@
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
       .brand-suffix { display: none; }
-      .wordmark { font-size: 22px; }
+      .wordmark { font-size: 20px; }
+
+      /* Mobile header: logo top-left, CTA anchored top-right, expert toggle on its own row */
+      .nav {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "brand cta"
+          "expert expert";
+        align-items: center;
+        column-gap: 12px;
+        row-gap: 12px;
+        padding: 14px 18px;
+      }
+      .brand { grid-area: brand; }
+      .header-actions { display: contents; }
+      #ctaLink { grid-area: cta; justify-self: end; white-space: nowrap; padding: 9px 14px; font-size: 13px; }
+      #expertToggle { grid-area: expert; justify-self: start; }
     }
     @media (max-width: 360px) {
       /* "Enterprise‑Level" is one unbreakable token; shrink it rather than split it */
       .hero h2 { font-size: 24px; }
+
+      /* Keep the wordmark and CTA on one row on the narrowest screens */
+      .wordmark { font-size: 18px; }
+      #ctaLink { padding: 9px 12px; }
     }
   </style>
 </head>
@@ -369,7 +391,7 @@
         <a href="#personal">Personal</a>
         <a href="#contact">Contact</a>
       </nav>
-      <div style="display:flex; align-items:center; gap:10px;">
+      <div class="header-actions">
         <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Switch to the CLI (terminal) view">
           <span class="et-caret" aria-hidden="true">⌃</span>
           <span class="et-label-off">expert mode <span class="et-state">off</span></span>
