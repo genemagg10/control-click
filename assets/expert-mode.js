@@ -29,10 +29,19 @@
     try { localStorage.setItem(STORAGE_KEY, on ? "on" : "off"); } catch (e) {}
   }
   function isOn() { return root.classList.contains("expert"); }
-  /* The landing page turns expert mode into a full-screen terminal (the
+  /* The landing page CAN turn expert mode into a full-screen terminal (the
      marketing content steps aside). The blog keeps a lighter reskin, so the
      `cli-home` marker — set in the page <head> — gates the takeover behaviour. */
   function isCliHome() { return root.classList.contains("cli-home"); }
+
+  /* The takeover is desktop-only for now: on mobile, expert mode stays the
+     lighter reskin + bottom command bar (the easter egg). `cli-full` is the
+     live "takeover is active" flag, kept in sync with expert state + width. */
+  var DESKTOP = window.matchMedia ? window.matchMedia("(min-width: 700px)") : { matches: true, addEventListener: function () {}, addListener: function () {} };
+  function fullCliActive() { return root.classList.contains("cli-full"); }
+  function updateCliFull() {
+    root.classList.toggle("cli-full", isOn() && isCliHome() && DESKTOP.matches);
+  }
   function reduceMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
@@ -263,14 +272,14 @@
         else window.location.hash = "#service/" + hit.slug;
       }
     },
-    business: { desc: "list business services", run: function () { listCategory("#businessServicesGrid .card[data-slug]", "business services", "business"); } },
-    personal: { desc: "list personal services", run: function () { listCategory("#personalServicesGrid .card[data-slug]", "personal services", "personal"); } },
+    business: { desc: "list business services", run: function () { if (fullCliActive()) listCategory("#businessServicesGrid .card[data-slug]", "business services", "business"); else goSection("business", "business"); } },
+    personal: { desc: "list personal services", run: function () { if (fullCliActive()) listCategory("#personalServicesGrid .card[data-slug]", "personal services", "personal"); else goSection("personal", "personal"); } },
     contact: {
       desc: "how to get in touch",
       run: function () {
-        // On the full-screen CLI the contact section is hidden, so bring the
-        // details into the terminal instead of scrolling to nothing.
-        if (!isCliHome()) { goSection("contact", "contact"); return; }
+        // Only the full-screen CLI hides the contact section; there we bring the
+        // details into the terminal. Otherwise scroll to the section as before.
+        if (!fullCliActive()) { goSection("contact", "contact"); return; }
         print("get in touch", "head");
         print("send a message or book a call — we respond quickly.", "out");
         print("", "out");
@@ -422,6 +431,7 @@
   function setMode(on, opts) {
     opts = opts || {};
     root.classList.toggle("expert", on);
+    updateCliFull();
     persist(on);
     syncToggle();
     if (on) {
@@ -472,16 +482,37 @@
     // The head script may already have added .expert (persisted). Reflect it.
     if (isOn()) {
       injectTitlebar();
+      updateCliFull();
       syncToggle();
-      // On the full-screen CLI home, the terminal IS the page — so a returning
-      // visitor needs the banner/suggestions drawn on load, not just on toggle.
-      if (isCliHome()) {
+      // When the desktop takeover is active the terminal IS the page — so a
+      // returning visitor needs the banner/suggestions drawn on load, not just
+      // on toggle. On mobile (no takeover) we leave the reskin as it was.
+      if (fullCliActive()) {
         boot();
         if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
       }
     } else {
       syncToggle();
     }
+
+    // Keep the takeover in sync as the viewport crosses the desktop threshold
+    // (e.g. a desktop window resized narrow, or a device rotated).
+    var onBreakpoint = function () {
+      if (!isOn()) { updateCliFull(); return; }
+      var was = fullCliActive();
+      updateCliFull();
+      var now = fullCliActive();
+      if (was === now) return;
+      // Entering the takeover needs the banner; leaving it hands control back
+      // to the reskin + bottom bar, so start that from a clean slate.
+      clearOutput();
+      if (now) {
+        boot();
+        if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
+      }
+    };
+    if (DESKTOP.addEventListener) DESKTOP.addEventListener("change", onBreakpoint);
+    else if (DESKTOP.addListener) DESKTOP.addListener(onBreakpoint);
   }
 
   /* Public API so the hidden context menu (or anything else) can drive the
