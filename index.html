@@ -344,33 +344,41 @@
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
-      .brand-suffix { display: none; }
       .wordmark { font-size: 20px; }
 
-      /* Mobile header: logo top-left, CTA anchored top-right, expert toggle on its own row */
+      /* Mobile header: wordmark + "AI & IT Solutions" stacked on the left,
+         Schedule + expert-mode buttons grouped and stacked on the top-right. */
       .nav {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-areas:
-          "brand cta"
-          "expert expert";
-        align-items: center;
-        column-gap: 12px;
-        row-gap: 12px;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        gap: 12px;
         padding: 14px 18px;
       }
-      .brand { grid-area: brand; }
-      .header-actions { display: contents; }
-      #ctaLink { grid-area: cta; justify-self: end; white-space: nowrap; padding: 9px 14px; font-size: 13px; }
-      #expertToggle { grid-area: expert; justify-self: start; }
+      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 3px; }
+      .brand-suffix { display: inline; }
+      .header-actions {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .header-actions .cta { white-space: nowrap; padding: 9px 14px; font-size: 13px; }
+      .header-actions .expert-toggle { padding: 7px 10px; font-size: 11px; }
+    }
+    @media (max-width: 400px) {
+      /* Keep the wordmark and buttons on one row on the narrowest screens */
+      .wordmark { font-size: 18px; }
+      .brand-suffix { font-size: 11px; letter-spacing: .4px; }
+      .header-actions .cta { padding: 8px 12px; }
     }
     @media (max-width: 360px) {
       /* "Enterprise‑Level" is one unbreakable token; shrink it rather than split it */
       .hero h2 { font-size: 24px; }
 
-      /* Keep the wordmark and CTA on one row on the narrowest screens */
-      .wordmark { font-size: 18px; }
-      #ctaLink { padding: 9px 12px; }
+      /* Squeeze the header a touch more so nothing overflows on tiny screens */
+      .nav { padding: 12px 14px; gap: 10px; }
+      .header-actions .cta { font-size: 12px; padding: 8px 11px; }
+      .header-actions .expert-toggle { font-size: 10px; padding: 6px 9px; }
     }
   </style>
 </head>
