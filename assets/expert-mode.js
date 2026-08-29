@@ -29,14 +29,19 @@
     try { localStorage.setItem(STORAGE_KEY, on ? "on" : "off"); } catch (e) {}
   }
   function isOn() { return root.classList.contains("expert"); }
+  /* The landing page turns expert mode into a full-screen terminal (the
+     marketing content steps aside). The blog keeps a lighter reskin, so the
+     `cli-home` marker — set in the page <head> — gates the takeover behaviour. */
+  function isCliHome() { return root.classList.contains("cli-home"); }
   function reduceMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
   /* ---- Service catalogue: read live from the landing page DOM when present ---- */
-  function readServices() {
+  function readServices() { return readServicesIn(".card[data-slug]"); }
+  function readServicesIn(selector) {
     var out = [];
-    document.querySelectorAll(".card[data-slug]").forEach(function (card) {
+    document.querySelectorAll(selector).forEach(function (card) {
       var h = card.querySelector("h4");
       var p = card.querySelector("p");
       out.push({
@@ -95,6 +100,14 @@
       runCommand(value);
     });
     els.input.addEventListener("keydown", historyKeys);
+
+    // Suggestion chips in the output run their command when tapped/clicked.
+    els.output.addEventListener("click", function (e) {
+      var chip = e.target.closest(".term-chip");
+      if (!chip) return;
+      runCommand(chip.dataset.cmd);
+      if (!("ontouchstart" in window)) els.input.focus();
+    });
   }
 
   /* ---- command output helpers ---- */
@@ -109,6 +122,23 @@
     els.output.scrollTop = els.output.scrollHeight;
   }
   function printHTML(html) { print(html, "raw-html"); }
+  /* Clickable suggestions — real tap targets so mobile users don't have to
+     type. Each chip just runs its command through the same interpreter. */
+  function printChips(chips) {
+    if (!els.output) return;
+    var wrap = document.createElement("div");
+    wrap.className = "line term-chips";
+    chips.forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "term-chip";
+      b.dataset.cmd = c.cmd;
+      b.textContent = c.label || c.cmd;
+      wrap.appendChild(b);
+    });
+    els.output.appendChild(wrap);
+    openOutput();
+  }
   function echoCommand(cmd) {
     var div = document.createElement("div");
     div.className = "line cmd";
@@ -176,8 +206,8 @@
         var rows = [
           ["help", "show this list"],
           ["ls", "list all services"],
-          ["business", "jump to business services"],
-          ["personal", "jump to personal services"],
+          ["business", "list business services"],
+          ["personal", "list personal services"],
           ["open <name>", "open a service (e.g. open networking)"],
           ["blog", "read the hidden blog"],
           ["contact", "how to get in touch"],
@@ -204,9 +234,13 @@
         }
         print("total " + svc.length, "out");
         svc.forEach(function (s) {
-          print("  " + pad(s.slug, 24) + s.title, "ok");
+          print("  " + pad(s.slug, 26) + s.title, "ok");
         });
+        print("", "out");
         print("open one with:  open <name>", "out");
+        printChips(svc.map(function (s) {
+          return { cmd: "open " + s.slug, label: s.slug };
+        }));
       }
     },
     open: {
@@ -229,9 +263,26 @@
         else window.location.hash = "#service/" + hit.slug;
       }
     },
-    business: { desc: "jump to business services", run: function () { goSection("business", "business"); } },
-    personal: { desc: "jump to personal services", run: function () { goSection("personal", "personal"); } },
-    contact:  { desc: "contact", run: function () { goSection("contact", "contact"); } },
+    business: { desc: "list business services", run: function () { listCategory("#businessServicesGrid .card[data-slug]", "business services", "business"); } },
+    personal: { desc: "list personal services", run: function () { listCategory("#personalServicesGrid .card[data-slug]", "personal services", "personal"); } },
+    contact: {
+      desc: "how to get in touch",
+      run: function () {
+        // On the full-screen CLI the contact section is hidden, so bring the
+        // details into the terminal instead of scrolling to nothing.
+        if (!isCliHome()) { goSection("contact", "contact"); return; }
+        print("get in touch", "head");
+        print("send a message or book a call — we respond quickly.", "out");
+        print("", "out");
+        print("  " + pad("schedule", 12) + "book a discussion", "ok");
+        print("  " + pad("message", 12) + "send us a message", "ok");
+        print("", "out");
+        printChips([
+          { cmd: "schedule", label: "schedule" },
+          { cmd: "message", label: "message" }
+        ]);
+      }
+    },
     blog:     { desc: "open the blog", run: function () { print("→ opening the hidden blog", "ok"); window.location.href = LINKS.blog; } },
     home:     { desc: "go home", run: function () { window.location.href = LINKS.home; } },
     schedule: { desc: "book a discussion", run: function () { openExternal(LINKS.schedule, "scheduling"); } },
@@ -279,6 +330,27 @@
     return s;
   }
 
+  /* List one category's services in the terminal, with clickable open chips.
+     Off the landing page (e.g. the blog) the cards aren't here, so fall back
+     to navigating to that section on the home page. */
+  function listCategory(selector, label, linkKey) {
+    var svc = readServicesIn(selector);
+    if (!svc.length) {
+      print("→ opening " + label + " on the home page…", "out");
+      window.location.href = LINKS[linkKey];
+      return;
+    }
+    print(label + " — " + svc.length + " available", "head");
+    svc.forEach(function (s) {
+      print("  " + pad(s.slug, 26) + s.title, "ok");
+    });
+    print("", "out");
+    print("open one:  open <name>   (e.g. open " + svc[0].slug + ")", "out");
+    printChips(svc.map(function (s) {
+      return { cmd: "open " + s.slug, label: s.slug };
+    }));
+  }
+
   function runCommand(raw) {
     var line = (raw || "").trim();
     if (!line) return;
@@ -309,11 +381,12 @@
      Boot banner (shown once when expert mode turns on)
      ===================================================================== */
   var CARET_ART = [
-    "      /\\",
-    "     /  \\      ctrl+click",
-    "    / /\\ \\     AI & IT Solutions",
-    "   / /  \\ \\",
-    "  /_/    \\_\\   -- expert mode --"
+    "         /\\",
+    "        /  \\",
+    "       /    \\",
+    "      /  /\\  \\      ctrl+click",
+    "     /  /  \\  \\     AI & IT Solutions",
+    "    /__/    \\__\\"
   ];
   function boot() {
     if (!els.output) return;
@@ -324,9 +397,22 @@
     els.output.appendChild(pre);
     openOutput();
     print("", "out");
-    print("expert mode online. the site is now a shell.", "ok");
-    print("everything still works — services, blog, contact.", "out");
-    print("type 'help' for commands, or 'exit' to return to the normal site.", "out");
+    print("ctrl+click — a shell for everything we do.", "ok");
+    print("// formerly Maggio Consulting", "out");
+    print("", "out");
+    print("On a Mac, a control-click opens the menu most people never see:", "out");
+    print("more options, more power, one click away. So does this prompt.", "out");
+    print("", "out");
+    print("suggestions", "head");
+    printChips([
+      { cmd: "help", label: "help" },
+      { cmd: "business", label: "business" },
+      { cmd: "personal", label: "personal" },
+      { cmd: "contact", label: "contact" },
+      { cmd: "schedule", label: "schedule" }
+    ]);
+    print("", "out");
+    print("type a command below · 'exit' returns to the normal site · ↑ for history", "out");
     els.output.scrollTop = 0;
   }
 
@@ -384,8 +470,18 @@
     });
 
     // The head script may already have added .expert (persisted). Reflect it.
-    if (isOn()) { injectTitlebar(); syncToggle(); }
-    else { syncToggle(); }
+    if (isOn()) {
+      injectTitlebar();
+      syncToggle();
+      // On the full-screen CLI home, the terminal IS the page — so a returning
+      // visitor needs the banner/suggestions drawn on load, not just on toggle.
+      if (isCliHome()) {
+        boot();
+        if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
+      }
+    } else {
+      syncToggle();
+    }
   }
 
   /* Public API so the hidden context menu (or anything else) can drive the
