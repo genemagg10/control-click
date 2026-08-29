@@ -344,22 +344,23 @@
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
-      .wordmark { font-size: 20px; }
+      .wordmark { font-size: 27px; }
 
       /* Tighten the gap between the header and the first card on mobile */
       .container { padding-top: 14px; }
       .hero { padding-top: 4px; }
 
-      /* Mobile header: wordmark + "AI & IT Solutions" stacked on the left,
-         Schedule + expert-mode buttons grouped and stacked on the top-right. */
+      /* Mobile header: wordmark + "AI & IT Solutions" stacked on the left and
+         enlarged to balance the Schedule + expert-mode buttons stacked on the
+         top-right; centered vertically against that button stack. */
       .nav {
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: nowrap;
         gap: 12px;
         padding: 14px 18px;
       }
-      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 3px; }
-      .brand-suffix { display: inline; }
+      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .brand-suffix { display: inline; font-size: 13px; letter-spacing: .5px; }
       .header-actions {
         flex-direction: column-reverse;
         align-items: flex-end;
@@ -370,9 +371,9 @@
       .header-actions .expert-toggle { padding: 7px 10px; font-size: 11px; }
     }
     @media (max-width: 400px) {
-      /* Keep the wordmark and buttons on one row on the narrowest screens */
-      .wordmark { font-size: 18px; }
-      .brand-suffix { font-size: 11px; letter-spacing: .4px; }
+      /* Ease the wordmark down so it still clears the buttons on one row */
+      .wordmark { font-size: 24px; }
+      .brand-suffix { font-size: 12px; letter-spacing: .4px; }
       .header-actions .cta { padding: 8px 12px; }
     }
     @media (max-width: 360px) {
@@ -381,8 +382,13 @@
 
       /* Squeeze the header a touch more so nothing overflows on tiny screens */
       .nav { padding: 12px 14px; gap: 10px; }
+      .wordmark { font-size: 22px; }
       .header-actions .cta { font-size: 12px; padding: 8px 11px; }
       .header-actions .expert-toggle { font-size: 10px; padding: 6px 9px; }
+    }
+    @media (max-width: 340px) {
+      /* Very small phones: ease the wordmark down so it clears the buttons */
+      .wordmark { font-size: 19px; }
     }
   </style>
 </head>
