@@ -473,7 +473,9 @@ html.expert .term-prompt .term-caret2 { color: var(--coral); }
 html.expert .term-input {
   flex: 1; min-width: 0;
   background: transparent; border: none; outline: none;
-  color: var(--text); font-family: var(--font-term); font-size: 14px;
+  color: var(--text); font-family: var(--font-term);
+  /* 16px keeps iOS Safari from auto-zooming (and shifting the layout) on focus */
+  font-size: 16px;
   caret-color: var(--teal);
 }
 html.expert .term-input::placeholder { color: var(--muted); opacity: .7; }
