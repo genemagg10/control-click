@@ -529,20 +529,21 @@ html.expert .term-output::-webkit-scrollbar-track { background: transparent; }
 }
 
 /* =====================================================================
-   FULL-SCREEN CLI TAKEOVER — landing page only (html.expert.cli-home)
-   On the home page, expert mode stops reskinning the marketing site and
-   becomes a real terminal: the shell fills the viewport, the website
-   content steps aside, and there are no side frames — just the ⌃click
-   banner, a few suggestions, and one command line. Mobile benefits most:
-   the input is a single row pinned to the bottom instead of a stacked
-   output panel + floating bar eating half the screen.
+   FULL-SCREEN CLI TAKEOVER — landing page, desktop only (html.expert.cli-full)
+   On the home page at desktop widths, expert mode stops reskinning the
+   marketing site and becomes a real terminal: the shell fills the viewport,
+   the website content steps aside, and there are no side frames — just the
+   ⌃click banner, a few suggestions, and one command line.
 
-   The blog keeps its lighter terminal reskin (no `cli-home` marker there),
-   so none of this touches it.
+   The `cli-full` class is applied only when the page is the landing page
+   (`cli-home`) AND the viewport is wide enough; the expert-mode script keeps
+   it in sync on resize. On mobile the class is absent, so expert mode falls
+   back to the lighter reskin + bottom command bar (the easter egg) for now.
+   The blog never gets `cli-home`/`cli-full`, so none of this touches it.
    ===================================================================== */
-html.expert.cli-home,
-html.expert.cli-home body { height: 100%; }
-html.expert.cli-home body {
+html.expert.cli-full,
+html.expert.cli-full body { height: 100%; }
+html.expert.cli-full body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -553,18 +554,18 @@ html.expert.cli-home body {
 }
 
 /* The header stays as the terminal window's chrome: title bar, wordmark, exit. */
-html.expert.cli-home header.site-head { flex: 0 0 auto; position: static; }
+html.expert.cli-full header.site-head { flex: 0 0 auto; position: static; }
 /* Section links point at content that no longer renders — drop them.
    Navigation happens through commands now (business / personal / contact). */
-html.expert.cli-home .nav-links { display: none; }
+html.expert.cli-full .nav-links { display: none; }
 
 /* The marketing page steps aside entirely. Its service cards stay in the DOM
    (just hidden) so `ls` / `open` can still read and open them. */
-html.expert.cli-home main.container { display: none; }
+html.expert.cli-full main.container { display: none; }
 
 /* The command line is no longer a floating bar pinned over the site — it IS
    the page: a flex column that fills everything below the header. */
-html.expert.cli-home .term-chrome {
+html.expert.cli-full .term-chrome {
   position: static;
   z-index: auto;
   display: flex;
@@ -574,11 +575,11 @@ html.expert.cli-home .term-chrome {
 }
 /* A slide-over (from `open <service>`) is fixed above the static terminal,
    so the shell no longer needs to hide when one is open. */
-html.expert.cli-home .sheet[data-open="true"] ~ .term-chrome { display: flex; }
+html.expert.cli-full .sheet[data-open="true"] ~ .term-chrome { display: flex; }
 
 /* Output grows to fill; it's the main content now, so it's always visible and
    sits directly on the terminal background (no inset panel, no top border). */
-html.expert.cli-home .term-output {
+html.expert.cli-full .term-output {
   display: block;
   flex: 1 1 auto;
   min-height: 0;
@@ -589,7 +590,7 @@ html.expert.cli-home .term-output {
 }
 
 /* The input row is a single line anchored to the bottom of the terminal. */
-html.expert.cli-home .term-cmd {
+html.expert.cli-full .term-cmd {
   flex: 0 0 auto;
   box-shadow: none;
 }
