@@ -529,3 +529,100 @@ html.expert .term-output::-webkit-scrollbar-track { background: transparent; }
   html.expert .header-actions .cta { font-size: 10px; padding: 7px 8px; }
   html.expert .header-actions .expert-toggle { font-size: 9px; padding: 6px 8px; }
 }
+
+/* =====================================================================
+   FULL-SCREEN CLI TAKEOVER — landing page, desktop only (html.expert.cli-full)
+   On the home page at desktop widths, expert mode stops reskinning the
+   marketing site and becomes a real terminal: the shell fills the viewport,
+   the website content steps aside, and there are no side frames — just the
+   ⌃click banner, a few suggestions, and one command line.
+
+   The `cli-full` class is applied only when the page is the landing page
+   (`cli-home`) AND the viewport is wide enough; the expert-mode script keeps
+   it in sync on resize. On mobile the class is absent, so expert mode falls
+   back to the lighter reskin + bottom command bar (the easter egg) for now.
+   The blog never gets `cli-home`/`cli-full`, so none of this touches it.
+   ===================================================================== */
+html.expert.cli-full,
+html.expert.cli-full body { height: 100%; }
+html.expert.cli-full body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
+  padding-bottom: 0;            /* no room needed for a floating bar */
+  overflow: hidden;            /* the terminal scrolls internally */
+}
+
+/* The header stays as the terminal window's chrome: title bar, wordmark, exit. */
+html.expert.cli-full header.site-head { flex: 0 0 auto; position: static; }
+/* Section links point at content that no longer renders — drop them.
+   Navigation happens through commands now (business / personal / contact). */
+html.expert.cli-full .nav-links { display: none; }
+
+/* The marketing page steps aside entirely. Its service cards stay in the DOM
+   (just hidden) so `ls` / `open` can still read and open them. */
+html.expert.cli-full main.container { display: none; }
+
+/* The command line is no longer a floating bar pinned over the site — it IS
+   the page: a flex column that fills everything below the header. */
+html.expert.cli-full .term-chrome {
+  position: static;
+  z-index: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+/* A slide-over (from `open <service>`) is fixed above the static terminal,
+   so the shell no longer needs to hide when one is open. */
+html.expert.cli-full .sheet[data-open="true"] ~ .term-chrome { display: flex; }
+
+/* Output grows to fill; it's the main content now, so it's always visible and
+   sits directly on the terminal background (no inset panel, no top border). */
+html.expert.cli-full .term-output {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  background: transparent;
+  border-top: none;
+  padding: 16px 18px;
+}
+
+/* The input row is a single line anchored to the bottom of the terminal. */
+html.expert.cli-full .term-cmd {
+  flex: 0 0 auto;
+  box-shadow: none;
+}
+
+/* Keep wide ASCII from wrapping into mush on narrow screens — let it scroll. */
+html.expert .term-output .banner { white-space: pre; overflow-x: auto; }
+
+/* =====================================================================
+   Clickable suggestion chips (rendered in the boot output as tap targets)
+   ===================================================================== */
+html.expert .term-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 8px 0 2px;
+}
+html.expert .term-chip {
+  font-family: var(--font-term); font-size: 13px; line-height: 1;
+  color: var(--teal);
+  background: rgba(47,188,169,.08);
+  border: 1px solid var(--teal-dim);
+  border-radius: 3px;
+  padding: 7px 11px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(47,188,169,.16);
+  transition: transform .1s ease, box-shadow .1s ease, background .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+html.expert .term-chip::before { content: "❯ "; color: var(--teal); opacity: .8; }
+html.expert .term-chip:hover {
+  background: rgba(47,188,169,.16);
+  transform: translate(1px,1px);
+  box-shadow: 1px 1px 0 rgba(47,188,169,.16);
+}
+html.expert .term-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
