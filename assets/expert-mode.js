@@ -780,6 +780,9 @@
       }
     } else {
       clearOutput();
+      // Leaving the CLI drops the light site back to Beginner and moves the
+      // reading-level slider there, regardless of the level set before.
+      if (window.CtrlClickLevel) window.CtrlClickLevel.reset();
     }
   }
 

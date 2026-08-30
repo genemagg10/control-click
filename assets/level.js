@@ -47,19 +47,25 @@
     toastTimer = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 2800);
   }
 
+  /* Apply a light-site level (beginner / intermediate). Optionally toast. */
+  function applyLevel(level, opts) {
+    opts = opts || {};
+    root.classList.toggle("intermediate", level === "intermediate");
+    persist(level);
+    syncButtons();
+    if (opts.toast && TOASTS[level]) toast(TOASTS[level]);
+  }
+
   function setLevel(level) {
     if (level === "expert") {
-      // Hand off to the CLI; expert-mode.js keeps its own state, and the
-      // underlying beginner/intermediate level is preserved for the return trip.
+      // Hand off to the CLI; expert-mode.js keeps its own state. Exiting the
+      // CLI resets the light site to Beginner (see CtrlClickLevel.reset).
       if (window.CtrlClickExpert) window.CtrlClickExpert.enable();
       else { try { localStorage.setItem("ctrlclick:expert", "on"); } catch (e) {} location.reload(); }
       return;
     }
     var changed = currentLevel() !== level;
-    root.classList.toggle("intermediate", level === "intermediate");
-    persist(level);
-    syncButtons();
-    if (changed && TOASTS[level]) toast(TOASTS[level]);
+    applyLevel(level, { toast: changed });
   }
 
   function init() {
@@ -68,6 +74,15 @@
     });
     syncButtons();
   }
+
+  /* Public API so expert-mode.js can reset the reading level when the CLI is
+     exited — leaving the terminal always drops you back to Beginner and moves
+     the slider there, regardless of the level you had before. */
+  window.CtrlClickLevel = {
+    reset: function () { applyLevel("beginner"); },
+    set: function (level) { applyLevel(level); },
+    sync: syncButtons
+  };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
