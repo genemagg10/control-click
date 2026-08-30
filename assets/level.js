@@ -11,7 +11,8 @@
   var root = document.documentElement;
 
   function currentLevel() {
-    if (root.classList.contains("expert")) return "expert";
+    // Expert CLI is an overlay (html.expert), not a reading level. The slider
+    // always reflects the light-site level we'll return to on exit.
     return root.classList.contains("intermediate") ? "intermediate" : "beginner";
   }
   function persist(level) {
@@ -47,19 +48,25 @@
     toastTimer = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 2800);
   }
 
+  /* Apply a light-site level (beginner / intermediate). Optionally toast. */
+  function applyLevel(level, opts) {
+    opts = opts || {};
+    root.classList.toggle("intermediate", level === "intermediate");
+    persist(level);
+    syncButtons();
+    if (opts.toast && TOASTS[level]) toast(TOASTS[level]);
+  }
+
   function setLevel(level) {
     if (level === "expert") {
-      // Hand off to the CLI; expert-mode.js keeps its own state, and the
-      // underlying beginner/intermediate level is preserved for the return trip.
+      // Hand off to the CLI; expert-mode.js keeps its own state. The
+      // beginner/intermediate level is left as-is so exit restores it.
       if (window.CtrlClickExpert) window.CtrlClickExpert.enable();
       else { try { localStorage.setItem("ctrlclick:expert", "on"); } catch (e) {} location.reload(); }
       return;
     }
     var changed = currentLevel() !== level;
-    root.classList.toggle("intermediate", level === "intermediate");
-    persist(level);
-    syncButtons();
-    if (changed && TOASTS[level]) toast(TOASTS[level]);
+    applyLevel(level, { toast: changed });
   }
 
   function init() {
@@ -68,6 +75,14 @@
     });
     syncButtons();
   }
+
+  /* Public API so expert-mode.js can re-sync the slider when the CLI is
+     exited — the light-site level is unchanged, and the toggle should show
+     Beginner or Intermediate, whichever we'll land on. */
+  window.CtrlClickLevel = {
+    set: function (level) { applyLevel(level); },
+    sync: syncButtons
+  };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

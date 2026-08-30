@@ -29,17 +29,17 @@
     try { localStorage.setItem(STORAGE_KEY, on ? "on" : "off"); } catch (e) {}
   }
   function isOn() { return root.classList.contains("expert"); }
-  /* The landing page CAN turn expert mode into a full-screen terminal (the
-     marketing content steps aside). The blog keeps a lighter reskin, so the
-     `cli-home` marker — set in the page <head> — gates the takeover behaviour. */
+  /* `cli-home` marks the landing page as the terminal's "home" — it shows the
+     boot banner. Every OTHER page renders its own content into the terminal. */
   function isCliHome() { return root.classList.contains("cli-home"); }
 
-  /* `cli-full` is the live "takeover is active" flag — the landing page becomes
-     a full-screen terminal on every screen size (desktop and mobile alike).
-     Entering expert mode stays a hidden easter egg. */
+  /* `cli-full` is the live "takeover is active" flag. In expert mode EVERY page
+     becomes a full-screen terminal on every screen size (desktop and mobile
+     alike): the rich HTML content steps aside and its copy is rendered as
+     terminal text instead. Entering expert mode stays a hidden easter egg. */
   function fullCliActive() { return root.classList.contains("cli-full"); }
   function updateCliFull() {
-    root.classList.toggle("cli-full", isOn() && isCliHome());
+    root.classList.toggle("cli-full", isOn());
   }
   function reduceMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -73,9 +73,14 @@
     bar.setAttribute("aria-hidden", "true");
     bar.innerHTML =
       '<span class="term-lights"><i></i><i></i><i></i></span>' +
-      '<span class="term-path"><b>ctrl+click</b> — ~/ai-it-solutions — zsh</span>' +
+      '<span class="term-path"><b>ctrl+click</b> — ' + esc(termDir()) + ' — zsh</span>' +
       '<span class="term-dims">' + termCols() + "×24</span>";
     header.insertBefore(bar, header.firstChild);
+  }
+  /* The working-directory shown in the title bar reflects the current page. */
+  function termDir() {
+    var p = (window.location.pathname || "/").replace(/index\.html?$/i, "").replace(/\/+$/, "");
+    return p ? "~/ai-it-solutions" + p : "~/ai-it-solutions";
   }
   function termCols() {
     return Math.max(48, Math.min(120, Math.floor(window.innerWidth / 9)));
@@ -218,18 +223,31 @@
           ["business", "list business services"],
           ["personal", "list personal services"],
           ["open <name>", "open a service (e.g. open networking)"],
-          ["blog", "read the hidden blog"],
+          ["glossary", "the plain-English tech glossary"],
+          ["email", "email settings for every provider"],
+          ["faq", "questions people actually ask"],
+          ["coffee", "AI + Coffee — our free monthly meetup"],
+          ["blog", "stories & notes from ⌃click"],
           ["contact", "how to get in touch"],
           ["schedule", "book a discussion"],
           ["message", "send a message"],
           ["about", "what ctrl+click does"],
           ["whoami", "the ⌃click persona"],
           ["clear", "clear this output"],
-          ["exit", "leave expert mode (back to the normal site)"]
+          ["exit", "leave the CLI (back to the normal site)"]
         ];
         rows.forEach(function (r) {
           print("  " + pad(r[0], 14) + r[1], "out");
         });
+        print("", "out");
+        print("every page here loads inside the terminal. try one:", "out");
+        printChips([
+          { cmd: "glossary", label: "glossary" },
+          { cmd: "email", label: "email" },
+          { cmd: "faq", label: "faq" },
+          { cmd: "coffee", label: "coffee" },
+          { cmd: "blog", label: "blog" }
+        ]);
       }
     },
     ls: {
@@ -237,8 +255,7 @@
       run: function (args) {
         var svc = readServices();
         if (!svc.length) {
-          print("services live on the home page.", "out");
-          goSection("__none__", "business");
+          openOnHome("ls", "the service list");
           return;
         }
         print("total " + svc.length, "out");
@@ -258,9 +275,11 @@
         var q = (args.join(" ") || "").toLowerCase().trim();
         if (!q) { print("usage: open <service>   (try: ls)", "err"); return; }
         var svc = readServices();
-        if (!svc.length) { // not on the landing page — go there with a hint
-          print("services live on the home page — heading there…", "out");
-          window.location.href = LINKS.business;
+        if (!svc.length) {
+          // Service cards live on home. Hand off so `open <slug>` actually
+          // runs there (same sessionStorage path as ls / business / personal),
+          // instead of dumping the user on the home boot banner.
+          openOnHome("open " + q, q);
           return;
         }
         var hit = svc.filter(function (s) {
@@ -293,8 +312,12 @@
         ]);
       }
     },
-    blog:     { desc: "open the blog", run: function () { print("→ opening the hidden blog", "ok"); window.location.href = LINKS.blog; } },
-    home:     { desc: "go home", run: function () { window.location.href = LINKS.home; } },
+    blog:     { desc: "stories from ⌃click", run: function () { navTo("blog", "the stories"); } },
+    glossary: { desc: "plain-English glossary", run: function () { navTo("glossary", "the glossary"); } },
+    email:    { desc: "email settings", run: function () { navTo("email", "email settings"); } },
+    faq:      { desc: "questions & answers", run: function () { navTo("faq", "the FAQ"); } },
+    coffee:   { desc: "AI + Coffee meetup", run: function () { navTo("coffee", "AI + Coffee"); } },
+    home:     { desc: "go home", run: function () { navTo("home", "home"); } },
     schedule: { desc: "book a discussion", run: function () { openExternal(LINKS.schedule, "scheduling"); } },
     message:  { desc: "send a message", run: function () { openExternal(LINKS.message, "the message form"); } },
     about: {
@@ -333,6 +356,12 @@
   COMMANDS["?"] = COMMANDS.help;
   COMMANDS.dir = COMMANDS.ls;
   COMMANDS.cat = COMMANDS.open;
+  COMMANDS.man = COMMANDS.open;
+  COMMANDS["email-settings"] = COMMANDS.email;
+  COMMANDS.mail = COMMANDS.email;
+  COMMANDS.terms = COMMANDS.glossary;
+  COMMANDS.events = COMMANDS.coffee;
+  COMMANDS.stories = COMMANDS.blog;
 
   function pad(s, n) {
     s = String(s);
@@ -341,13 +370,13 @@
   }
 
   /* List one category's services in the terminal, with clickable open chips.
-     Off the landing page (e.g. the blog) the cards aren't here, so fall back
-     to navigating to that section on the home page. */
+     Off the landing page (e.g. the glossary) the service cards aren't in the
+     DOM, so go home and run the same command there — the list still lands in
+     the terminal, never as the rich site. */
   function listCategory(selector, label, linkKey) {
     var svc = readServicesIn(selector);
     if (!svc.length) {
-      print("→ opening " + label + " on the home page…", "out");
-      window.location.href = LINKS[linkKey];
+      openOnHome(linkKey, label);
       return;
     }
     print(label + " — " + svc.length + " available", "head");
@@ -361,67 +390,302 @@
     }));
   }
 
-  /* Render a service's detail copy as terminal text (a "man page"), reading the
-     catalogue the landing page exposes on window.CTRLCLICK_SERVICES. Returns
-     false if the data isn't available, so the caller can fall back to the sheet. */
-  function renderServiceDetail(slug) {
-    var list = window.CTRLCLICK_SERVICES;
-    if (!list || !list.length) return false;
-    var svc = list.filter(function (s) { return s.slug === slug; })[0];
-    if (!svc || !svc.detail) return false;
+  /* =====================================================================
+     In-terminal page rendering
+     Every content page (glossary, faq, email settings, services, blog, …)
+     is rendered as terminal text instead of as its rich HTML. The copy is
+     read straight from the page's own DOM — no fetch — so it works offline
+     and stays in sync with the site. Chrome that makes no sense as text
+     (nav, forms, SVG icons, the reading-level control, CTAs we re-offer as
+     commands) is skipped.
+     ===================================================================== */
 
-    print("man " + (svc.title || slug), "head");
-    if (svc.chip) print("category: " + svc.chip, "out");
-    if (svc.blurb) print(svc.blurb, "out");
+  /* Structural wrappers whose whole subtree we drop when flattening a page. */
+  var SKIP_SEL = ".level-switch, .term-chrome, .term-titlebar, .back-link, " +
+    ".crumbs, .toc, .rss-link, .svc-cta, .svc-more, .post-footer, .hero-actions, " +
+    ".svc-head .svc-icon, form, nav, footer";
 
-    var tmp = document.createElement("div");
-    tmp.innerHTML = svc.detail;
-    htmlToTerminal(tmp, svc.title);
-
-    print("", "out");
-    print("book it:  schedule   ·   back to the list:  ls / business / personal", "out");
-    printChips([
-      { cmd: "schedule", label: "schedule" },
-      { cmd: "message", label: "message" },
-      { cmd: "ls", label: "ls" }
-    ]);
-    return true;
+  function skipNode(el) {
+    var tag = el.tagName.toLowerCase();
+    if (tag === "script" || tag === "style" || tag === "svg" || tag === "button" ||
+        tag === "form" || tag === "footer" || tag === "nav" || tag === "noscript") return true;
+    if (el.matches && el.matches(SKIP_SEL)) return true;
+    if (el.getAttribute && el.getAttribute("aria-hidden") === "true" &&
+        !el.querySelector("h1,h2,h3,h4,p,li,dt,dd,td")) return true;
+    return false;
   }
 
-  /* Walk the detail HTML and print terminal-friendly lines: headings become
-     "## " rows, list items become "- " rows, paragraphs print as-is. The
-     leading <h2> just repeats the title, so it's skipped. */
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function clean(s) { return (s || "").replace(/\s+/g, " ").trim(); }
+  function resolveHref(href) {
+    try { return new URL(href, window.location.href).href; } catch (e) { return href; }
+  }
+
+  /* Serialise inline content, keeping cross-page links clickable (they load
+     the target, which then renders itself in the terminal) and dropping the
+     rest to plain text. Bare in-page "#anchor" links become plain text since
+     there's nothing to scroll to in terminal output. */
+  function inlineHTML(node) {
+    var out = "";
+    var kids = node.childNodes;
+    for (var i = 0; i < kids.length; i++) {
+      var c = kids[i];
+      if (c.nodeType === 3) { out += esc(c.textContent); continue; }
+      if (c.nodeType !== 1) continue;
+      var tag = c.tagName.toLowerCase();
+      if (tag === "svg" || tag === "script" || tag === "style") continue;
+      if (tag === "br") { out += " "; continue; }
+      if (tag === "a") {
+        var href = c.getAttribute("href") || "";
+        var rawLabel = clean(c.textContent);
+        var label = esc(rawLabel);
+        // Drop bare in-page anchor "#" links (e.g. the glossary's per-term
+        // permalinks): there's nothing to jump to in terminal output, and the
+        // lone "#" is just noise.
+        var isAnchorLink = /(^|\s)anchor(\s|$)/.test(c.className || "") || /^[#¶§]?$/.test(rawLabel);
+        if (!href || href.charAt(0) === "#") { if (!isAnchorLink) out += label; continue; }
+        var external = /^(https?:|mailto:|tel:)/i.test(href);
+        out += '<a href="' + esc(resolveHref(href)) + '"' +
+          (external ? ' target="_blank" rel="noopener"' : "") + ">" + label + "</a>";
+      } else {
+        out += inlineHTML(c); // b, em, strong, code, span, etc. → their text
+      }
+    }
+    return out;
+  }
+
+  /* Print a line that may contain inline HTML (links), with an optional
+     literal text prefix (indentation / bullet). */
+  function printRich(prefix, html, cls) {
+    if (!els.output) return;
+    var div = document.createElement("div");
+    div.className = "line " + (cls || "out");
+    div.innerHTML = esc(prefix || "") + html;
+    els.output.appendChild(div);
+    openOutput();
+    els.output.scrollTop = els.output.scrollHeight;
+  }
+
+  /* Print a pre-formatted block (tables, code) that scrolls sideways rather
+     than wrapping, so columns stay aligned on narrow screens. */
+  function printPre(text, cls) {
+    if (!els.output) return;
+    var div = document.createElement("div");
+    div.className = "line pre " + (cls || "out");
+    div.textContent = text;
+    els.output.appendChild(div);
+    openOutput();
+    els.output.scrollTop = els.output.scrollHeight;
+  }
+
+  /* Walk arbitrary page HTML and print terminal-friendly lines. */
   function htmlToTerminal(node, title) {
     var kids = node.childNodes;
     for (var i = 0; i < kids.length; i++) {
       var child = kids[i];
-      if (child.nodeType === 3) {                 // text node
-        var t = child.textContent.replace(/\s+/g, " ").trim();
+      if (child.nodeType === 3) {
+        var t = clean(child.textContent);
         if (t) print(t, "out");
         continue;
       }
-      if (child.nodeType !== 1) continue;          // skip comments etc.
+      if (child.nodeType !== 1) continue;
+      if (skipNode(child)) continue;
       var tag = child.tagName.toLowerCase();
-      var text = child.textContent.replace(/\s+/g, " ").trim();
-      if (tag === "h2") {
-        if (title && text === title.trim()) continue; // avoid repeating the title
-        print("", "out");
-        print("## " + text, "ok");
-      } else if (tag === "h3" || tag === "h4") {
-        print("", "out");
-        print("## " + text, "ok");
-      } else if (tag === "p") {
-        if (text) print(text, "out");
-      } else if (tag === "ul" || tag === "ol") {
-        child.querySelectorAll("li").forEach(function (li) {
-          print("  - " + li.textContent.replace(/\s+/g, " ").trim(), "out");
-        });
-      } else if (tag === "li") {
-        print("  - " + text, "out");
-      } else {
-        htmlToTerminal(child, title);              // recurse through wrappers
+      var text = clean(child.textContent);
+      switch (tag) {
+        case "h1":
+          if (title && text === clean(title)) break; // title already shown
+          print("", "out"); print("# " + text, "head"); break;
+        case "h2":
+          print("", "out"); print("## " + text, "ok"); break;
+        case "h3": case "h4": case "h5": case "h6":
+          print("", "out"); print("### " + text, "ok"); break;
+        case "p":
+          if (text) printRich("", inlineHTML(child), "out"); break;
+        case "ul": case "ol":
+          eachLi(child); break;
+        case "li":
+          printRich("  - ", inlineHTML(child), "out"); break;
+        case "dl":
+          walkDl(child); break;
+        case "details":
+          walkDetails(child); break;
+        case "table":
+          walkTable(child); break;
+        case "blockquote":
+          walkQuote(child); break;
+        case "pre":
+          print("", "out");
+          child.textContent.replace(/\s+$/, "").split("\n").forEach(function (l) {
+            printPre("    " + l, "out");
+          });
+          break;
+        default:
+          htmlToTerminal(child, title); // recurse through wrappers (divs, sections…)
       }
     }
+  }
+
+  /* List items that are direct children of this list only (avoid double-printing
+     items from a nested list, which the recursive walk would reach anyway). */
+  function eachLi(list) {
+    for (var i = 0; i < list.children.length; i++) {
+      var li = list.children[i];
+      if (li.tagName && li.tagName.toLowerCase() === "li") {
+        printRich("  - ", inlineHTML(li), "out");
+      }
+    }
+  }
+
+  /* Definition lists (the glossary): term then its definition. querySelectorAll
+     returns dt/dd in document order even when wrapped in `.term` divs. */
+  function walkDl(dl) {
+    dl.querySelectorAll("dt, dd").forEach(function (n) {
+      var isTerm = n.tagName.toLowerCase() === "dt";
+      if (!clean(n.textContent)) return;
+      if (isTerm) { print("", "out"); printRich("▸ ", inlineHTML(n), "ok"); }
+      else printRich("   ", inlineHTML(n), "out");
+    });
+  }
+
+  /* <details>/<summary> accordions (the FAQ): question then answer. */
+  function walkDetails(det) {
+    var sum = det.querySelector("summary");
+    print("", "out");
+    if (sum && clean(sum.textContent)) printRich("Q: ", inlineHTML(sum), "ok");
+    var body = det.querySelector(".faq-a") || det;
+    body.querySelectorAll("p").forEach(function (p) {
+      if (clean(p.textContent)) printRich("   ", inlineHTML(p), "out");
+    });
+  }
+
+  function walkQuote(bq) {
+    var ps = bq.querySelectorAll("p");
+    if (ps.length) {
+      ps.forEach(function (p) { if (clean(p.textContent)) printRich("  | ", inlineHTML(p), "out"); });
+    } else if (clean(bq.textContent)) {
+      printRich("  | ", inlineHTML(bq), "out");
+    }
+  }
+
+  /* Tables (email settings) → aligned monospace columns in a scrolling block. */
+  function walkTable(tbl) {
+    var data = [];
+    tbl.querySelectorAll("tr").forEach(function (tr) {
+      var row = [];
+      tr.querySelectorAll("th, td").forEach(function (c) { row.push(clean(c.textContent)); });
+      if (row.length) data.push(row);
+    });
+    if (!data.length) return;
+    var cols = 0;
+    data.forEach(function (r) { cols = Math.max(cols, r.length); });
+    var widths = [];
+    for (var c = 0; c < cols; c++) {
+      widths[c] = 0;
+      data.forEach(function (r) { if (r[c] && r[c].length > widths[c]) widths[c] = r[c].length; });
+    }
+    print("", "out");
+    data.forEach(function (r, ri) {
+      var line = "  ";
+      for (var c = 0; c < cols; c++) line += pad(r[c] || "", widths[c] + 2);
+      printPre(line.replace(/\s+$/, ""), ri === 0 ? "ok" : "out");
+    });
+  }
+
+  /* Identify the current page's content and render it into the terminal.
+     The home page is the shell's "home" — it shows the boot banner instead. */
+  function renderCurrentPage() {
+    if (isCliHome()) { boot(); return; }
+    var main = document.querySelector("main.container") || document.querySelector("main");
+    if (!main) { boot(); return; }
+    if (main.querySelector(".post-card")) { renderBlogIndex(main); return; }
+    var article = main.querySelector("article");
+    var host = article || main;
+    var h1 = host.querySelector("h1");
+    var title = h1 ? clean(h1.textContent) : clean((document.title || "").split(/[·|—]/)[0]);
+    renderDoc(host, title);
+  }
+
+  function renderDoc(host, title) {
+    clearOutput();
+    echoCommand("cat ." + pagePath());
+    if (title) print(title, "head");
+    htmlToTerminal(host, title);
+    print("", "out");
+    print("more options, more power. navigate with a command below.", "out");
+    printChips(navChips());
+    if (els.output) els.output.scrollTop = 0;
+  }
+
+  function renderBlogIndex(main) {
+    clearOutput();
+    echoCommand("ls ./blog");
+    print("stories from ⌃click", "head");
+    print("", "out");
+    main.querySelectorAll(".post-card").forEach(function (card) {
+      var a = card.querySelector("h2 a");
+      var date = card.querySelector(".post-date");
+      var p = card.querySelector("p");
+      if (!a) return;
+      var href = a.getAttribute("href") || "";
+      printRich("▸ ", '<a href="' + esc(resolveHref(href)) + '">' + esc(clean(a.textContent)) + "</a>", "ok");
+      if (date && clean(date.textContent)) print("   " + clean(date.textContent), "out");
+      if (p && clean(p.textContent)) print("   " + clean(p.textContent), "out");
+      print("", "out");
+    });
+    print("open a story by clicking its title. or navigate:", "out");
+    printChips(navChips());
+    if (els.output) els.output.scrollTop = 0;
+  }
+
+  /* The path label used in the prompt echo, e.g. "/glossary". */
+  function pagePath() {
+    var p = (window.location.pathname || "/").replace(/index\.html?$/i, "").replace(/\/+$/, "");
+    return p || "/";
+  }
+
+  /* Standard navigation chips offered at the foot of a rendered page. */
+  function navChips() {
+    return [
+      { cmd: "home", label: "home" },
+      { cmd: "business", label: "business" },
+      { cmd: "personal", label: "personal" },
+      { cmd: "glossary", label: "glossary" },
+      { cmd: "faq", label: "faq" },
+      { cmd: "schedule", label: "schedule" }
+    ];
+  }
+
+  /* Go to the home terminal and run a command there once it boots (e.g. `ls`,
+     `business`). The command is stashed in sessionStorage (not the URL, so no
+     stray hash lingers) and executed by runPendingCommand() on arrival, so
+     service browsing works from any page while always landing in the terminal. */
+  var PENDING_KEY = "ctrlclick:pendingCmd";
+  function openOnHome(cmd, label) {
+    print("→ opening " + (label || cmd) + " on the home terminal…", "ok");
+    try { sessionStorage.setItem(PENDING_KEY, cmd); } catch (e) {}
+    window.location.href = LINKS.home;
+  }
+  function runPendingCommand() {
+    var cmd = null;
+    try { cmd = sessionStorage.getItem(PENDING_KEY); sessionStorage.removeItem(PENDING_KEY); } catch (e) {}
+    if (cmd) runCommand(cmd);
+  }
+
+  /* Navigate to a named content page. If we're already on it, just re-render;
+     otherwise load it — expert mode persists, so it renders itself on arrival. */
+  function navTo(key, label) {
+    var url = LINKS[key];
+    if (!url) { print("no such page: " + key, "err"); return; }
+    var target, here;
+    try { target = new URL(url, window.location.href).pathname.replace(/\/+$/, ""); } catch (e) { target = url; }
+    here = (window.location.pathname || "").replace(/\/+$/, "");
+    if (target === here) { renderCurrentPage(); return; }
+    print("→ opening " + (label || key) + " …", "ok");
+    window.location.href = url;
   }
 
   function runCommand(raw) {
@@ -491,6 +755,15 @@
     els.output.scrollTop = 0;
   }
 
+  /* What the terminal shows when it opens: the home page shows the boot banner;
+     any other page renders its own content as terminal text. */
+  function bootScreen() {
+    if (!els.output) return;
+    if (isCliHome()) boot();
+    else renderCurrentPage();
+    runPendingCommand();
+  }
+
   /* =====================================================================
      Mode switching
      ===================================================================== */
@@ -503,12 +776,16 @@
     if (on) {
       injectTitlebar();
       if (!opts.silent) {
-        boot();
+        bootScreen();
         // focus the command line so it feels alive (but not on tiny touch keyboards)
         if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
       }
     } else {
       clearOutput();
+      // Expert is an overlay, not a reading level. The beginner/intermediate
+      // choice is still on the document; re-sync the slider so it shows the
+      // level we're returning to, not Expert and not a forced Beginner.
+      if (window.CtrlClickLevel) window.CtrlClickLevel.sync();
     }
   }
 
@@ -551,9 +828,10 @@
       updateCliFull();
       syncToggle();
       // The terminal IS the page here, so a returning visitor needs the
-      // banner/suggestions drawn on load, not just on toggle.
+      // banner (home) or the page's content (everywhere else) drawn on load,
+      // not just on toggle.
       if (fullCliActive()) {
-        boot();
+        bootScreen();
         if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
       }
     } else {
