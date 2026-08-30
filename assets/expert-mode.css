@@ -139,9 +139,15 @@ html.expert .cta:hover {
 
 /* =====================================================================
    The toggle control (lives in the header markup on every page)
+   The exit is the ONLY toggle in expert mode: it's hidden on the light site
+   (entering the CLI stays a hidden easter egg) and appears once expert mode
+   is on so the terminal is always escapable. Pages may add more specific
+   rules, but this makes every page behave the same by default.
    ===================================================================== */
+.expert-toggle { display: none; }
+html.expert .expert-toggle { display: inline-flex; }
 .expert-toggle {
-  display: inline-flex; align-items: center; gap: 8px;
+  align-items: center; gap: 8px;
   font-family: var(--font-mono, "JetBrains Mono", monospace);
   font-size: 12px; font-weight: 700; letter-spacing: .3px;
   padding: 8px 12px; border-radius: 8px; cursor: pointer;
@@ -448,6 +454,8 @@ html.expert .term-output {
 }
 html.expert .term-output.is-open { display: block; }
 html.expert .term-output .line { white-space: pre-wrap; word-break: break-word; }
+/* Tables and code blocks keep their columns: scroll sideways, don't wrap. */
+html.expert .term-output .line.pre { white-space: pre; word-break: normal; overflow-x: auto; }
 html.expert .term-output .line.cmd { color: var(--text); }
 html.expert .term-output .line.cmd .p { color: var(--teal); }
 html.expert .term-output .line.out { color: var(--muted); }
@@ -646,6 +654,11 @@ html.expert .term-chip:focus-visible { outline: 2px solid var(--teal); outline-o
   .level-switch .level-label { display: none; }
   .level-btn { padding: 6px 11px; }
 }
+
+/* In expert mode the reading-level control is meaningless — the CLI IS the
+   view, and the only toggle is "exit CLI" in the header. Hide it entirely so
+   it never lingers behind the terminal or offers a switch that does nothing. */
+html.expert .level-switch { display: none !important; }
 
 /* A brief toast confirming the level change (many changes are below the fold). */
 .level-toast {
