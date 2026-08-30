@@ -1,0 +1,92 @@
+# Human Mode — website & positioning strategy
+
+A plan for making Ctrl+Click the IT partner that non-technical people trust first, without losing the expert brand underneath.
+
+## The diagnosis
+
+The stated positioning — AI-first with a human-first angle, helping teams work better together rather than replacing people — is genuinely differentiated. But the site currently signals the opposite audience: a dark terminal aesthetic, a price-led headline, navigation hidden behind a right-click, and no visible human. The brand is excellent; the audience aim is off by one ring.
+
+**The core reframe:** the brand metaphor already IS the human-first pitch — a control-click reveals power that was there all along. Apply it to people, not just computers: *"Your team already has more capability than you're using. We unlock it."*
+
+Three moves:
+
+1. **Say the human thing** — reposition copy around people getting better, not IT getting cheaper.
+2. **Default to daylight** — a warm, light, larger-type design becomes the default; the dark CLI becomes the easter egg. The site then demonstrates the pitch.
+3. **Show your receipts** — a real face and name, testimonials, case studies (already written, in the hidden blog), a visible process, package pricing.
+
+## Keep these (they're assets)
+
+- The Ctrl+Click brand concept and hidden-menu easter eggs (as delight, not as the only navigation).
+- The Obstacles → Capabilities → Outcomes service copy skeleton.
+- **"No mystery boxes"** — currently buried in the Web Hosting detail; it's the whole ethos in three words. Promote to site-level messaging.
+- AI + Coffee — the strongest trust engine available; elevate from a footer card to a pillar.
+- The blog posts — three ready-made case studies (email migration, ten-year-old MacBook, TrailTracker), currently hidden behind a right-click.
+- The patient, judgment-free tone of the personal services ("No question is too basic") — spread it site-wide.
+- Expert mode — don't delete it; invert it (light default, full dark aesthetic becomes expert mode).
+
+## Friction audit (as a less-savvy visitor)
+
+| Current | Problem | Fix |
+|---|---|---|
+| Dark navy, mono fonts, terminal vibes | Reads "for programmers" — bounce before reading | Light default theme in the existing palette |
+| "Enterprise-Level IT, Without the Enterprise-Level Price Tag" | Price-led, category-generic | Human-first outcome headline |
+| "Psst: ctrl+click opens more…" | The invitation requires tech knowledge | Easter eggs stay; visible nav to everything too |
+| ⌃click admin persona, Meshtastic/Jamf jargon in hero | Insider content where trust should be | Real name, face, 2-sentence story |
+| Cards with no affordance; slide-over details | Nothing says "click me"; disorienting; not indexable | "Learn more →" links; dedicated service pages (SEO win) |
+| No process, prices, or proof | The three questions every nervous buyer asks go unanswered | How-it-works, named packages, testimonials + stories |
+| "Schedule a Discussion" | Formal, high-stakes | "Book a free 15-minute chat" + visible phone number |
+| 13–14px muted gray text | Hard on older eyes | 18px base, 1.6 line-height, WCAG AA, 16px floor |
+
+## Positioning
+
+**Recommended hero:** *"AI that makes your team better. Not smaller."* — subhead: *"We pair people with the right tools — then teach them to run everything themselves. Plain English, no judgment, no mystery boxes."*
+
+Alternates to test: "Unlock what your team can already do." / "Technology that works for the people using it." / "Your team, upgraded. Everyone still on it."
+
+**Elevator pitch:** "Ctrl+Click helps Bay Area businesses and families get more out of technology. We find the AI tools, systems, and platforms that fit how your people actually work, set them up right, and teach you to run them yourselves. We measure success by what your team can do without us."
+
+**The Pairing Method** (name the process; it converts): 1. Listen (free 15-min chat) → 2. Pair (plain-English plan, fixed price) → 3. Empower (setup + hands-on training) → 4. Stay (you own everything; never locked in).
+
+**The promise (manifesto):**
+- We build teams up. We will never pitch AI as a way to cut your people.
+- Plain English, always. If we can't explain it simply, we don't understand it well enough.
+- No mystery boxes. You own every account, every password, every document.
+- No question is too small, and nobody gets made to feel dumb. Ever.
+- Adoption is the metric. If a tool isn't getting used, we swap it or remove it.
+
+## Design for comfort
+
+- Light default using the existing brand kit: off-white `#F2F5F7` ground, navy `#0E1626` ink, teal accents (darkened to ~`#146E63` when used as text on light, for AA contrast), coral reserved for the primary button and the meetup.
+- Archivo stays (400–500 for body, 800 for display); JetBrains Mono demoted to labels. Base 18px, line-height 1.6, 65–70ch measure, 16px minimum.
+- AA contrast, visible focus states, `prefers-reduced-motion`, tap targets ≥ 44px. Buttons look like buttons.
+- Page order: hero → two doors (business / you & family) → how it works → proof → services (with plain-words line + "Learn more →" per card) → promise + about → AI + Coffee → FAQ + contact.
+- Visible nav: Business · Personal · How it works · Stories · About · Contact. "Stories" is the un-hidden blog.
+- Plain-words layer on every service (keep technical copy one level deeper). Run visible copy through Hemingway; aim grade 6–8. Glossary tooltips for unavoidable terms.
+
+Sample rewrites: "Wi-Fi that works in every room, and a network that doesn't fall over." · "One login for everything — and ex-employees actually locked out." · "Move your email without losing a single message." · "Hand the boring, repetitive work to AI — so your people can do the parts that need people."
+
+## Content plan (ranked by impact per hour)
+
+1. **Case studies** from existing posts: "41,000 messages moved. Zero lost." (business) · "We gave a 10-year-old laptop a second life." (personal) · TrailTracker (AI credibility). Template: The situation → What we did → What changed, plus one number and one quote.
+2. **Testimonials** — this week: ask five happiest clients "What were you worried about before we started?" and "What's different now?" Plus a Google Business Profile with reviews (also the key local-SEO asset).
+3. **Named fixed-price packages** — Business: AI Jumpstart, Inbox Rescue, Team Toolkit, Ctrl+Care (retainer). Personal: New Computer Concierge, Phone Fresh Start, AI 101 One-on-One, Photo Rescue. Show "from $X" or durations.
+4. **90-second welcome video** (face to camera, one take); later, short "watch AI do this" screen demos.
+5. **FAQ** answering the scary questions, including "Will AI replace my staff?" — answer no, in writing, prominently.
+6. **Elevate AI + Coffee** — own page, next date, photos, RSVP; monthly recap email to attendees; meetup questions become posts/FAQ entries.
+7. **Interactive lead magnet** (phase 3) — a 5-question "What could AI do for your business?" quiz ending in a mini-plan and a booking invitation, or an hours-saved calculator.
+
+**Reference shelf:** Building a StoryBrand (Miller) · They Ask, You Answer (Sheridan) · NN/g research on older adults · plainlanguage.gov + Hemingway · WebAIM / WCAG 2.2 AA · Senja or a Google Form for testimonials · Loom for video · pattern sources: Apple support pages, good local-trades sites, coaching transformation stories.
+
+## Roadmap
+
+**Phase 1 (weeks 1–2):** new hero + CTA copy, phone in header, light default theme, About block with photo, promise manifesto, un-hide blog as "Stories," plain-words lines + "Learn more →" on cards, testimonial outreach, Google Business Profile.
+
+**Phase 2 (weeks 3–8):** how-it-works + FAQ, three case studies, testimonials live, named packages, dedicated service pages, AI + Coffee page + monthly email, welcome video.
+
+**Phase 3 (month 3+):** quiz/calculator lead magnet, demo clips, monthly content cadence, local SEO buildout (LocalBusiness schema, Bay Area + service terms).
+
+**Measure** (GoatCounter is already installed — add events): booked chats/week (the metric), CTA click-through, AI + Coffee RSVPs, review count. 90-day bar: 2× booked calls, 10+ Google reviews, meetup list past 50. If bookings don't move by week 6, test the alternate headlines first.
+
+---
+
+*Companion mockups (desktop homepage, plain-language service page, mobile) were delivered as a design canvas alongside this report.*
