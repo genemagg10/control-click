@@ -23,7 +23,12 @@
        every screen size (desktop and mobile alike). Entering expert mode stays
        a hidden easter egg. The blog gets neither marker, so it keeps its
        lighter terminal reskin. -->
-  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
+  <!-- Reading level (beginner default · intermediate · expert) is opt-in and
+       remembered per browser. `ctrlclick:level` drives the light-site depth;
+       `ctrlclick:expert` drives the full CLI takeover (independent, so exiting
+       the CLI returns you to your chosen light-site level). Applied before first
+       paint so a returning visitor never sees a flash of the wrong depth. -->
+  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:level')==='intermediate'){d.classList.add('intermediate');}if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
@@ -435,6 +440,31 @@
     .faq .faq-a p { margin: 0 0 10px; }
     .faq .faq-a p:last-child { margin: 0; }
 
+    /* ====== Reading-level control (Beginner / Intermediate / Expert) ====== */
+    .level-switch { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; margin: 0 0 22px; }
+    .level-switch .level-label { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .level-switch .level-label b { color: var(--text); font-weight: 700; }
+    .level-seg { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; width: 100%; max-width: 560px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 6px; box-shadow: var(--shadow-1); }
+    .level-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 8px; border: 0; background: transparent; border-radius: 10px; cursor: pointer; color: var(--ink-soft); font-family: inherit; transition: background .15s ease, color .15s ease; }
+    .level-btn:hover { background: var(--bg); }
+    .level-btn .lb-title { font-weight: 700; font-size: 15px; }
+    .level-btn .lb-sub { font-size: 12px; color: var(--muted); }
+    .level-btn.is-active { background: var(--teal); color: #FFFFFF; }
+    .level-btn.is-active .lb-sub { color: rgba(255,255,255,.85); }
+    .level-btn[data-level="expert"].is-active { background: var(--navy); color: var(--teal-bright); }
+    .level-btn[data-level="expert"].is-active .lb-sub { color: rgba(255,255,255,.7); }
+    .level-btn:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+
+    /* Intermediate-only extras on service cards: present in the DOM, revealed
+       only when html.intermediate is on. */
+    .svc-how, .svc-stack { display: none; }
+    html.intermediate .svc-how { display: block; margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+    html.intermediate .svc-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .svc-stack .stk { font-family: var(--font-mono); font-size: 11.5px; background: #EDF1F4; border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--ink-soft); }
+    /* In intermediate, the plain line stays but the section ledes get a hint */
+    .lvl-hint { display: none; }
+    html.intermediate .lvl-hint { display: inline; color: var(--teal); }
+
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
       .hero { grid-template-columns: minmax(0, 1fr); }
@@ -450,6 +480,9 @@
       .steps { grid-template-columns: 1fr; }
       .proof-grid { grid-template-columns: 1fr; }
       .pkg-grid { grid-template-columns: 1fr; }
+      /* keep the level control compact on phones: titles only */
+      .level-btn .lb-sub { display: none; }
+      .level-btn { padding: 12px 6px; }
       .wordmark { font-size: 27px; }
 
       /* Tighten the gap between the header and the first card on mobile */
@@ -534,6 +567,25 @@
   </header>
 
   <main class="container" id="main">
+    <!-- ====== Reading-level control ====== -->
+    <div class="level-switch" id="levelSwitch">
+      <span class="level-label">Meet you where you are &mdash; <b>how much detail would you like?</b></span>
+      <div class="level-seg" role="group" aria-label="Choose how much detail the site shows">
+        <button type="button" class="level-btn" data-level="beginner" aria-pressed="true">
+          <span class="lb-title">Beginner</span>
+          <span class="lb-sub">Plain and simple</span>
+        </button>
+        <button type="button" class="level-btn" data-level="intermediate" aria-pressed="false">
+          <span class="lb-title">Intermediate</span>
+          <span class="lb-sub">The how &amp; the tools</span>
+        </button>
+        <button type="button" class="level-btn" data-level="expert" aria-pressed="false">
+          <span class="lb-title">⌃ Expert</span>
+          <span class="lb-sub">The command line</span>
+        </button>
+      </div>
+    </div>
+
     <!-- ====== Hero ====== -->
     <section class="hero" aria-label="Introduction">
       <div>
@@ -590,7 +642,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
       <h3>For Your Business</h3>
     </div>
-    <p class="section-lede">Tools that fit how your team actually works — set up right, taught hands-on, and owned by you. Click any card for the full picture.</p>
+    <p class="section-lede">Tools that fit how your team actually works — set up right, taught hands-on, and owned by you. Click any card for the full picture.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
 
     <div id="businessServicesGrid" class="grid" role="list" aria-label="Business service list"></div>
 
@@ -599,7 +651,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
       <h3>For You &amp; Your Family</h3>
     </div>
-    <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.</p>
+    <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
 
     <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list"></div>
 
@@ -899,6 +951,8 @@
         title: 'Networking',
         blurb: 'Design, deploy, and troubleshoot wired and wireless networks. Edge to mesh.',
         plain: 'Wi-Fi that works in every room, and a network that doesn’t fall over.',
+        how: 'We use <a href="glossary/#mesh">mesh Wi-Fi</a> to kill dead zones and split traffic into separate lanes, so guests can’t reach business systems — and we’re alerted before you notice a problem.',
+        stack: ['Ubiquiti UniFi', 'Cisco Meraki', 'VLANs · QoS', 'site-to-site VPN'],
         detail: `
           <h2>Networking</h2>
           <p>We build reliable, secure small to mid-scale networks that actually make sense to maintain. Whether you're expanding offices, connecting remote sites, or cleaning up a spaghetti-wired legacy setup, we design networks that are fast, organized, and clearly documented.</p>
@@ -938,6 +992,8 @@
         title: 'Identity Management',
         blurb: 'Google Workspace and Microsoft 365 hygiene. SSO, groups, lifecycle.',
         plain: 'One login for everything — and former employees actually locked out.',
+        how: 'One secure <a href="glossary/#sso">single sign-on</a> across every app, with joiners and leavers handled automatically so access never drifts.',
+        stack: ['Google Workspace', 'Microsoft 365', 'SSO', 'lifecycle automation'],
         detail: `
           <h2>Identity Management</h2>
           <p>Centralized identity management is the foundation of secure, efficient operations. We help organizations streamline how users are provisioned, managed, and offboarded across Google Workspace and Microsoft 365 environments, ensuring the right people have the right access at the right time.</p>
@@ -975,6 +1031,8 @@
         title: 'AI Services & Automation',
         blurb: 'Leverage AI to streamline operations, automate workflows, and work smarter.',
         plain: 'Hand the boring, repetitive work to AI — so your people can do the parts that need people.',
+        how: 'We map your repetitive workflows and hand them to <a href="glossary/#automation">automation</a> and AI assistants — always with a human in the loop for anything that matters.',
+        stack: ['ChatGPT · Claude', 'Zapier · Make · n8n', 'knowledge bases'],
         detail: `
           <h2>AI Services & Automation</h2>
           <p>AI is transforming how businesses operate. We help you identify high-impact opportunities and implement practical AI solutions that deliver real results, not hype. From automating repetitive tasks to building intelligent assistants, we focus on solutions that integrate seamlessly into your existing workflows.</p>
@@ -1016,6 +1074,8 @@
         title: 'Team Collaboration',
         blurb: 'Notion, Google Workspace, Slack and workflow design that people actually use.',
         plain: 'One place where your team finds everything — and actually uses it.',
+        how: 'We design one <a href="glossary/#knowledge-base">knowledge base</a> and task system around how you already work, then train the team so it actually gets used.',
+        stack: ['Notion', 'Google Workspace', 'Slack'],
         detail: `
           <h2>Team Collaboration</h2>
           <p>Structure beats chaos. We design collaborative workspaces using Notion, Google Workspace, Slack, and other tools, creating systems for docs, tasks, and communication that match how your team actually works. The goal is low-friction collaboration that people will actually adopt and maintain.</p>
@@ -1055,6 +1115,8 @@
         title: 'Email Hosting & Migration',
         blurb: 'Domain routing, DNS cleanup, and safe migrations with zero data loss.',
         plain: 'Move your email without losing a single message — and stop landing in spam.',
+        how: 'We clean up your <a href="glossary/#dns">DNS</a> and add SPF, DKIM, and DMARC so your mail is trusted, then migrate in stages with a 30-day safety net.',
+        stack: ['SPF · DKIM · DMARC', 'staged cutover', 'Workspace · 365'],
         detail: `
           <h2>Email Hosting & Migration</h2>
           <p>Email should be boring. It should just work and deliver reliably. We help businesses clean up their email infrastructure, harden security settings, and migrate between providers without losing a single message. Whether you're moving to Google Workspace, Microsoft 365, or consolidating domains, we handle the complexity so you don't have to.</p>
@@ -1094,6 +1156,8 @@
         title: 'Web Hosting & Domain Routing',
         blurb: 'Deploy static or app sites with CI and sensible infra. No mystery boxes.',
         plain: 'A website you own and understand. No mystery boxes.',
+        how: 'Transparent hosting you control: <a href="glossary/#dns">DNS</a>, SSL, and a CDN set up cleanly, with CI/CD so deploys are safe and reversible.',
+        stack: ['DNS · TLS · CDN', 'CI/CD', 'staging + rollback'],
         detail: `
           <h2>Web Hosting & Domain Routing</h2>
           <p>From domain purchase to production deployment, we set up web infrastructure that's transparent, maintainable, and fully under your control. Whether you need a simple static site or a full application deployment with CI/CD, we build systems with clear documentation so you're never locked out or dependent on any single person.</p>
@@ -1136,6 +1200,8 @@
         title: 'Email Management',
         blurb: 'Organize your inbox, set up filters, and regain control of your email.',
         plain: 'Get your inbox back under control — and keep it that way.',
+        how: 'We build filters and a folder system that sort mail for you, and tame the <a href="glossary/#spam-filter">spam filter</a> so nothing important hides.',
+        stack: ['Gmail · Apple Mail', 'Outlook', 'filters · rules'],
         detail: `
           <h2>Email Management</h2>
           <p>Drowning in emails? We help individuals take back their inbox through smart organization, filtering, and workflow strategies that actually stick. Whether you're overwhelmed by thousands of unread messages or just want a better system, we'll help you create an email routine that reduces stress and saves time.</p>
@@ -1175,6 +1241,8 @@
         title: 'Device Maintenance',
         blurb: 'Keep your computers, tablets, and devices running smoothly.',
         plain: 'Keep your computers and devices fast, safe, and backed up.',
+        how: 'Updates, cleanup, and a real <a href="glossary/#backup-vs-sync">backup</a> — so a lost or broken device is an inconvenience, not a disaster.',
+        stack: ['updates · patches', 'backups', 'malware scans'],
         detail: `
           <h2>Device Maintenance</h2>
           <p>Regular maintenance keeps your devices fast, secure, and reliable. We provide tune-ups, updates, and preventive care to extend the life of your computers, tablets, and other technology, helping you avoid costly repairs and frustrating slowdowns.</p>
@@ -1214,6 +1282,8 @@
         title: 'Basic Troubleshooting',
         blurb: 'Quick fixes for common tech problems. No issue too small.',
         plain: 'Patient help with everyday tech problems. No question is too small.',
+        how: 'We find the actual cause, not just the symptom, and show you the fix so it’s less scary the next time it happens.',
+        stack: ['Wi-Fi · printers', 'accounts · passwords', 'devices · displays'],
         detail: `
           <h2>Basic Troubleshooting</h2>
           <p>Technology problems are frustrating, especially when you don't know where to start. We provide patient, clear help for everyday tech issues, from printer problems to slow computers to "it just stopped working." No question is too basic, and we explain things in plain language without making you feel judged.</p>
@@ -1253,6 +1323,8 @@
         title: 'Technology Education',
         blurb: 'Learn to use your devices and apps with confidence.',
         plain: 'Learn your devices and apps at your own pace, in plain language.',
+        how: 'Patient, one-on-one lessons at your pace — including how to spot <a href="glossary/#phishing">scams and phishing</a> before they catch you.',
+        stack: ['1:1 sessions', 'written notes', 'online safety'],
         detail: `
           <h2>Technology Education</h2>
           <p>Technology should empower you, not intimidate you. We offer patient, personalized training sessions to help you master your devices and apps at your own pace. Whether you want to video call family, organize photos, or simply feel more confident with your computer, we meet you where you are and teach in plain language.</p>
@@ -1292,6 +1364,8 @@
         title: 'Introduction to AI',
         blurb: 'Understand and start using AI tools like ChatGPT in your daily life.',
         plain: 'A friendly, hands-on introduction to AI tools like ChatGPT and Claude.',
+        how: 'Hands-on practice with real tools, plus the honest limits — like why AI can <a href="glossary/#hallucination">“hallucinate”</a> and when not to trust it.',
+        stack: ['ChatGPT · Claude', 'prompting basics', 'safe, private use'],
         detail: `
           <h2>Introduction to AI</h2>
           <p>AI is changing how we work and live, but it can feel overwhelming or mysterious. We help you understand what AI actually is, what it can and can't do, and show you practical ways to use tools like ChatGPT and Claude in your everyday life. No technical background required.</p>
@@ -1331,6 +1405,8 @@
         title: 'Smart Phone Setup & Training',
         blurb: 'Get more from your iPhone or Android with personalized setup and guidance.',
         plain: 'Get your iPhone or Android set up right — and comfortable to use.',
+        how: 'Setup, data transfer, bigger text, and security like <a href="glossary/#two-factor">two-factor</a> and scam-call blocking — so your phone works for you.',
+        stack: ['iPhone · Android', 'data transfer', '2FA · scam blocking'],
         detail: `
           <h2>Smart Phone Setup & Training</h2>
           <p>Your smartphone can do so much more than make calls and send texts. We help you set up, customize, and learn to use your iPhone or Android with confidence, whether you're getting a new phone or want to get more from the one you have.</p>
@@ -1379,12 +1455,18 @@
         card.setAttribute('role','listitem');
         card.setAttribute('tabindex', '0');
         card.dataset.slug = svc.slug;
+        const stackHTML = (svc.stack && svc.stack.length)
+          ? `<div class="svc-stack" aria-hidden="true">${svc.stack.map(t => `<span class="stk">${t}</span>`).join('')}</div>`
+          : '';
+        const howHTML = svc.how ? `<p class="svc-how">${svc.how}</p>` : '';
         card.innerHTML = `
           <div class="card-head">
             <div class="icon" aria-hidden="true">${svc.icon || ''}</div>
             <div>
               <h4>${svc.title}</h4>
               <p>${svc.plain || svc.blurb}</p>
+              ${howHTML}
+              ${stackHTML}
               <span class="learn" aria-hidden="true">Learn more &rarr;</span>
             </div>
           </div>
@@ -1582,6 +1664,45 @@
     window.CTRLCLICK_SERVICES = services.map(s => ({
       slug: s.slug, title: s.title, blurb: s.blurb, detail: s.detail, chip: s.chip
     }));
+
+    // ====== Reading-level control (Beginner / Intermediate / Expert) ======
+    // Beginner and Intermediate both stay on the light site; Intermediate just
+    // reveals the how-lines and tool chips (via the html.intermediate class).
+    // Expert hands off to the CLI takeover, which manages its own state — so a
+    // person's light-site level is preserved for when they exit the terminal.
+    (function () {
+      const root = document.documentElement;
+      function currentLevel() {
+        if (root.classList.contains('expert')) return 'expert';
+        return root.classList.contains('intermediate') ? 'intermediate' : 'beginner';
+      }
+      function persist(level) {
+        try { localStorage.setItem('ctrlclick:level', level); } catch (e) {}
+      }
+      function syncButtons() {
+        const lvl = currentLevel();
+        document.querySelectorAll('.level-btn').forEach(btn => {
+          const on = btn.dataset.level === lvl;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+      function setLevel(level) {
+        if (level === 'expert') {
+          // Enter the CLI; keep the underlying light-site level for the return trip.
+          if (window.CtrlClickExpert) window.CtrlClickExpert.enable();
+          else { try { localStorage.setItem('ctrlclick:expert', 'on'); } catch (e) {} location.reload(); }
+          return;
+        }
+        root.classList.toggle('intermediate', level === 'intermediate');
+        persist(level);
+        syncButtons();
+      }
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLevel(btn.dataset.level));
+      });
+      syncButtons();
+    })();
   </script>
 
   <!-- ====== Expert mode (opt-in CLI view) ====== -->
