@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{ '/assets/expert-mode.css' | relative_url }}" />
   <!-- Expert mode is opt-in and remembered per browser. Apply the class before
        first paint so a returning visitor never sees a flash of the normal site. -->
-  <script>try{if(localStorage.getItem('ctrlclick:expert')==='on'){document.documentElement.classList.add('expert');}}catch(e){}</script>
+  <script>try{var d=document.documentElement;if(localStorage.getItem('ctrlclick:level')==='intermediate'){d.classList.add('intermediate');}if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');}}catch(e){}</script>
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>

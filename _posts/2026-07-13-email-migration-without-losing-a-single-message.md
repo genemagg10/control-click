@@ -1,5 +1,5 @@
 ---
-title: "How to migrate your business email without losing a single message"
+title: "How to Move Your Business Email Without Losing a Single Message"
 description: >-
   A calm, staged approach to email migration, the checklist I use to move
   businesses between Google Workspace, Microsoft 365, and legacy hosts with

@@ -1,5 +1,5 @@
 ---
-title: "Installing Clawdbot: Friction, Persistence, and the Power of Having ChatGPT With You"
+title: "Clawdbot, Silent Failures, and the AI Co-Pilot That Got Me Unstuck"
 description: >-
   Installing Clawdbot on a new machine turned into a lesson in silent failures,
   rate limits, concurrency, and macOS permissions, and in how AI as a thinking
