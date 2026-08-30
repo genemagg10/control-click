@@ -6,13 +6,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI + Coffee · A Free Monthly Meetup · Ctrl+Click</title>
-  <meta name="description" content="AI + Coffee is Ctrl+Click's free monthly meetup in the Bay Area — bring your questions, try AI tools like ChatGPT and Claude over coffee, and see what's possible. No laptop required, all levels welcome." />
+  <meta name="description" content="AI + Coffee is Ctrl+Click's free monthly meetup in Lafayette, CA — first Friday of the month at 10am outside Papillon. Bring your questions, try AI tools like ChatGPT and Claude, and see what's possible. No laptop required, all levels welcome." />
   <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://it.maggio.xyz/ai-coffee/" />
   <meta property="og:title" content="AI + Coffee · A Free Monthly Meetup" />
-  <meta property="og:description" content="Bring your questions, try AI tools over coffee, and see what's possible. Free, monthly, no laptop required — all levels welcome." />
+  <meta property="og:description" content="First Friday of the month at 10am, outside Papillon in Lafayette. Bring your questions, try AI tools, and leave less intimidated by AI. Free — all levels welcome." />
+  <meta property="og:image" content="https://it.maggio.xyz/ai-coffee/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI + Coffee · A Free Monthly Meetup" />
+  <meta name="twitter:description" content="First Friday of the month at 10am, outside Papillon in Lafayette. Free — all levels welcome." />
+  <meta name="twitter:image" content="https://it.maggio.xyz/ai-coffee/og.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
@@ -84,6 +93,11 @@
     .ess .ess-v { font-size: 16px; font-weight: 700; margin-top: 2px; }
     .ess .ess-v small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); margin-top: 2px; }
 
+    .meet-actions { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 16px; }
+    .meet-actions a { display: inline-flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; color: var(--teal); }
+    .meet-actions a svg { flex: none; }
+    .meet-actions a:hover { color: var(--coral-deep); }
+
     h2 { font-family: var(--font-brand); font-size: 26px; letter-spacing: -.3px; margin: 44px 0 12px; }
     p { max-width: 68ch; }
     .expect { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin: 8px 0; }
@@ -140,7 +154,7 @@
 
   <main class="container">
     {% include reading-level.html %}
-    <p class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg> Free monthly meetup &middot; Bay Area</p>
+    <p class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg> Free monthly meetup &middot; Lafayette, CA</p>
     <h1>AI + Coffee</h1>
     <p class="lede">Bring your questions &mdash; and grab a coffee from the shop we meet outside. Once a month we get together to explore what AI can actually do &mdash; in plain English, at a relaxed pace, with no sales pitch and no pressure.</p>
     <div class="hero-actions">
@@ -157,7 +171,7 @@
       <div class="ess">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <div class="ess-k">Where</div>
-        <div class="ess-v">Papillon<small>outside the coffee shop &middot; Bay Area</small></div>
+        <div class="ess-v">Papillon<small>La Fiesta Square &middot; Lafayette, CA</small></div>
       </div>
       <div class="ess">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
@@ -170,7 +184,17 @@
         <div class="ess-v">Everyone<small>all levels welcome</small></div>
       </div>
     </div>
-    <p style="font-size:15px; color:var(--muted); margin-top:10px;">No laptop required &mdash; just bring yourself and your curiosity. <span style="color:var(--ink-soft)">New here? Tell us you&rsquo;re coming and we&rsquo;ll look out for you.</span></p>
+    <div class="meet-actions">
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Papillon%20Quality%20Gourmet%20Coffees%2C%2067%20Lafayette%20Cir%2C%20Lafayette%2C%20CA%2094549" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Get directions
+      </a>
+      <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=AI%20%2B%20Coffee%20(Ctrl%2BClick)&amp;dates=20260904T100000/20260904T110000&amp;ctz=America%2FLos_Angeles&amp;recur=RRULE:FREQ%3DMONTHLY;BYDAY%3D1FR&amp;location=Papillon%20Quality%20Gourmet%20Coffees%2C%2067%20Lafayette%20Cir%2C%20Lafayette%2C%20CA%2094549&amp;details=A%20free%20monthly%20meetup%20to%20explore%20AI%20tools%20in%20plain%20English.%20Bring%20your%20questions%3B%20coffee%20is%20BYO.%20More%3A%20https%3A%2F%2Fit.maggio.xyz%2Fai-coffee%2F" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+        Add to calendar
+      </a>
+    </div>
+    <p style="font-size:15px; color:var(--muted); margin-top:12px;">No laptop required &mdash; just bring yourself and your curiosity. <span style="color:var(--ink-soft)">New here? Tell us you&rsquo;re coming and we&rsquo;ll look out for you.</span></p>
 
     <h2>What to expect</h2>
     <div class="expect">
@@ -218,7 +242,7 @@
 
     <div class="cta-band" id="rsvp">
       <h2>Save your seat</h2>
-      <p>Tell us you&rsquo;re interested and we&rsquo;ll send you the next date, time, and place &mdash; and a friendly reminder before it. Or just show up; we&rsquo;ll be glad to see you.</p>
+      <p>First Friday of the month, 10am, outside Papillon in Lafayette. Tell us you&rsquo;re coming and we&rsquo;ll send a friendly reminder before each one &mdash; or just show up; we&rsquo;ll be glad to see you.</p>
       <div class="hero-actions" style="justify-content:center;">
         <a class="cta" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Count me in</a>
         <a class="cta quiet" href="tel:+15104670217">Or call (510)&nbsp;467-0217</a>
