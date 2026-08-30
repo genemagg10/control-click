@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plain-English Tech Glossary · Ctrl+Click</title>
+  <meta name="description" content="Tech jargon explained in plain English: DNS, the cloud, IMAP, two-factor authentication, AI, LLMs, and more — the way we'd explain them over coffee. A free reference from Ctrl+Click." />
+  <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/apple-touch-icon.png" />
+  <meta property="og:title" content="Plain-English Tech Glossary · Ctrl+Click" />
+  <meta property="og:description" content="Tech jargon explained the way we'd explain it over coffee. DNS, the cloud, two-factor, AI — all of it, in plain English." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
+  <script data-goatcounter="https://genemaggio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <style>
+    /* Shares the homepage's light "human mode" design tokens. */
+    :root {
+      --navy: #0E1626;
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --muted: #5C6B7E;
+      --ink-soft: #3D4A5C;
+      --text: #0E1626;
+      --line: #D9E1E7;
+      --teal: #146E63;
+      --teal-bright: #1E9C8C;
+      --coral-deep: #C7492F;
+      --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --shadow-1: 0 1px 2px rgba(14,22,38,.06), 0 8px 24px rgba(14,22,38,.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px; line-height: 1.65;
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30,156,140,.08), transparent), var(--bg);
+      color: var(--text);
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .container { max-width: 860px; width: 100%; margin: 0 auto; padding: 28px 20px 64px; }
+    header.site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: linear-gradient(to bottom, rgba(242,245,247,.97), rgba(242,245,247,.9), rgba(242,245,247,0));
+      backdrop-filter: blur(6px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px; padding: 16px 20px; max-width: 1200px; margin: 0 auto; }
+    .brand a { display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .brand a:hover { text-decoration: none; }
+    .wordmark { display: inline-flex; align-items: center; font-family: var(--font-brand); font-weight: 800; font-size: 24px; letter-spacing: -.5px; line-height: 1; }
+    .wm-caret { width: 20px; height: 15px; flex-shrink: 0; margin-right: 7px; }
+    .wm-click { color: var(--teal-bright); }
+    .cta { display: inline-flex; align-items: center; padding: 11px 18px; border-radius: 10px; background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1); }
+    .cta:hover { filter: brightness(1.06); text-decoration: none; }
+    .head-actions { display: flex; align-items: center; gap: 10px; }
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
+    h1 { font-family: var(--font-brand); font-size: clamp(30px, 5vw, 42px); line-height: 1.1; letter-spacing: -.6px; margin: 18px 0 10px; }
+    .lede { font-size: 18px; color: var(--ink-soft); max-width: 62ch; margin: 0 0 8px; }
+    .note { font-size: 15px; color: var(--muted); margin: 0 0 24px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+    .toc a { font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--text); }
+    .toc a:hover { border-color: var(--teal-bright); color: var(--teal); text-decoration: none; }
+    h2 { font-family: var(--font-brand); font-size: 24px; letter-spacing: -.3px; margin: 40px 0 4px; }
+    .group-lede { margin: 0 0 14px; color: var(--muted); font-size: 15.5px; }
+    dl { margin: 0; }
+    .term {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+      padding: 16px 20px; margin: 0 0 10px; box-shadow: var(--shadow-1);
+    }
+    .term:target { border-color: var(--teal-bright); outline: 2px solid var(--teal-bright); outline-offset: 1px; }
+    dt { font-family: var(--font-brand); font-weight: 700; font-size: 18px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    dt .also { font-family: var(--font-mono); font-weight: 500; font-size: 12px; color: var(--muted); }
+    dt a.anchor { color: var(--line); font-weight: 400; font-size: 15px; }
+    .term:hover dt a.anchor { color: var(--teal); }
+    dd { margin: 6px 0 0; color: var(--ink-soft); font-size: 16px; max-width: 68ch; }
+    .help-card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+      padding: 24px; margin-top: 44px; box-shadow: var(--shadow-1);
+    }
+    .help-card h2 { margin: 0 0 8px; }
+    .help-card p { margin: 0 0 14px; color: var(--ink-soft); max-width: 62ch; }
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; align-items: center; }
+    @media (max-width: 620px) {
+      .wordmark { font-size: 21px; }
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-head" aria-label="Site header">
+    <div class="nav">
+      <div class="brand">
+        <a href="../" aria-label="Ctrl+Click: AI & IT Solutions home">
+          <span class="wordmark" aria-hidden="true">
+            <svg class="wm-caret" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 23 L20 8 L35 23" stroke="#1E9C8C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ctrl+</span><span class="wm-click">Click</span>
+          </span>
+        </a>
+      </div>
+      <div class="head-actions">
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 15-Min Chat</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>The Plain-English Tech Glossary</h1>
+    <p class="lede">Every trade has its jargon, and tech has more than most. Here's ours, translated — the way we'd explain it at <a href="../#contact">AI + Coffee</a>. No question is too small, and no term is too basic.</p>
+    <p class="note">Want to point someone at a specific word? Every term has its own link — click the <span aria-hidden="true">#</span> beside it.</p>
+
+    <nav class="toc" aria-label="Glossary sections">
+      <a href="#basics">Everyday basics</a>
+      <a href="#internet">Internet &amp; Wi-Fi</a>
+      <a href="#email">Email</a>
+      <a href="#safety">Staying safe</a>
+      <a href="#ai">AI, in plain words</a>
+      <a href="#work">Work &amp; team tools</a>
+    </nav>
+
+    <h2 id="basics">Everyday basics</h2>
+    <p class="group-lede">The words that come up before anything is even broken.</p>
+    <dl>
+      <div class="term" id="browser"><dt>Browser <a class="anchor" href="#browser" aria-label="Link to this term">#</a></dt>
+        <dd>The app you use to visit websites — Safari, Chrome, Edge, and Firefox are all browsers. "Google" is a website you visit <em>with</em> a browser, which is why "my Google is broken" and "my internet is broken" are usually different problems.</dd></div>
+      <div class="term" id="operating-system"><dt>Operating system <span class="also">also: OS</span> <a class="anchor" href="#operating-system" aria-label="Link to this term">#</a></dt>
+        <dd>The base software a device runs everything else on top of — Windows or macOS on computers, iOS or Android on phones. When something says "requires macOS 15," it's talking about this.</dd></div>
+      <div class="term" id="app"><dt>App vs. program <a class="anchor" href="#app" aria-label="Link to this term">#</a></dt>
+        <dd>Same thing, different decades. "App," "application," "program," and "software" all mean a thing you open to do a task.</dd></div>
+      <div class="term" id="the-cloud"><dt>The cloud <a class="anchor" href="#the-cloud" aria-label="Link to this term">#</a></dt>
+        <dd>Someone else's computers, reached over the internet. When your photos are "in the cloud," they're stored in a company's data center instead of (or as well as) on your device. That's why you can see them from any device — and why you need your password to get to them.</dd></div>
+      <div class="term" id="software-update"><dt>Software update <a class="anchor" href="#software-update" aria-label="Link to this term">#</a></dt>
+        <dd>A fresh version of an app or operating system, usually fixing bugs and security holes. Updates are worth doing: most break-ins use holes that an update already fixed.</dd></div>
+      <div class="term" id="backup-vs-sync"><dt>Backup vs. sync <a class="anchor" href="#backup-vs-sync" aria-label="Link to this term">#</a></dt>
+        <dd>A <b>backup</b> is a separate copy you can go back to if something is lost or broken. <b>Sync</b> keeps two places matching — which means a deletion syncs too. Sync is convenient; backup is what saves you. You want both.</dd></div>
+      <div class="term" id="storage-vs-memory"><dt>Storage vs. memory <span class="also">also: disk, RAM</span> <a class="anchor" href="#storage-vs-memory" aria-label="Link to this term">#</a></dt>
+        <dd><b>Storage</b> is the filing cabinet: where your files live permanently, and what "128&nbsp;GB" on the box means. <b>Memory (RAM)</b> is the desk: workspace for what's open right now. "Storage full" and "running slow" point at different fixes.</dd></div>
+      <div class="term" id="download-upload"><dt>Download vs. upload <a class="anchor" href="#download-upload" aria-label="Link to this term">#</a></dt>
+        <dd>Download: from the internet to your device. Upload: from your device to the internet. Video calls use both at once, which is why they're often the first thing to stutter on a weak connection.</dd></div>
+    </dl>
+
+    <h2 id="internet">Internet &amp; Wi-Fi</h2>
+    <p class="group-lede">Why "the Wi-Fi is down" is sometimes true and sometimes not.</p>
+    <dl>
+      <div class="term" id="modem-vs-router"><dt>Modem vs. router <a class="anchor" href="#modem-vs-router" aria-label="Link to this term">#</a></dt>
+        <dd>The <b>modem</b> brings the internet into your home from your provider. The <b>router</b> shares it with your devices and creates your Wi-Fi. Often they're combined into one box — which is why "restart your router" fixes so many things: you're restarting both.</dd></div>
+      <div class="term" id="wifi"><dt>Wi-Fi vs. internet <a class="anchor" href="#wifi" aria-label="Link to this term">#</a></dt>
+        <dd>Wi-Fi is the wireless link between your device and your router — it can be perfect while the internet itself is down, and vice versa. "Full bars but nothing loads" means the Wi-Fi is fine and the internet connection isn't.</dd></div>
+      <div class="term" id="mesh"><dt>Mesh Wi-Fi <a class="anchor" href="#mesh" aria-label="Link to this term">#</a></dt>
+        <dd>Several small Wi-Fi units placed around your home that work as one network, instead of one router shouting from a closet. It's the usual cure for dead zones.</dd></div>
+      <div class="term" id="bandwidth"><dt>Bandwidth <a class="anchor" href="#bandwidth" aria-label="Link to this term">#</a></dt>
+        <dd>How much data your connection can move at once — the width of the pipe. More people streaming and video-calling at once needs a wider pipe.</dd></div>
+      <div class="term" id="ip-address"><dt>IP address <a class="anchor" href="#ip-address" aria-label="Link to this term">#</a></dt>
+        <dd>The number that identifies a device on a network, like a street address for data. You rarely need to know yours — but it's how devices find each other.</dd></div>
+      <div class="term" id="dns"><dt>DNS <a class="anchor" href="#dns" aria-label="Link to this term">#</a></dt>
+        <dd>The internet's address book. It turns names people can remember (like a website or where email should go) into the numeric addresses computers use. When DNS records are messy, websites go missing and email lands in spam — tidying them is a big part of what we do.</dd></div>
+      <div class="term" id="domain"><dt>Domain <a class="anchor" href="#domain" aria-label="Link to this term">#</a></dt>
+        <dd>Your name on the internet — the part after the @ in your email and after "www" in your web address. You rent it yearly from a registrar, and it should always be registered to <em>you</em>, not to whoever set it up.</dd></div>
+      <div class="term" id="vpn"><dt>VPN <a class="anchor" href="#vpn" aria-label="Link to this term">#</a></dt>
+        <dd>A private, encrypted tunnel over the public internet. Businesses use VPNs to reach office systems from home; individuals use them for privacy on public Wi-Fi.</dd></div>
+      <div class="term" id="ethernet"><dt>Ethernet <a class="anchor" href="#ethernet" aria-label="Link to this term">#</a></dt>
+        <dd>The wired network cable. Less convenient than Wi-Fi, but faster and steadier — worth it for desks that don't move and anything that streams or calls all day.</dd></div>
+    </dl>
+
+    <h2 id="email">Email</h2>
+    <p class="group-lede">More jargon per square inch than almost anything else. (There's a whole <a href="../email-settings/">email settings page</a> if you're mid-setup.)</p>
+    <dl>
+      <div class="term" id="email-client"><dt>Email client <span class="also">also: mail app</span> <a class="anchor" href="#email-client" aria-label="Link to this term">#</a></dt>
+        <dd>Any app you read mail in — Apple Mail, Outlook, Gmail in a browser. Your mail lives with your provider; the client is just the window onto it.</dd></div>
+      <div class="term" id="imap"><dt>IMAP <a class="anchor" href="#imap" aria-label="Link to this term">#</a></dt>
+        <dd>The modern way a mail app talks to your mailbox: messages stay on the server, so every device sees the same inbox. If you're choosing, choose IMAP.</dd></div>
+      <div class="term" id="pop"><dt>POP <span class="also">also: POP3</span> <a class="anchor" href="#pop" aria-label="Link to this term">#</a></dt>
+        <dd>The older way: mail is downloaded to one device and (usually) removed from the server. It's why some people's email only exists on one aging computer — something we help fix.</dd></div>
+      <div class="term" id="smtp"><dt>SMTP <a class="anchor" href="#smtp" aria-label="Link to this term">#</a></dt>
+        <dd>The sending side of email. IMAP/POP receive; SMTP sends. When you can read mail but not send it, SMTP settings are the usual suspect.</dd></div>
+      <div class="term" id="spam-filter"><dt>Spam filter <a class="anchor" href="#spam-filter" aria-label="Link to this term">#</a></dt>
+        <dd>The bouncer that keeps junk out of your inbox. It occasionally stops a real message, which is why "check your spam folder" is step one of so many mysteries.</dd></div>
+      <div class="term" id="phishing"><dt>Phishing <a class="anchor" href="#phishing" aria-label="Link to this term">#</a></dt>
+        <dd>A fake message pretending to be a real company (or a real person) to trick you into handing over a password or payment. Urgency is the tell — "act now, your account will be closed." When in doubt, don't click: go to the site directly, or ask someone you trust.</dd></div>
+      <div class="term" id="alias"><dt>Alias &amp; forwarding <a class="anchor" href="#alias" aria-label="Link to this term">#</a></dt>
+        <dd>An <b>alias</b> is an extra address that lands in the same mailbox. <b>Forwarding</b> passes mail from one address to another. Handy — until years of them tangle together, which is a cleanup we do a lot.</dd></div>
+    </dl>
+
+    <h2 id="safety">Staying safe</h2>
+    <p class="group-lede">The handful of ideas that prevent most bad days.</p>
+    <dl>
+      <div class="term" id="password-manager"><dt>Password manager <a class="anchor" href="#password-manager" aria-label="Link to this term">#</a></dt>
+        <dd>An app that remembers strong, different passwords for every account so you don't have to. You remember one good password; it handles the rest. The single biggest security upgrade most people can make.</dd></div>
+      <div class="term" id="two-factor"><dt>Two-factor authentication <span class="also">also: 2FA, MFA</span> <a class="anchor" href="#two-factor" aria-label="Link to this term">#</a></dt>
+        <dd>A second check at sign-in — a code from your phone, a tap on a prompt — so a stolen password alone isn't enough. Mildly annoying, hugely effective. Turn it on for email and banking first.</dd></div>
+      <div class="term" id="app-password"><dt>App password <a class="anchor" href="#app-password" aria-label="Link to this term">#</a></dt>
+        <dd>A special one-time password some providers (Google, Apple, Yahoo) issue for older mail apps that can't do modern sign-in. If an old email program keeps rejecting your normal password, this is usually why.</dd></div>
+      <div class="term" id="malware"><dt>Malware <span class="also">also: virus</span> <a class="anchor" href="#malware" aria-label="Link to this term">#</a></dt>
+        <dd>Any software built to do harm — steal information, lock your files, show endless pop-ups. Updates, healthy skepticism about downloads, and backups are the defense.</dd></div>
+      <div class="term" id="encryption"><dt>Encryption <a class="anchor" href="#encryption" aria-label="Link to this term">#</a></dt>
+        <dd>Scrambling data so only someone with the key can read it. The padlock in your browser means the connection is encrypted — people in between can't read what you send.</dd></div>
+    </dl>
+
+    <h2 id="ai">AI, in plain words</h2>
+    <p class="group-lede">What the letters mean, minus the hype. This is also what our free monthly <a href="../#contact">AI + Coffee</a> meetup is for.</p>
+    <dl>
+      <div class="term" id="ai-term"><dt>AI <span class="also">artificial intelligence</span> <a class="anchor" href="#ai-term" aria-label="Link to this term">#</a></dt>
+        <dd>Software that handles tasks that used to need human judgment — writing a draft, sorting messages, answering questions. Not magic, and not a person: a very capable tool that still needs someone steering it.</dd></div>
+      <div class="term" id="llm"><dt>Large language model <span class="also">also: LLM</span> <a class="anchor" href="#llm" aria-label="Link to this term">#</a></dt>
+        <dd>The engine inside tools like ChatGPT and Claude — a system trained on enormous amounts of text so it can read and write fluently. The apps are the car; the model is the engine.</dd></div>
+      <div class="term" id="chatbot"><dt>Chatbot / AI assistant <a class="anchor" href="#chatbot" aria-label="Link to this term">#</a></dt>
+        <dd>A program you talk to in normal language. Some are great (drafting, summarizing, explaining); some are the frustrating thing standing between you and a customer-service human. Same word, different craftsmanship.</dd></div>
+      <div class="term" id="prompt"><dt>Prompt <a class="anchor" href="#prompt" aria-label="Link to this term">#</a></dt>
+        <dd>What you type to an AI tool. Clearer asks get better answers — say who it's for, what you want, and what "good" looks like, like briefing a capable new assistant.</dd></div>
+      <div class="term" id="hallucination"><dt>Hallucination <a class="anchor" href="#hallucination" aria-label="Link to this term">#</a></dt>
+        <dd>When an AI tool states something false with total confidence. It's why you double-check names, numbers, and anything that matters — trust, but verify.</dd></div>
+      <div class="term" id="automation"><dt>Automation <a class="anchor" href="#automation" aria-label="Link to this term">#</a></dt>
+        <dd>Making software do a repetitive task automatically — "when an order comes in, add it to the spreadsheet and notify the team." The goal isn't fewer people; it's people doing better things with their hours.</dd></div>
+    </dl>
+
+    <h2 id="work">Work &amp; team tools</h2>
+    <p class="group-lede">The vocabulary of running a business on modern tools.</p>
+    <dl>
+      <div class="term" id="sso"><dt>Single sign-on <span class="also">also: SSO</span> <a class="anchor" href="#sso" aria-label="Link to this term">#</a></dt>
+        <dd>One login that opens all your work apps. Fewer passwords for the team, and one switch to flip when someone leaves — which is the part that matters.</dd></div>
+      <div class="term" id="workspace-suites"><dt>Google Workspace / Microsoft 365 <a class="anchor" href="#workspace-suites" aria-label="Link to this term">#</a></dt>
+        <dd>The two big bundles of business email, calendars, documents, and storage. Most companies run on one or the other; keeping them tidy is half of what "IT" means day to day.</dd></div>
+      <div class="term" id="knowledge-base"><dt>Knowledge base <a class="anchor" href="#knowledge-base" aria-label="Link to this term">#</a></dt>
+        <dd>One organized place where your team's how-tos and answers live, instead of in someone's head or a buried email thread. The foundation that makes AI assistants for your own business possible.</dd></div>
+      <div class="term" id="migration"><dt>Migration <a class="anchor" href="#migration" aria-label="Link to this term">#</a></dt>
+        <dd>Moving from one system to another — old email to new email, one file service to another — without losing anything on the way. Done right, it's boring. That's the goal.</dd></div>
+    </dl>
+
+    <div class="help-card">
+      <h2>Still decoding something?</h2>
+      <p>If a term isn't here, or a sentence in some manual might as well be in another language, just ask. Explaining this stuff clearly is the job — and we'd love to add your word to this page.</p>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 15-minute chat</a>
+    </div>
+
+    <footer class="site">
+      <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions.</div>
+      <div><a href="../">Home</a> &nbsp;·&nbsp; <a href="../email-settings/">Email settings</a> &nbsp;·&nbsp; <a href="../blog/">Stories</a></div>
+    </footer>
+  </main>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

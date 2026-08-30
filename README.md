@@ -10,7 +10,7 @@
 - **The idea:** on a Mac, control‑click (right‑click) opens the hidden menu: more options, more power, one click away. The chevron `⌃` is both the Control key and the crest worn as a mark of leadership.
 - Try control‑clicking anywhere on the site: it opens a custom "hidden menu" easter egg.
 - Control-click / right-click **the site title in the header** and the hidden menu opens in its "what we do" mode instead: the control-click explainer that used to sit in the hero, plus links to the service sections. The two modes share one `#ctxMenu` element and are switched by its `data-mode` attribute (`persona` for `.secret-spot`, `about` for `.about-spot`).
-- The blog is hidden one level deeper: right‑click / control‑click (or tap‑and‑hold on mobile) **on the ⌃click persona itself** (the byline in the hero card or the "maintained by ⌃click" footer line) and the hidden menu reveals an extra entry: **📓 The hidden blog**. Invoked anywhere else, the menu doesn't mention the blog at all.
+- The blog ("Stories") is linked from the visible nav and footer, and is still reachable the fun way: right‑click / control‑click (or tap‑and‑hold on mobile) **on the ⌃click persona itself** (the byline in the hero card or the "maintained by ⌃click" footer line) and the hidden menu reveals the **📓 Stories** entry. Invoked anywhere else, the menu doesn't mention the blog at all.
 
 ## Brand assets
 
@@ -43,7 +43,12 @@ Both are free on Google Fonts and loaded in the page `<head>`.
 
 ## The site
 
-Single self-contained `index.html` (no build step for the homepage itself; Jekyll copies it through untouched because it has no front matter). It carries forward all content from the Maggio Consulting site: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing), six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training), scheduling/messaging links, and the free monthly AI & Coffee meetup.
+Single self-contained `index.html` (no build step for the homepage itself; Jekyll copies it through untouched because it has no front matter). The default look is **human mode**: a warm, light take on the brand palette (off-white ground, navy ink, teal + coral accents), written in plain language for visitors who aren't technical. The full dark aesthetic lives on inside **expert mode** — approachable on the surface, power one control-click down, which is the brand pitch made literal.
+
+Content: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing) and six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training) — each service carries a `plain` one-liner on its card, with the technical detail one click deeper in the slide-over — plus the "Our promise" manifesto, scheduling/messaging links, the free monthly AI + Coffee meetup, and two evergreen reference pages:
+
+- **`/glossary/`** — the plain-English tech glossary (jargon translated the way we'd explain it over coffee; every term anchor-linkable).
+- **`/email-settings/`** — the classic email setup reference (IMAP/POP/SMTP servers and ports for the major providers), an homage to one of the first pages Gene ever built for the web.
 
 ## The blog
 

@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ctrl+Click: AI &amp; IT Solutions</title>
-  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting): AI adoption, secure networking, cloud infrastructure, and personal tech support for people, businesses, and their teams in the Bay Area." />
+  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting) helps Bay Area businesses and families get more out of technology. AI that makes your team better, not smaller — set up right, taught in plain English, owned by you." />
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
   <meta property="og:title" content="Ctrl+Click: AI &amp; IT Solutions" />
-  <meta property="og:description" content="Enterprise-level IT, without the enterprise-level price tag. AI automation, secure networking, and reliable cloud infrastructure for people, businesses, and their teams." />
+  <meta property="og:description" content="AI that makes your team better. Not smaller. We pair people with the right tools, then teach you to run everything yourselves. Plain English, no judgment, no mystery boxes." />
   <meta property="og:image" content="og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,26 +27,32 @@
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
-    /* ====== Design Tokens ====== */
+    /* ====== Design Tokens ======
+       "Human mode" is the default: a warm, light take on the same brand kit.
+       The full dark aesthetic lives on as part of expert mode (html.expert),
+       which overrides everything via assets/expert-mode.css. */
     :root {
       --navy: #0E1626;
-      --bg: #0A101E;
-      --panel: #131F36;
-      --muted: #94A0B4;
-      --text: #F2F5F7;
-      --teal: #1E9C8C;
-      --teal-bright: #2FBCA9;
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --muted: #5C6B7E;
+      --ink-soft: #3D4A5C;
+      --text: #0E1626;
+      --line: #D9E1E7;
+      --teal: #146E63;        /* teal as text on light, AA-contrast */
+      --teal-bright: #1E9C8C; /* brand teal for accents and large marks */
       --coral: #E8674C;
+      --coral-deep: #C7492F;  /* coral as a button ground, AA with white text */
       /* legacy aliases kept so existing rules resolve to the new brand palette */
-      --blue: #2FBCA9;
-      --pink: #E8674C;
+      --blue: #1E9C8C;
+      --pink: #C7492F;
       --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --shadow-1: 0 10px 30px rgba(0,0,0,.45);
-      --shadow-2: 0 14px 50px rgba(0,0,0,.6);
+      --shadow-1: 0 1px 2px rgba(14,22,38,.06), 0 8px 24px rgba(14,22,38,.08);
+      --shadow-2: 0 2px 4px rgba(14,22,38,.08), 0 14px 40px rgba(14,22,38,.14);
       --maxw: 1200px;
     }
 
@@ -56,16 +62,18 @@
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.12), transparent),
-                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.10), transparent),
-                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.06), transparent),
+      font-size: 17px;
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.08), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.06), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.05), transparent),
                   var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.6;
       display: flex;
       flex-direction: column;
       overflow-wrap: break-word;
     }
+    h2, h3, h4 { font-family: var(--font-brand); }
 
     a { color: var(--teal); text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -85,9 +93,9 @@
       display: inline-flex; align-items: center; justify-content: center;
       min-width: 30px; height: 30px; padding: 0 7px;
       border-radius: 8px;
-      background: linear-gradient(180deg, #1D2A40, #0C1322);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+      background: linear-gradient(180deg, #FFFFFF, #E9EEF2);
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 0 rgba(14,22,38,.12), inset 0 1px 0 #FFFFFF;
       color: var(--teal);
       font-weight: 700; font-size: 16px; line-height: 1;
       font-family: var(--font-mono);
@@ -96,7 +104,8 @@
     /* ====== Header ====== */
     header.site-head {
       position: sticky; top: 0; z-index: 20;
-      background: linear-gradient(to bottom, rgba(10,15,28,.95), rgba(10,15,28,.7), transparent);
+      background: rgba(242,245,247,.94);
+      border-bottom: 1px solid var(--line);
       backdrop-filter: blur(6px);
     }
     .nav {
@@ -115,7 +124,7 @@
     .wm-ctrl { color: var(--text); }
     .wm-click { color: var(--teal); }
     .brand-suffix { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
-    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 15px; }
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
@@ -124,35 +133,49 @@
     .header-actions .expert-toggle { display: none; }
     html.expert .header-actions .expert-toggle { display: inline-flex; }
 
-    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
-      background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 10px; border: 1px solid transparent;
+      background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1);
     }
-    .cta:hover { filter: brightness(1.08); text-decoration: none; }
+    .cta:hover { filter: brightness(1.06); text-decoration: none; color: #FFFFFF; }
+    .cta:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .cta.cta-quiet { background: var(--panel); color: var(--text); border-color: var(--line); font-weight: 600; }
+    .cta.cta-quiet:hover { border-color: #B9C6CE; color: var(--text); }
+
+    /* tap-to-call phone link: number + icon on desktop, icon-only chip on mobile */
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
 
     /* ====== Hero ====== */
     .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 28px; align-items: center; padding: 28px 0 10px; }
-    .hero h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1.1; margin: 6px 0 14px; }
-    .hero p { color: var(--muted); margin: 0 0 18px; }
+    .hero h2 { font-size: clamp(30px, 3.6vw, 50px); line-height: 1.08; letter-spacing: -.5px; margin: 10px 0 14px; }
+    .hero p { color: var(--ink-soft); margin: 0 0 18px; font-size: 18px; }
     .hero-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.07);
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius-lg);
-      padding: 20px; box-shadow: var(--shadow-1);
+      padding: 24px; box-shadow: var(--shadow-1);
     }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 0 0 16px; }
+    .hero-actions .cta { font-size: 17px; padding: 13px 22px; }
+    .trust-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; font-size: 15px; color: var(--muted); font-weight: 500; }
+    .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
+    .trust-row svg { flex-shrink: 0; }
     .contact-grid { margin-top: 42px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
     .formerly {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 5px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .4px;
-      border: 1px solid rgba(255,255,255,.12); color: var(--muted);
-      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line); color: var(--muted);
+      background: var(--bg);
     }
     .formerly b { color: var(--text); font-weight: 600; }
-    .hint { color: var(--muted); font-size: 13px; opacity: .85; }
+    .hint { color: var(--muted); font-size: 14px; }
     .hint kbd {
       font-family: var(--font-mono);
       font-size: 12px; padding: 1px 6px; border-radius: 5px;
-      border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
-      background: rgba(255,255,255,.05); color: var(--text);
+      border: 1px solid var(--line); border-bottom-width: 2px;
+      background: #FFFFFF; color: var(--text);
     }
 
     /* ====== ⌃click: the admin persona ====== */
@@ -177,23 +200,26 @@
     }
 
     /* ====== Services ====== */
-    .section-title { display:flex; align-items:center; gap:10px; margin: 28px 0 12px; }
-    .section-title h3 { margin: 0; font-size: 20px; letter-spacing:.4px; }
+    .section-title { display:flex; align-items:center; gap:10px; margin: 36px 0 6px; }
+    .section-title h3 { margin: 0; font-size: 24px; letter-spacing:-.3px; }
+    .section-lede { margin: 0 0 16px; color: var(--muted); font-size: 16px; max-width: 62ch; }
 
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.08);
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius-md);
-      padding: 16px; cursor: pointer; box-shadow: var(--shadow-1);
+      padding: 18px; cursor: pointer; box-shadow: var(--shadow-1);
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
       position: relative; overflow: hidden;
     }
-    .card:hover, .card:focus-within { transform: translateY(-2px); border-color: rgba(255,255,255,.18); box-shadow: var(--shadow-2); }
-    .card:focus-within { outline: 2px solid var(--teal); outline-offset: 2px; }
-    .card h4 { margin: 6px 0 6px; font-size: 18px; }
-    .card p { margin: 0; color: var(--muted); font-size: 14px; }
-    .chip { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); color: #dcdce9; }
+    .card:hover, .card:focus-within { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .card:focus-within { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .card h4 { margin: 6px 0 6px; font-size: 19px; }
+    .card p { margin: 0; color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+    .card .learn { display: inline-block; margin-top: 10px; color: var(--teal); font-weight: 700; font-size: 15px; }
+    .card:hover .learn { text-decoration: underline; text-underline-offset: 3px; }
+    .chip { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); background: var(--bg); }
 
     .icon {
       min-width: 36px; width: 36px; height: 36px;
@@ -202,11 +228,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 20% 20%, rgba(30,156,140,.32), transparent 60%),
-                  radial-gradient(circle at 80% 0%, rgba(232,103,76,.28), transparent 60%),
-                  #16203320;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 2px 0 rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.07);
+      /* the service glyphs are white SVGs, so the tile stays a deep brand teal */
+      background: linear-gradient(135deg, var(--teal-bright), var(--teal));
+      border: 1px solid rgba(14,22,38,.08);
+      box-shadow: 0 2px 0 rgba(14,22,38,.12), inset 0 1px 0 rgba(255,255,255,.25);
     }
     .icon svg {
       width: 18px;
@@ -254,8 +279,8 @@
       color: var(--text);
       transform: translateX(100%);
       transition: transform .25s ease;
-      box-shadow: -20px 0 60px rgba(0,0,0,.55);
-      border-left: 1px solid rgba(255,255,255,.08);
+      box-shadow: -20px 0 60px rgba(14,22,38,.25);
+      border-left: 1px solid var(--line);
       display: grid;
       grid-template-rows: auto 1fr auto;
       z-index: 25;
@@ -265,7 +290,8 @@
       position: sticky;
       top: 0;
       padding: 18px 22px;
-      background: linear-gradient(to bottom, rgba(17,26,43,.98), rgba(17,26,43,.9));
+      background: linear-gradient(to bottom, rgba(255,255,255,.98), rgba(255,255,255,.92));
+      border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -279,9 +305,9 @@
       right: 22px;
       top: 18px;
       z-index: 31;
-      background: rgba(255,255,255,.06);
+      background: var(--bg);
       color: var(--text);
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid var(--line);
       padding: 8px 16px;
       border-radius: 10px;
       cursor: pointer;
@@ -291,10 +317,10 @@
       transition: all .2s ease;
     }
     .close:hover {
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.24);
+      background: #E9EEF2;
+      border-color: #B9C6CE;
     }
-    .close:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .close:focus { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
     .close::before {
       content: "×";
       font-size: 20px;
@@ -302,16 +328,16 @@
       margin-top: -2px;
     }
     .sheet .body { padding: 8px 22px 22px; overflow: auto; }
-    .sheet .body p { color: #d7d7e2; }
+    .sheet .body p, .sheet .body li { color: var(--ink-soft); }
     .sheet .body a { color: var(--teal); }
-    .sheet footer { padding: 18px 22px; border-top: 1px solid rgba(255,255,255,.08); background: rgba(17,26,43,.9); }
+    .sheet footer { padding: 18px 22px; border-top: 1px solid var(--line); background: rgba(255,255,255,.95); }
 
     /* ====== Custom context menu: the hidden menu ====== */
     .ctx {
       position: fixed; z-index: 40;
       min-width: 264px;
-      background: rgba(17,26,43,.97);
-      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.98);
+      border: 1px solid var(--line);
       border-radius: 12px;
       box-shadow: var(--shadow-2);
       padding: 6px;
@@ -335,7 +361,7 @@
       padding: 9px 12px; border-radius: 8px;
       color: var(--text); font-size: 14px;
     }
-    .ctx a:hover { background: linear-gradient(90deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); text-decoration: none; }
+    .ctx a:hover { background: linear-gradient(90deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); text-decoration: none; }
     /* Expert-mode toggle row (the Easter egg lives in the hidden menu) */
     .ctx-action {
       display: flex; align-items: center; gap: 10px; width: 100%;
@@ -343,32 +369,87 @@
       color: var(--text); font-size: 14px; font-family: inherit;
       background: none; border: 0; text-align: left; cursor: pointer;
     }
-    .ctx-action:hover { background: linear-gradient(90deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); }
+    .ctx-action:hover { background: linear-gradient(90deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); }
     .ctx-action .ctx-ico { color: var(--teal); font-weight: 700; width: 16px; text-align: center; }
     .ctx-expert-tag {
       font-family: var(--font-mono); font-size: 11px; color: var(--muted);
-      border: 1px solid rgba(255,255,255,.18); border-radius: 5px; padding: 1px 6px; margin-left: 2px;
+      border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; margin-left: 2px;
     }
     .ctx-expert-on { display: none; }
     html.expert .ctx-expert-off { display: none; }
     html.expert .ctx-expert-on { display: inline; }
-    .ctx-sep { height: 1px; background: rgba(255,255,255,.1); margin: 6px 8px; }
+    .ctx-sep { height: 1px; background: var(--line); margin: 6px 8px; }
     .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
 
+    /* ====== Promise ====== */
+    .promise-list { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 12px; }
+    .promise-list .p-item { display: flex; align-items: flex-start; gap: 12px; font-size: 16.5px; line-height: 1.55; color: var(--ink-soft); }
+    .promise-list .p-item svg { flex-shrink: 0; margin-top: 4px; }
+    .promise-list .p-item b { color: var(--text); }
+    .promise-sig { font-family: var(--font-mono); font-size: 14px; color: var(--teal); }
+
     /* ====== Footer ====== */
-    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
     footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
+    footer.site .foot-links { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* ====== How it works (method steps) ====== */
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+    .step { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-1); }
+    .step .st-no { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: rgba(30,156,140,.12); color: var(--teal); font-family: var(--font-mono); font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+    .step h4 { margin: 0 0 5px; font-size: 18px; }
+    .step p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.5; }
+
+    /* ====== Proof / real work ====== */
+    .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .proof { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .proof:hover { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .proof:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .proof .p-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--coral-deep); font-weight: 700; }
+    .proof h4 { margin: 0; font-size: 20px; line-height: 1.2; }
+    .proof p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .proof .learn { margin-top: auto; }
+    .references { display: flex; gap: 16px; align-items: flex-start; max-width: 820px; margin-top: 16px; }
+    .references svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ====== Packages ====== */
+    .pkg-subhead { margin: 22px 0 12px; font-size: 17px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .pkg { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); }
+    .pkg h4 { margin: 0; font-size: 20px; }
+    .pkg > p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .pkg ul { margin: 2px 0 0; padding-left: 20px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; }
+    .pkg .pkg-foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+    .pkg .pkg-price { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+    /* ====== FAQ (accordion) ====== */
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 820px; }
+    .faq details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-1); overflow: hidden; }
+    .faq summary { cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 16.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--teal); font-weight: 700; font-size: 22px; line-height: 1; flex-shrink: 0; }
+    .faq details[open] summary::after { content: "\2013"; }
+    .faq details[open] summary { border-bottom: 1px solid var(--line); }
+    .faq summary:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: -2px; border-radius: 12px; }
+    .faq .faq-a { padding: 14px 20px 18px; color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
+    .faq .faq-a p { margin: 0 0 10px; }
+    .faq .faq-a p:last-child { margin: 0; }
 
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
       .hero { grid-template-columns: minmax(0, 1fr); }
       .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .steps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .proof-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
       .contact-grid { grid-template-columns: minmax(0, 1fr); }
       .contact-events { order: -1; }
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; }
       .wordmark { font-size: 27px; }
 
       /* Tighten the gap between the header and the first card on mobile */
@@ -386,20 +467,27 @@
       .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 5px; }
       .brand-suffix { display: inline; font-size: 13px; letter-spacing: .5px; }
       .header-actions { flex-shrink: 0; }
-      .header-actions .cta { white-space: nowrap; padding: 9px 14px; font-size: 13px; }
+      /* On phones the header keeps the tap-to-call chip; the booking button is
+         already a big, above-the-fold CTA in the hero, so it drops out of the
+         cramped header here rather than fighting the phone chip for space. */
+      .header-actions .cta { display: none; }
+      /* collapse the phone to a 44px tap-to-call chip so the header stays tidy */
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
     }
     @media (max-width: 400px) {
       /* Ease the wordmark down so it still clears the buttons on one row */
       .wordmark { font-size: 24px; }
       .brand-suffix { font-size: 12px; letter-spacing: .4px; }
-      .header-actions .cta { padding: 8px 12px; }
+      .header-actions .cta { padding: 8px 12px; font-size: 12px; }
     }
     @media (max-width: 360px) {
       /* "Enterprise‑Level" is one unbreakable token; shrink it rather than split it */
       .hero h2 { font-size: 24px; }
 
-      /* Squeeze the header a touch more so nothing overflows on tiny screens */
-      .nav { padding: 12px 14px; gap: 10px; }
+      /* Squeeze the header a touch more so nothing overflows on tiny screens,
+         and let the button wrap under the wordmark when it must */
+      .nav { padding: 12px 14px; gap: 10px; flex-wrap: wrap; }
       .wordmark { font-size: 22px; }
       .header-actions .cta { font-size: 12px; padding: 8px 11px; }
     }
@@ -422,8 +510,10 @@
         </span>
       </div>
       <nav class="nav-links" aria-label="Sections">
-        <a href="#business">Business</a>
-        <a href="#personal">Personal</a>
+        <a href="#how">How it works</a>
+        <a href="#packages">Pricing</a>
+        <a href="blog/">Stories</a>
+        <a href="faq/">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="header-actions">
@@ -434,7 +524,11 @@
           <span class="et-label-off">expert mode <span class="et-state">off</span></span>
           <span class="et-label-on">exit CLI</span>
         </button>
-        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Schedule a discussion">Schedule a Discussion</a>
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Book a free 15-minute chat">Book a Free 15-Min Chat</a>
       </div>
     </div>
   </header>
@@ -445,10 +539,19 @@
       <div>
         <div class="hero-card">
           <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
-          <h2>Enterprise‑Level IT, <span class="grad">Without the Enterprise‑Level Price Tag</span></h2>
+          <h2>AI That Makes Your Team Better. <span class="grad">Not Smaller.</span></h2>
           <p>
-            Operate smarter with AI automation, secure networking, and reliable cloud infrastructure. From email and web migrations with zero data loss to team collaboration tools people actually use, we build systems that scale, plus the hands-on training to run them, without the cost of a full-time IT department.
+            We help Bay Area businesses and families get more out of technology. We pair people with the right AI tools, systems, and platforms, set them up right, and teach you to run everything yourselves. We measure success by what your team can do without us.
           </p>
+          <div class="hero-actions">
+            <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 15-minute chat</a>
+            <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+          </div>
+          <div class="trust-row" aria-label="Our working style">
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No jargon</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No judgment</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No mystery boxes</span>
+          </div>
           <p class="hint">Psst: a <kbd>ctrl</kbd> + <kbd>click</kbd> (right‑click) in the right spot opens more than you'd expect.</p>
         </div>
       </div>
@@ -457,54 +560,264 @@
           <img src="controlclick-mark.svg" alt="" aria-hidden="true" />
           <span class="handle">⌃click</span>
           <span class="admin-badge">admin</span>
-          <span class="meta">· pinned</span>
+          <span class="meta">· a real human</span>
         </div>
-        <p style="margin:0 0 10px;color:var(--muted)">Recent focus</p>
-        <ul style="margin:0 0 8px 18px; padding:0">
-          <li>Meshtastic long‑range networking pilots</li>
-          <li>Jamf School + Google Workspace fleet hygiene</li>
-          <li>AI knowledge bases and chat for SOPs</li>
-          <li>Email migrations and domain routing cleanups</li>
-        </ul>
-        <small style="color:var(--muted)">Ask about fixed‑scope packages.</small>
+        <h3 style="margin:0 0 8px; font-size:22px;">Hi, I&rsquo;m Gene.</h3>
+        <p style="margin:0 0 12px; font-size:16.5px;">
+          I&rsquo;ve been the person friends, families, and businesses call about technology for as long as I can remember. My favorite moment in any project is when someone says <em>&ldquo;wait&nbsp;&mdash; I can do this myself now.&rdquo;</em>
+        </p>
+        <p style="margin:0; font-size:15px; color:var(--muted)">
+          Every project ends with you owning every account, password, and document. Ask about fixed&#8209;scope packages with a price agreed before we start.
+        </p>
       </div>
     </section>
 
+    <!-- ====== How it works ====== -->
+    <div class="section-title" id="how">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <h3>How It Works</h3>
+    </div>
+    <p class="section-lede">The same four steps every time &mdash; we call it the Pairing Method. No surprises, no lock-in, and you end up more capable than you started.</p>
+    <div class="steps">
+      <div class="step"><div class="st-no">1</div><h4>Listen</h4><p>A free 15-minute chat about how your team or household actually works today. No sales pitch, no jargon.</p></div>
+      <div class="step"><div class="st-no">2</div><h4>Pair</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
+      <div class="step"><div class="st-no">3</div><h4>Empower</h4><p>We set everything up and train you hands-on until you&rsquo;re confident, not just covered.</p></div>
+      <div class="step"><div class="st-no">4</div><h4>Stay</h4><p>You own every account, password, and document. We stay reachable &mdash; but you&rsquo;re never locked in.</p></div>
+    </div>
+
     <!-- ====== Business Services ====== -->
     <div class="section-title" id="business">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
-      <h3>Business Services</h3>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
+      <h3>For Your Business</h3>
     </div>
+    <p class="section-lede">Tools that fit how your team actually works — set up right, taught hands-on, and owned by you. Click any card for the full picture.</p>
 
     <div id="businessServicesGrid" class="grid" role="list" aria-label="Business service list"></div>
 
     <!-- ====== Personal Services ====== -->
     <div class="section-title" id="personal">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      <h3>Personal Services</h3>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <h3>For You &amp; Your Family</h3>
     </div>
+    <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.</p>
 
     <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list"></div>
+
+    <!-- ====== Real work / proof ====== -->
+    <div class="section-title" id="results">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
+      <h3>Real Work, Real Results</h3>
+    </div>
+    <p class="section-lede">A few field notes from actual projects and experiments &mdash; in our own words. This is how we think, and what working with us is like.</p>
+    <div class="proof-grid">
+      <a class="proof" href="blog/email-migration-without-losing-a-single-message/" style="color:inherit;">
+        <span class="p-tag">Business &middot; Email</span>
+        <h4>Moving email without losing a message</h4>
+        <p>The exact staged method we use to move a business between Google Workspace, Microsoft 365, and legacy hosts: audit first, run both systems in parallel, cut over on a low TTL, and keep the old mail readable for 30 days.</p>
+        <span class="learn">Read the method &rarr;</span>
+      </a>
+      <a class="proof" href="blog/building-trailtracker-ai-assisted-development/" style="color:inherit;">
+        <span class="p-tag">AI &middot; Build</span>
+        <h4>A working app in about a day</h4>
+        <p>An honest, unedited case study: building a live trail-tracking web app with AI assistance &mdash; four pivots, a few confident-but-wrong AI moments, and a clear line between where AI helps and where a human still has to drive.</p>
+        <span class="learn">Read the case study &rarr;</span>
+      </a>
+      <a class="proof" href="blog/omarchy-on-a-ten-year-old-macbook-pro/" style="color:inherit;">
+        <span class="p-tag">Personal &middot; Hardware</span>
+        <h4>New life for a 10-year-old laptop</h4>
+        <p>Instead of a $10k+ machine to run AI locally, a careful rebuild turned a 2016 MacBook Pro with 8GB of RAM into something genuinely useful again &mdash; and the honest math on when that&rsquo;s worth doing.</p>
+        <span class="learn">Read the story &rarr;</span>
+      </a>
+    </div>
+    <div class="hero-card references">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M9.5 8C7 8 5 10 5 12.5V19h6.5v-6.5H8.2c0-1.5 1.1-2.7 2.6-2.9L9.5 8zm9 0C16 8 14 10 14 12.5V19h6.5v-6.5h-3.3c0-1.5 1.1-2.7 2.6-2.9L18.5 8z"/></svg>
+      <div>
+        <p style="margin:0 0 6px; font-size:16.5px;"><b>Want to hear from someone we&rsquo;ve helped?</b> We&rsquo;re glad to connect you with a reference whose situation is close to yours &mdash; just ask.</p>
+        <p style="margin:0; font-size:14px; color:var(--muted);">Client stories, with names and numbers, will live here as we gather permission to share them.</p>
+      </div>
+    </div>
+
+    <!-- ====== Packages ====== -->
+    <div class="section-title" id="packages">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+      <h3>Fixed-Scope Packages</h3>
+    </div>
+    <p class="section-lede">Clear starting points, each with a price agreed before we begin &mdash; so there are no surprises. Every one can be tailored to fit, and everything we set up is yours to keep.</p>
+
+    <div class="pkg-subhead"><svg width="18" height="18" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9z"/></svg> For your business</div>
+    <div class="pkg-grid">
+      <div class="pkg">
+        <h4>AI Jumpstart</h4>
+        <p>Find where AI actually helps your business &mdash; then put it to work, with your team trained to run it.</p>
+        <ul>
+          <li>An opportunity audit of your real workflows</li>
+          <li>Two working automations, built and deployed</li>
+          <li>Hands-on team training and a plain-English playbook</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Inbox Rescue</h4>
+        <p>A complete email migration or cleanup, with our zero-loss guarantee and spam problems fixed for good.</p>
+        <ul>
+          <li>Every message, contact, and calendar moved</li>
+          <li>SPF, DKIM, and DMARC set up so mail lands</li>
+          <li>Plain-English handover docs &mdash; you own it all</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Team Toolkit</h4>
+        <p>One place where your team finds everything &mdash; set up around how you actually work, and adopted for real.</p>
+        <ul>
+          <li>Notion, Google Workspace, or Slack, set up right</li>
+          <li>Templates for your repeatable workflows</li>
+          <li>Adoption training so the tools actually stick</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Ctrl+Care</h4>
+        <p>Your fractional IT department: someone who knows your setup and is a call away, without a full-time hire.</p>
+        <ul>
+          <li>Priority help by phone and email</li>
+          <li>Proactive updates, backups, and monitoring</li>
+          <li>A monthly check-in, not a mystery invoice</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Monthly retainer, fixed rate</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="pkg-subhead"><svg width="18" height="18" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> For you &amp; your family</div>
+    <div class="pkg-grid">
+      <div class="pkg">
+        <h4>New Computer Concierge</h4>
+        <p>A new computer set up exactly how you like it, with everything moved over from the old one.</p>
+        <ul>
+          <li>Files, photos, and settings transferred safely</li>
+          <li>Apps installed, secured, and organized</li>
+          <li>A friendly walkthrough so it feels like yours</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Phone Fresh Start</h4>
+        <p>Your new iPhone or Android, set up and comfortable to use &mdash; with the scary parts handled for you.</p>
+        <ul>
+          <li>Contacts, photos, and data moved over</li>
+          <li>Bigger text, security, and scam protection</li>
+          <li>The apps you need, and none you don&rsquo;t</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>AI 101, One-on-One</h4>
+        <p>A patient, hands-on introduction to AI tools like ChatGPT and Claude &mdash; no technical background needed.</p>
+        <ul>
+          <li>What AI is and isn&rsquo;t, in plain English</li>
+          <li>Real ways to use it in your day-to-day</li>
+          <li>Written notes you can keep and refer back to</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Photo Rescue</h4>
+        <p>Years of photos scattered across phones and drives, gathered into one organized, backed-up place.</p>
+        <ul>
+          <li>Photos collected from every device</li>
+          <li>Organized, de-duplicated, and safely backed up</li>
+          <li>A simple system you can keep up on your own</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+    </div>
+
+    <!-- ====== Our Promise ====== -->
+    <div class="section-title" id="promise">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c-4.5-2-8-5.5-8-10V5l8-3 8 3v6c0 4.5-3.5 8-8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+      <h3>Our Promise</h3>
+    </div>
+    <div class="hero-card" style="max-width: 820px;">
+      <div class="promise-list">
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>We build teams up.</b> We will never pitch AI as a way to cut your people.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Plain English, always.</b> If we can&rsquo;t explain it simply, we don&rsquo;t understand it well enough yet.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No mystery boxes.</b> You own every account, every password, every document.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No question is too small,</b> and nobody gets made to feel dumb. Ever.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Adoption is the metric.</b> If a tool isn&rsquo;t getting used, we swap it or remove it.</span></div>
+      </div>
+      <span class="promise-sig">&mdash; Gene, Ctrl+Click</span>
+    </div>
+
+    <!-- ====== Free Guides ====== -->
+    <div class="section-title" id="guides">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <h3>Free Guides</h3>
+    </div>
+    <p class="section-lede">Reference pages we keep for anyone who needs them — clients or not. Help yourself.</p>
+    <div class="grid" style="grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 820px;">
+      <a class="card" href="glossary/" style="display:block; color:inherit;">
+        <h4 style="margin-top:0;">Plain-English Tech Glossary</h4>
+        <p>Every bit of jargon you&rsquo;ll meet on this site (and in life), explained the way we&rsquo;d explain it over coffee. DNS, the cloud, two-factor, AI &mdash; all of it.</p>
+        <span class="learn">Open the glossary &rarr;</span>
+      </a>
+      <a class="card" href="email-settings/" style="display:block; color:inherit;">
+        <h4 style="margin-top:0;">Email Settings for Every Major Provider</h4>
+        <p>The classic setup page: IMAP, POP, and SMTP servers and ports for Gmail, Outlook, iCloud, Yahoo, and more &mdash; for whenever a mail app asks and you need an answer.</p>
+        <span class="learn">Open the settings page &rarr;</span>
+      </a>
+    </div>
+
+    <!-- ====== FAQ teaser ====== -->
+    <div class="section-title" id="faq">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      <h3>Questions People Actually Ask</h3>
+    </div>
+    <p class="section-lede">The honest answers to the things you might be wondering but hesitant to ask. Here are a few &mdash; the rest are on the <a href="faq/">full FAQ page</a>.</p>
+    <div class="faq">
+      <details>
+        <summary>Are you going to replace my team with AI?</summary>
+        <div class="faq-a"><p>No &mdash; that&rsquo;s the opposite of what we do, and we&rsquo;ll put it in writing. We use AI to take the boring, repetitive work off your people so they can do the parts that need a human. We measure success by what your team can do, not by how few of them are left.</p></div>
+      </details>
+      <details>
+        <summary>What will this cost?</summary>
+        <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meters running, no surprise invoices. The first 15-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way.</p></div>
+      </details>
+      <details>
+        <summary>What if my team hates new tools?</summary>
+        <div class="faq-a"><p>That&rsquo;s usually a sign the tool didn&rsquo;t fit how they work, or nobody showed them why it helps. We choose tools around your actual workflows and train people hands-on. If something isn&rsquo;t getting used, we swap it or remove it &mdash; adoption is the whole point.</p></div>
+      </details>
+      <details>
+        <summary>Are you going to judge my messy setup?</summary>
+        <div class="faq-a"><p>Never. We&rsquo;ve seen everything, and none of it is embarrassing to us &mdash; it&rsquo;s just where you are today. No question is too basic, and nobody gets made to feel dumb. Ever.</p></div>
+      </details>
+    </div>
+    <p style="margin:16px 0 0;"><a href="faq/" class="learn" style="font-size:16px;">See all the questions &amp; answers &rarr;</a></p>
 
     <!-- ====== Contact & Events ====== -->
     <section id="contact" class="contact-grid">
       <div class="hero-card contact-touch">
         <h3 style="margin:0 0 8px">Get in Touch</h3>
-        <p style="margin:0 0 12px;color:var(--muted)">Send a message or schedule a call to discuss your needs or explore your curiosities. We respond quickly.</p>
-        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Scheduling</a>
-        <a class="cta" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener" style="margin-left:8px">Messaging</a>
+        <p style="margin:0 0 14px;color:var(--ink-soft)">Tell us what&rsquo;s going on &mdash; or what you&rsquo;re curious about. The first chat is free, fifteen minutes, and you&rsquo;ll leave knowing your options either way. We respond quickly.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Book a free 15-minute chat</a>
+          <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+        </div>
+        <p style="margin:14px 0 0; font-size:16px; color:var(--ink-soft);">
+          Prefer to talk? Call
+          <a href="tel:+15104670217" style="font-weight:700; white-space:nowrap;">(510)&nbsp;467-0217</a>.
+        </p>
       </div>
       <div class="hero-card contact-events">
         <h3 style="margin:0 0 8px">Upcoming Events</h3>
         <div style="display:flex; align-items:flex-start; gap:16px; margin-top:12px;">
-          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(30,156,140,.16), rgba(232,103,76,.14)); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; flex-shrink:0;">
+          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); border:1px solid var(--line); border-radius:12px; padding:12px 8px; flex-shrink:0;">
             <div style="font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--teal); font-weight:600; line-height:1.3;">1st Wed</div>
             <div style="font-size:11px; color:var(--muted); margin-top:2px;">Monthly</div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--teal)" style="margin-top:6px; opacity:.7;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
           </div>
           <div style="flex:1; min-width:0;">
-            <div style="font-weight:500; font-size:16px;">AI + Coffee</div>
-            <p style="margin:4px 0 0; color:var(--muted); font-size:14px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what's possible. All levels welcome.</p>
+            <div style="font-weight:700; font-size:17px;">AI + Coffee</div>
+            <p style="margin:4px 0 0; color:var(--ink-soft); font-size:15px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what&rsquo;s possible. No laptop required &mdash; all levels welcome.</p>
           </div>
         </div>
       </div>
@@ -512,6 +825,13 @@
 
     <footer class="site">
       <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions. Formerly Maggio Consulting. All rights reserved.</div>
+      <div class="foot-links">
+        <a href="#packages">Pricing</a>
+        <a href="faq/">FAQ</a>
+        <a href="blog/">Stories</a>
+        <a href="glossary/">Glossary</a>
+        <a href="email-settings/">Email settings</a>
+      </div>
       <div class="mono secret-spot" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
     </footer>
   </main>
@@ -526,7 +846,7 @@
       <!-- populated by JS -->
     </div>
     <footer style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book this service</a>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free chat about this</a>
       <span class="byline secret-spot" style="margin:0;">
         <img src="controlclick-mark.svg" alt="" aria-hidden="true" style="width:24px;height:24px;border-radius:7px;" />
         <span class="meta">posted by</span>
@@ -540,11 +860,12 @@
   <nav class="ctx" id="ctxMenu" data-open="false" data-mode="persona" aria-label="Hidden quick menu">
     <div class="ctx-group" data-group="persona">
       <div class="ctx-title">⌃Click: you found the hidden menu</div>
-      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 15-minute chat</a>
       <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
       <a href="#business">💼 Business services</a>
       <a href="#personal">🏠 Personal services</a>
-      <a href="blog/">📓 The hidden blog: notes from ⌃click</a>
+      <a href="glossary/">📖 Plain-English glossary</a>
+      <a href="blog/">📓 Stories: notes from ⌃click</a>
       <div class="ctx-sep"></div>
       <button type="button" class="ctx-action js-expert-toggle">
         <span class="ctx-ico" aria-hidden="true">⌃</span>
@@ -560,7 +881,7 @@
       <div class="ctx-sep"></div>
       <a href="#business">💼 Business services</a>
       <a href="#personal">🏠 Personal services</a>
-      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Schedule a discussion</a>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 15-minute chat</a>
       <div class="ctx-sep"></div>
       <button type="button" class="ctx-action js-expert-toggle">
         <span class="ctx-ico" aria-hidden="true">⌃</span>
@@ -577,6 +898,7 @@
         slug: 'networking',
         title: 'Networking',
         blurb: 'Design, deploy, and troubleshoot wired and wireless networks. Edge to mesh.',
+        plain: 'Wi-Fi that works in every room, and a network that doesn’t fall over.',
         detail: `
           <h2>Networking</h2>
           <p>We build reliable, secure small to mid-scale networks that actually make sense to maintain. Whether you're expanding offices, connecting remote sites, or cleaning up a spaghetti-wired legacy setup, we design networks that are fast, organized, and clearly documented.</p>
@@ -615,6 +937,7 @@
         slug: 'identity',
         title: 'Identity Management',
         blurb: 'Google Workspace and Microsoft 365 hygiene. SSO, groups, lifecycle.',
+        plain: 'One login for everything — and former employees actually locked out.',
         detail: `
           <h2>Identity Management</h2>
           <p>Centralized identity management is the foundation of secure, efficient operations. We help organizations streamline how users are provisioned, managed, and offboarded across Google Workspace and Microsoft 365 environments, ensuring the right people have the right access at the right time.</p>
@@ -651,6 +974,7 @@
         slug: 'ai-services',
         title: 'AI Services & Automation',
         blurb: 'Leverage AI to streamline operations, automate workflows, and work smarter.',
+        plain: 'Hand the boring, repetitive work to AI — so your people can do the parts that need people.',
         detail: `
           <h2>AI Services & Automation</h2>
           <p>AI is transforming how businesses operate. We help you identify high-impact opportunities and implement practical AI solutions that deliver real results, not hype. From automating repetitive tasks to building intelligent assistants, we focus on solutions that integrate seamlessly into your existing workflows.</p>
@@ -691,6 +1015,7 @@
         slug: 'team-collab',
         title: 'Team Collaboration',
         blurb: 'Notion, Google Workspace, Slack and workflow design that people actually use.',
+        plain: 'One place where your team finds everything — and actually uses it.',
         detail: `
           <h2>Team Collaboration</h2>
           <p>Structure beats chaos. We design collaborative workspaces using Notion, Google Workspace, Slack, and other tools, creating systems for docs, tasks, and communication that match how your team actually works. The goal is low-friction collaboration that people will actually adopt and maintain.</p>
@@ -729,6 +1054,7 @@
         slug: 'email-migration',
         title: 'Email Hosting & Migration',
         blurb: 'Domain routing, DNS cleanup, and safe migrations with zero data loss.',
+        plain: 'Move your email without losing a single message — and stop landing in spam.',
         detail: `
           <h2>Email Hosting & Migration</h2>
           <p>Email should be boring. It should just work and deliver reliably. We help businesses clean up their email infrastructure, harden security settings, and migrate between providers without losing a single message. Whether you're moving to Google Workspace, Microsoft 365, or consolidating domains, we handle the complexity so you don't have to.</p>
@@ -767,6 +1093,7 @@
         slug: 'web-hosting',
         title: 'Web Hosting & Domain Routing',
         blurb: 'Deploy static or app sites with CI and sensible infra. No mystery boxes.',
+        plain: 'A website you own and understand. No mystery boxes.',
         detail: `
           <h2>Web Hosting & Domain Routing</h2>
           <p>From domain purchase to production deployment, we set up web infrastructure that's transparent, maintainable, and fully under your control. Whether you need a simple static site or a full application deployment with CI/CD, we build systems with clear documentation so you're never locked out or dependent on any single person.</p>
@@ -808,6 +1135,7 @@
         slug: 'email-management',
         title: 'Email Management',
         blurb: 'Organize your inbox, set up filters, and regain control of your email.',
+        plain: 'Get your inbox back under control — and keep it that way.',
         detail: `
           <h2>Email Management</h2>
           <p>Drowning in emails? We help individuals take back their inbox through smart organization, filtering, and workflow strategies that actually stick. Whether you're overwhelmed by thousands of unread messages or just want a better system, we'll help you create an email routine that reduces stress and saves time.</p>
@@ -846,6 +1174,7 @@
         slug: 'device-maintenance',
         title: 'Device Maintenance',
         blurb: 'Keep your computers, tablets, and devices running smoothly.',
+        plain: 'Keep your computers and devices fast, safe, and backed up.',
         detail: `
           <h2>Device Maintenance</h2>
           <p>Regular maintenance keeps your devices fast, secure, and reliable. We provide tune-ups, updates, and preventive care to extend the life of your computers, tablets, and other technology, helping you avoid costly repairs and frustrating slowdowns.</p>
@@ -884,6 +1213,7 @@
         slug: 'basic-troubleshooting',
         title: 'Basic Troubleshooting',
         blurb: 'Quick fixes for common tech problems. No issue too small.',
+        plain: 'Patient help with everyday tech problems. No question is too small.',
         detail: `
           <h2>Basic Troubleshooting</h2>
           <p>Technology problems are frustrating, especially when you don't know where to start. We provide patient, clear help for everyday tech issues, from printer problems to slow computers to "it just stopped working." No question is too basic, and we explain things in plain language without making you feel judged.</p>
@@ -922,6 +1252,7 @@
         slug: 'technology-education',
         title: 'Technology Education',
         blurb: 'Learn to use your devices and apps with confidence.',
+        plain: 'Learn your devices and apps at your own pace, in plain language.',
         detail: `
           <h2>Technology Education</h2>
           <p>Technology should empower you, not intimidate you. We offer patient, personalized training sessions to help you master your devices and apps at your own pace. Whether you want to video call family, organize photos, or simply feel more confident with your computer, we meet you where you are and teach in plain language.</p>
@@ -960,6 +1291,7 @@
         slug: 'intro-to-ai',
         title: 'Introduction to AI',
         blurb: 'Understand and start using AI tools like ChatGPT in your daily life.',
+        plain: 'A friendly, hands-on introduction to AI tools like ChatGPT and Claude.',
         detail: `
           <h2>Introduction to AI</h2>
           <p>AI is changing how we work and live, but it can feel overwhelming or mysterious. We help you understand what AI actually is, what it can and can't do, and show you practical ways to use tools like ChatGPT and Claude in your everyday life. No technical background required.</p>
@@ -998,6 +1330,7 @@
         slug: 'smartphone-setup',
         title: 'Smart Phone Setup & Training',
         blurb: 'Get more from your iPhone or Android with personalized setup and guidance.',
+        plain: 'Get your iPhone or Android set up right — and comfortable to use.',
         detail: `
           <h2>Smart Phone Setup & Training</h2>
           <p>Your smartphone can do so much more than make calls and send texts. We help you set up, customize, and learn to use your iPhone or Android with confidence, whether you're getting a new phone or want to get more from the one you have.</p>
@@ -1051,11 +1384,16 @@
             <div class="icon" aria-hidden="true">${svc.icon || ''}</div>
             <div>
               <h4>${svc.title}</h4>
-              <p>${svc.blurb}</p>
+              <p>${svc.plain || svc.blurb}</p>
+              <span class="learn" aria-hidden="true">Learn more &rarr;</span>
             </div>
           </div>
         `;
         card.addEventListener('click', () => openSheet(svc.slug));
+        // cards are focusable; open on Enter/Space for keyboard users
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSheet(svc.slug); }
+        });
         grid.appendChild(card);
       });
     }

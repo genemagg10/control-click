@@ -19,26 +19,29 @@
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
-    /* ====== Design Tokens (matches index.html) ====== */
+    /* ====== Design Tokens (matches index.html "human mode") ====== */
     :root {
       --navy: #0E1626;
-      --bg: #0A101E;
-      --panel: #131F36;
-      --muted: #94A0B4;
-      --text: #F2F5F7;
-      --teal: #1E9C8C;
-      --teal-bright: #2FBCA9;
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --muted: #5C6B7E;
+      --ink-soft: #3D4A5C;
+      --text: #0E1626;
+      --line: #D9E1E7;
+      --teal: #146E63;
+      --teal-bright: #1E9C8C;
       --coral: #E8674C;
+      --coral-deep: #C7492F;
       /* legacy aliases kept so existing rules resolve to the new brand palette */
-      --blue: #2FBCA9;
-      --pink: #E8674C;
+      --blue: #1E9C8C;
+      --pink: #C7492F;
       --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --shadow-1: 0 10px 30px rgba(0,0,0,.45);
-      --shadow-2: 0 14px 50px rgba(0,0,0,.6);
+      --shadow-1: 0 1px 2px rgba(14,22,38,.06), 0 8px 24px rgba(14,22,38,.08);
+      --shadow-2: 0 2px 4px rgba(14,22,38,.08), 0 14px 40px rgba(14,22,38,.14);
       --maxw: 860px;
     }
 
@@ -48,9 +51,10 @@
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.12), transparent),
-                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.10), transparent),
-                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.06), transparent),
+      font-size: 17px;
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.08), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.06), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.05), transparent),
                   var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -76,9 +80,9 @@
       display: inline-flex; align-items: center; justify-content: center;
       min-width: 30px; height: 30px; padding: 0 7px;
       border-radius: 8px;
-      background: linear-gradient(180deg, #1D2A40, #0C1322);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: 0 2px 0 rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+      background: linear-gradient(180deg, #FFFFFF, #E9EEF2);
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 0 rgba(14,22,38,.12), inset 0 1px 0 #FFFFFF;
       color: var(--teal);
       font-weight: 700; font-size: 16px; line-height: 1;
       font-family: var(--font-mono);
@@ -87,7 +91,8 @@
     /* ====== Header ====== */
     header.site-head {
       position: sticky; top: 0; z-index: 20;
-      background: linear-gradient(to bottom, rgba(10,15,28,.95), rgba(10,15,28,.7), transparent);
+      background: rgba(242,245,247,.94);
+      border-bottom: 1px solid var(--line);
       backdrop-filter: blur(6px);
     }
     .nav {
@@ -111,10 +116,22 @@
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .nav-links a[aria-current="page"] { color: var(--teal); }
 
-    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1);
-      background: linear-gradient(135deg, rgba(30,156,140,.22), rgba(232,103,76,.20)); color: var(--text); box-shadow: var(--shadow-1);
+    /* Match the homepage: the expert-mode toggle is the always-available EXIT
+       from expert mode, so it only appears once expert mode is on. Entering
+       stays a hidden easter egg (from the homepage's ⌃click menu); the blog
+       simply honors and can exit the persisted setting. */
+    .expert-toggle { display: none; }
+    html.expert .expert-toggle { display: inline-flex; }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 10px; border: 1px solid transparent;
+      background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1);
     }
-    .cta:hover { filter: brightness(1.08); text-decoration: none; }
+    .cta:hover { filter: brightness(1.06); text-decoration: none; color: #FFFFFF; }
+    .cta:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
 
     /* ====== ⌃click byline ====== */
     .byline { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; flex-wrap: wrap; }
@@ -132,8 +149,8 @@
 
     /* ====== Cards (blog index) ====== */
     .hero-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.07);
+      background: var(--panel);
+      border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       padding: 22px; box-shadow: var(--shadow-1);
     }
@@ -141,12 +158,12 @@
     .section-title h1, .section-title h2 { margin: 0; font-size: clamp(24px, 3.2vw, 34px); letter-spacing: -.4px; }
 
     .post-card { margin-bottom: 16px; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
-    .post-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.18); box-shadow: var(--shadow-2); }
-    .post-card h2 { margin: 4px 0 8px; font-size: 22px; letter-spacing: -.3px; }
+    .post-card:hover { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .post-card h2 { margin: 4px 0 8px; font-size: 23px; letter-spacing: -.3px; }
     .post-card h2 a { color: var(--text); }
     .post-card h2 a:hover { text-decoration: none; }
-    .post-card:hover h2 a { background: linear-gradient(90deg, var(--teal), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .post-card p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+    .post-card:hover h2 a { color: var(--teal); }
+    .post-card p { margin: 0 0 12px; color: var(--ink-soft); font-size: 16px; }
     .post-card .byline { margin: 0; }
     .post-date {
       font-family: var(--font-mono);
@@ -171,53 +188,54 @@
 
     .post-title { font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -.5px; margin: 6px 0 14px; }
 
-    .post-body { font-size: 17px; color: #d7d7e2; }
-    .post-body h2 { font-size: 24px; letter-spacing: -.3px; margin: 34px 0 10px; color: var(--text); }
+    .post-body { font-size: 18px; color: var(--ink-soft); }
+    .post-body h2 { font-size: 25px; letter-spacing: -.3px; margin: 34px 0 10px; color: var(--text); }
     .post-body h3 { font-size: 19px; margin: 28px 0 8px; color: var(--text); }
     .post-body p { margin: 0 0 16px; }
     .post-body ul, .post-body ol { margin: 0 0 16px; padding-left: 24px; }
     .post-body li { margin-bottom: 6px; }
     .post-body img { max-width: 100%; border-radius: var(--radius-md); }
-    .post-body hr { border: none; height: 1px; background: rgba(255,255,255,.1); margin: 28px 0; }
+    .post-body hr { border: none; height: 1px; background: var(--line); margin: 28px 0; }
     .post-body blockquote {
       margin: 0 0 16px; padding: 12px 18px;
-      border-left: 3px solid var(--teal);
-      background: rgba(30,156,140,.07);
+      border-left: 3px solid var(--teal-bright);
+      background: rgba(30,156,140,.08);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      color: var(--muted);
+      color: var(--ink-soft);
     }
     .post-body blockquote p:last-child { margin-bottom: 0; }
     .post-body code {
       font-family: var(--font-mono);
       font-size: .88em; padding: 2px 6px; border-radius: 5px;
-      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      background: #EDF1F4; border: 1px solid var(--line); color: #0E1626;
     }
     .post-body pre {
-      background: #0C1322; border: 1px solid rgba(255,255,255,.1);
+      background: #0E1626; border: 1px solid #223049;
       border-radius: var(--radius-md); padding: 16px; overflow-x: auto;
       margin: 0 0 16px;
     }
-    .post-body pre code { background: none; border: none; padding: 0; font-size: 14px; }
+    /* code blocks stay dark on purpose: colored syntax reads best on a dark ground */
+    .post-body pre code { background: none; border: none; padding: 0; font-size: 14px; color: #E4EAF0; }
     .post-body kbd {
       font-family: var(--font-mono);
       font-size: 12px; padding: 1px 6px; border-radius: 5px;
-      border: 1px solid rgba(255,255,255,.18); border-bottom-width: 2px;
-      background: rgba(255,255,255,.05); color: var(--text);
+      border: 1px solid var(--line); border-bottom-width: 2px;
+      background: #FFFFFF; color: var(--text);
     }
     .post-body table { border-collapse: collapse; margin: 0 0 16px; width: 100%; }
-    .post-body th, .post-body td { border: 1px solid rgba(255,255,255,.12); padding: 8px 12px; text-align: left; font-size: 15px; }
-    .post-body th { background: rgba(255,255,255,.04); }
+    .post-body th, .post-body td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; font-size: 15px; }
+    .post-body th { background: #EDF1F4; }
 
     .post-footer {
       margin-top: 36px; padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top: 1px solid var(--line);
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px; flex-wrap: wrap;
     }
     .post-footer .byline { margin: 0; }
 
     /* ====== Footer ====== */
-    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
     footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
 
     @media (max-width: 960px) {
@@ -226,6 +244,8 @@
     @media (max-width: 620px) {
       .wordmark { font-size: 20px; }
       .brand-suffix { display: none; }
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
     }
   </style>
 </head>
@@ -243,7 +263,8 @@
       <nav class="nav-links" aria-label="Sections">
         <a href="{{ '/#business' | relative_url }}">Business</a>
         <a href="{{ '/#personal' | relative_url }}">Personal</a>
-        <a href="{{ '/blog/' | relative_url }}" aria-current="page">Blog</a>
+        <a href="{{ '/blog/' | relative_url }}" aria-current="page">Stories</a>
+        <a href="{{ '/glossary/' | relative_url }}">Glossary</a>
         <a href="{{ '/#contact' | relative_url }}">Contact</a>
       </nav>
       <div style="display:flex; align-items:center; gap:10px;">
@@ -252,7 +273,11 @@
           <span class="et-label-off">expert mode <span class="et-state">off</span></span>
           <span class="et-label-on">exit CLI</span>
         </button>
-        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" aria-label="Schedule a discussion">Schedule a Discussion</a>
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" aria-label="Book a free 15-minute chat">Book a Free 15-Min Chat</a>
       </div>
     </div>
   </header>
