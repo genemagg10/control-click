@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +98,7 @@
       .phone-link .phone-num { display: none; }
     }
   </style>
+  {% include reading-level-head.html %}
 </head>
 <body>
   <header class="site-head" aria-label="Site header">
@@ -112,12 +115,13 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
           <span class="phone-num">(510) 467-0217</span>
         </a>
-        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 15-Min Chat</a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 30-Min Chat</a>
       </div>
     </div>
   </header>
 
   <main class="container">
+    {% include reading-level.html %}
     <h1>The Plain-English Tech Glossary</h1>
     <p class="lede">Every trade has its jargon, and tech has more than most. Here's ours, translated — the way we'd explain it at <a href="../#contact">AI + Coffee</a>. No question is too small, and no term is too basic.</p>
     <p class="note">Want to point someone at a specific word? Every term has its own link — click the <span aria-hidden="true">#</span> beside it.</p>
@@ -242,7 +246,7 @@
     <div class="help-card">
       <h2>Still decoding something?</h2>
       <p>If a term isn't here, or a sentence in some manual might as well be in another language, just ask. Explaining this stuff clearly is the job — and we'd love to add your word to this page.</p>
-      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 15-minute chat</a>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 30-minute chat</a>
     </div>
 
     <footer class="site">
@@ -251,5 +255,6 @@
     </footer>
   </main>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  {% include reading-level-foot.html %}
 </body>
 </html>

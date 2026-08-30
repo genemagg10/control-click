@@ -56,7 +56,7 @@
         slug: card.dataset.slug,
         title: h ? h.textContent.trim() : card.dataset.slug,
         blurb: p ? p.textContent.trim() : "",
-        url: card.getAttribute("href") || ""
+        url: card.dataset.url || ""
       });
     });
     return out;

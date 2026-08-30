@@ -626,3 +626,41 @@ html.expert .term-chip:hover {
   box-shadow: 1px 1px 0 rgba(47,188,169,.16);
 }
 html.expert .term-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* =====================================================================
+   Reading-level control (Beginner / Intermediate / Expert) + toast.
+   Loaded on every page. These rules are NOT scoped to html.expert; they
+   style the small pill control on the light site and adapt automatically
+   in expert mode (the tokens below are redefined dark under html.expert).
+   ===================================================================== */
+.level-switch { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin: 0 0 14px; }
+.level-switch .level-label { font-family: var(--font-mono, "JetBrains Mono", monospace); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted, #5C6B7E); }
+.level-seg { display: inline-flex; gap: 2px; background: var(--panel, #FFFFFF); border: 1px solid var(--line, #D9E1E7); border-radius: 999px; padding: 3px; box-shadow: var(--shadow-1, 0 8px 24px rgba(14,22,38,.08)); }
+.level-btn { border: 0; background: transparent; border-radius: 999px; cursor: pointer; color: var(--muted, #5C6B7E); font-family: inherit; font-size: 13px; font-weight: 600; padding: 6px 13px; transition: background .15s ease, color .15s ease; }
+.level-btn:hover { color: var(--text, #0E1626); }
+.level-btn.is-active { background: var(--teal, #146E63); color: #FFFFFF; }
+.level-btn[data-level="expert"].is-active { background: #0E1626; color: var(--teal-bright, #2FBCA9); }
+.level-btn:focus-visible { outline: 2px solid var(--teal-bright, #1E9C8C); outline-offset: 2px; }
+@media (max-width: 620px) {
+  .level-switch { justify-content: center; }
+  .level-switch .level-label { display: none; }
+  .level-btn { padding: 6px 11px; }
+}
+
+/* A brief toast confirming the level change (many changes are below the fold). */
+.level-toast {
+  position: fixed; left: 50%; top: 74px; z-index: 60;
+  transform: translateX(-50%) translateY(-6px);
+  background: #0E1626; color: #F2F5F7;
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px; font-weight: 600; line-height: 1.35;
+  padding: 10px 18px; border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(14,22,38,.28);
+  opacity: 0; pointer-events: none; max-width: 92vw; text-align: center;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.level-toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .level-toast { transition: opacity .15s ease; }
+  .level-toast.is-visible { transform: translateX(-50%); }
+}

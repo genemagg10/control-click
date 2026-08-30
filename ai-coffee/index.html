@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,6 +116,7 @@
       .phone-link .phone-num { display: none; }
     }
   </style>
+  {% include reading-level-head.html %}
 </head>
 <body>
   <header class="site-head" aria-label="Site header">
@@ -136,6 +139,7 @@
   </header>
 
   <main class="container">
+    {% include reading-level.html %}
     <p class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg> Free monthly meetup &middot; Bay Area</p>
     <h1>AI + Coffee</h1>
     <p class="lede">Bring your questions. We&rsquo;ll bring the coffee. Once a month we get together to explore what AI can actually do &mdash; in plain English, at a relaxed pace, with no sales pitch and no pressure.</p>
@@ -227,5 +231,6 @@
     </footer>
   </main>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  {% include reading-level-foot.html %}
 </body>
 </html>
