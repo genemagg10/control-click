@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI + Coffee · A Free Monthly Meetup · Ctrl+Click</title>
+  <meta name="description" content="AI + Coffee is Ctrl+Click's free monthly meetup in the Bay Area — bring your questions, try AI tools like ChatGPT and Claude over coffee, and see what's possible. No laptop required, all levels welcome." />
+  <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/brand/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/brand/apple-touch-icon.png" />
+  <meta property="og:title" content="AI + Coffee · A Free Monthly Meetup" />
+  <meta property="og:description" content="Bring your questions, try AI tools over coffee, and see what's possible. Free, monthly, no laptop required — all levels welcome." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" />
+  <script data-goatcounter="https://genemaggio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <style>
+    :root {
+      --navy: #0E1626;
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --muted: #5C6B7E;
+      --ink-soft: #3D4A5C;
+      --text: #0E1626;
+      --line: #D9E1E7;
+      --teal: #146E63;
+      --teal-bright: #1E9C8C;
+      --coral-deep: #C7492F;
+      --coral: #E8674C;
+      --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --shadow-1: 0 1px 2px rgba(14,22,38,.06), 0 8px 24px rgba(14,22,38,.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px; line-height: 1.65;
+      background: radial-gradient(1100px 640px at 12% -10%, rgba(232,103,76,.08), transparent), radial-gradient(900px 560px at 90% 0%, rgba(30,156,140,.07), transparent), var(--bg);
+      color: var(--text);
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .container { max-width: 860px; width: 100%; margin: 0 auto; padding: 28px 20px 64px; }
+    header.site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(242,245,247,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(6px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px; padding: 16px 20px; max-width: 1200px; margin: 0 auto; }
+    .brand a { display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .brand a:hover { text-decoration: none; }
+    .wordmark { display: inline-flex; align-items: center; font-family: var(--font-brand); font-weight: 800; font-size: 24px; letter-spacing: -.5px; line-height: 1; }
+    .wm-caret { width: 20px; height: 15px; flex-shrink: 0; margin-right: 7px; }
+    .wm-click { color: var(--teal-bright); }
+    .cta { display: inline-flex; align-items: center; justify-content: center; padding: 13px 22px; border-radius: 10px; background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1); }
+    .cta:hover { filter: brightness(1.06); text-decoration: none; }
+    .cta.small { padding: 11px 18px; }
+    .cta.quiet { background: var(--panel); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+    .cta.quiet:hover { border-color: #B9C6CE; }
+    .head-actions { display: flex; align-items: center; gap: 10px; }
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
+
+    .eyebrow { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--coral-deep); margin: 18px 0 10px; display: inline-flex; align-items: center; gap: 8px; }
+    h1 { font-family: var(--font-brand); font-size: clamp(32px, 6vw, 48px); line-height: 1.06; letter-spacing: -.8px; margin: 0 0 12px; }
+    .lede { font-size: 19px; color: var(--ink-soft); max-width: 60ch; margin: 0 0 22px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .hero-actions .note { font-size: 15px; color: var(--muted); }
+
+    /* essentials */
+    .essentials { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin: 36px 0 8px; }
+    .ess { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-1); }
+    .ess svg { color: var(--teal); margin-bottom: 8px; }
+    .ess .ess-k { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .ess .ess-v { font-size: 16px; font-weight: 700; margin-top: 2px; }
+    .ess .ess-v small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    h2 { font-family: var(--font-brand); font-size: 26px; letter-spacing: -.3px; margin: 44px 0 12px; }
+    p { max-width: 68ch; }
+    .expect { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin: 8px 0; }
+    .x-item { display: flex; gap: 12px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-1); }
+    .x-item svg { color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+    .x-item h3 { font-family: var(--font-brand); margin: 0 0 3px; font-size: 16.5px; }
+    .x-item p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+
+    .photo-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, rgba(30,156,140,.10), rgba(232,103,76,.08)); border: 1px dashed #B9C6CE; border-radius: 16px; padding: 44px 20px; margin: 20px 0; color: var(--muted); text-align: center; }
+    .photo-ph .ph-note { font-family: var(--font-mono); font-size: 13px; }
+
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+    details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-1); overflow: hidden; }
+    summary { cursor: pointer; padding: 15px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 16.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--teal); font-weight: 700; font-size: 22px; line-height: 1; }
+    details[open] summary::after { content: "\2013"; }
+    details[open] summary { border-bottom: 1px solid var(--line); }
+    .faq-a { padding: 14px 20px 18px; color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
+
+    .cta-band { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; margin-top: 44px; box-shadow: var(--shadow-1); }
+    .cta-band h2 { margin: 0; }
+    .cta-band p { margin: 0; color: var(--ink-soft); max-width: 52ch; }
+
+    footer.site { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; align-items: center; }
+    @media (max-width: 720px) { .essentials { grid-template-columns: repeat(2, minmax(0,1fr)); } .expect { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) {
+      .wordmark { font-size: 21px; }
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-head" aria-label="Site header">
+    <div class="nav">
+      <div class="brand">
+        <a href="../" aria-label="Ctrl+Click: AI & IT Solutions home">
+          <span class="wordmark" aria-hidden="true">
+            <svg class="wm-caret" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 23 L20 8 L35 23" stroke="#1E9C8C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ctrl+</span><span class="wm-click">Click</span>
+          </span>
+        </a>
+      </div>
+      <div class="head-actions">
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta small" href="#rsvp">Save a Seat</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <p class="eyebrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg> Free monthly meetup &middot; Bay Area</p>
+    <h1>AI + Coffee</h1>
+    <p class="lede">Bring your questions. We&rsquo;ll bring the coffee. Once a month we get together to explore what AI can actually do &mdash; in plain English, at a relaxed pace, with no sales pitch and no pressure.</p>
+    <div class="hero-actions">
+      <a class="cta" href="#rsvp">Let us know you&rsquo;re coming</a>
+      <span class="note">&hellip; or just drop in. Everyone&rsquo;s welcome.</span>
+    </div>
+
+    <div class="essentials">
+      <div class="ess">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+        <div class="ess-k">When</div>
+        <div class="ess-v">First Wednesday<small>every month &middot; [TIME]</small></div>
+      </div>
+      <div class="ess">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="ess-k">Where</div>
+        <div class="ess-v">[VENUE]<small>[Neighborhood, Bay Area]</small></div>
+      </div>
+      <div class="ess">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <div class="ess-k">Cost</div>
+        <div class="ess-v">Free<small>coffee&rsquo;s on us</small></div>
+      </div>
+      <div class="ess">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        <div class="ess-k">Who</div>
+        <div class="ess-v">Everyone<small>all levels welcome</small></div>
+      </div>
+    </div>
+    <p style="font-size:15px; color:var(--muted); margin-top:10px;">No laptop required &mdash; just bring yourself and your curiosity. <span style="color:var(--ink-soft)">(Exact time and place are being finalized; tell us you&rsquo;re interested and we&rsquo;ll send the details.)</span></p>
+
+    <h2>What to expect</h2>
+    <div class="expect">
+      <div class="x-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div><h3>Ask anything</h3><p>No question is too basic. If you&rsquo;ve been wondering something about AI, this is the room to ask it out loud.</p></div>
+      </div>
+      <div class="x-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div><h3>See it in action</h3><p>Live, hands-on looks at tools like ChatGPT and Claude doing real tasks &mdash; so &ldquo;AI&rdquo; stops being abstract.</p></div>
+      </div>
+      <div class="x-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div><h3>Meet good people</h3><p>Business owners, the tech-curious, and neighbors figuring this out together. Friendly, low-key, no cliques.</p></div>
+      </div>
+      <div class="x-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/><path d="M12 2v10"/></svg>
+        <div><h3>Zero pressure</h3><p>It&rsquo;s not a sales event. Come to learn, listen, or just enjoy a coffee. You never have to buy a thing.</p></div>
+      </div>
+    </div>
+
+    <h2>A recent morning</h2>
+    <div class="photo-ph">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <div class="ph-note">[A photo from a recent AI + Coffee goes here]</div>
+      <div style="font-size:13px;">Even one candid shot of people around a table makes this page far warmer &mdash; snap one at the next meetup.</div>
+    </div>
+
+    <h2>Common questions</h2>
+    <div class="faq">
+      <details open>
+        <summary>Do I need to know anything about AI?</summary>
+        <div class="faq-a">Not a thing. Plenty of people come having never opened an AI tool in their life &mdash; that&rsquo;s exactly who this is for. You&rsquo;ll leave knowing more than you came with, and nobody gets made to feel behind.</div>
+      </details>
+      <details>
+        <summary>Is it really free?</summary>
+        <div class="faq-a">Yes &mdash; genuinely free, and the coffee&rsquo;s on us. It&rsquo;s our way of being useful to the community, and honestly it&rsquo;s the best part of our month.</div>
+      </details>
+      <details>
+        <summary>Do I have to bring a laptop?</summary>
+        <div class="faq-a">Nope. Just bring yourself. We&rsquo;ll be showing things on screen, and you&rsquo;re welcome to follow along on your phone if you&rsquo;d like &mdash; but there&rsquo;s no homework and nothing to set up.</div>
+      </details>
+      <details>
+        <summary>What if I just want to listen?</summary>
+        <div class="faq-a">Completely fine. Sit back, sip your coffee, and take it in. Ask a question when you&rsquo;re ready, or don&rsquo;t &mdash; both are welcome.</div>
+      </details>
+      <details>
+        <summary>Can I bring a friend or my team?</summary>
+        <div class="faq-a">Please do. It&rsquo;s more fun with people you know, and small-business teams often get the most out of coming together. The more the merrier.</div>
+      </details>
+    </div>
+
+    <div class="cta-band" id="rsvp">
+      <h2>Save your seat</h2>
+      <p>Tell us you&rsquo;re interested and we&rsquo;ll send you the next date, time, and place &mdash; and a friendly reminder before it. Or just show up; we&rsquo;ll be glad to see you.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a class="cta" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Count me in</a>
+        <a class="cta quiet" href="tel:+15104670217">Or call (510)&nbsp;467-0217</a>
+      </div>
+    </div>
+
+    <footer class="site">
+      <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions.</div>
+      <div><a href="../">Home</a> &nbsp;&middot;&nbsp; <a href="../faq/">FAQ</a> &nbsp;&middot;&nbsp; <a href="../glossary/">Glossary</a> &nbsp;&middot;&nbsp; <a href="../blog/">Stories</a></div>
+    </footer>
+  </main>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
