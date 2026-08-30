@@ -370,6 +370,15 @@
     .lvl-hint { display: none; }
     html.intermediate .lvl-hint { display: inline; color: var(--teal); }
 
+    /* The hero headline + subhead swap with the reading level. Both variants
+       live in the DOM (so crawlers see both); only one shows at a time. The
+       beginner copy speaks to individuals, families, and small businesses; the
+       intermediate copy speaks to businesses weighing internal IT, an outside
+       provider, or no solution yet. */
+    .hero-copy--intermediate { display: none; }
+    html.intermediate .hero-copy--beginner { display: none; }
+    html.intermediate .hero-copy--intermediate { display: block; }
+
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
       .hero { grid-template-columns: minmax(0, 1fr); }
@@ -484,10 +493,23 @@
       <div>
         <div class="hero-card">
           <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
-          <h2>AI That Makes Your Team Better. <span class="grad">Not Smaller.</span></h2>
-          <p>
-            We help Bay Area businesses and families get more out of technology. We pair people with the right AI tools, systems, and platforms, set them up right, and teach you to run everything yourselves. We measure success by what your team can do without us.
-          </p>
+
+          <!-- Beginner (default): individuals, families, and small businesses. -->
+          <div class="hero-copy hero-copy--beginner">
+            <h2>AI That Makes You Better. <span class="grad">Not Smaller.</span></h2>
+            <p>
+              Don&rsquo;t let AI replace you &mdash; you have so much more to offer. We help Bay Area individuals, families, and small businesses use AI to do the work you love and know so well. We set you up with the right tools, teach you to run them yourself, and measure success by what you can do without us.
+            </p>
+          </div>
+
+          <!-- Intermediate: businesses weighing internal IT, an outside provider, or no solution yet. -->
+          <div class="hero-copy hero-copy--intermediate">
+            <h2>AI That Makes Your Team Better. <span class="grad">Not Smaller.</span></h2>
+            <p>
+              Whether your business runs on an internal IT person, an outside managed-services provider, or no solution yet, we pair the right AI tools, systems, and platforms with your people &mdash; set up right and owned outright. We measure success by what your team can do without us.
+            </p>
+          </div>
+
           <div class="hero-actions">
             <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 30-minute chat</a>
             <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
@@ -521,10 +543,10 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
       <h3>How It Works</h3>
     </div>
-    <p class="section-lede">The same four steps every time &mdash; we call it the Pairing Method. No surprises, no lock-in, and you end up more capable than you started.</p>
+    <p class="section-lede">The same four steps every time &mdash; we call it the Matching Method. No surprises, no lock-in, and you end up more capable than you started.</p>
     <div class="steps">
       <div class="step"><div class="st-no">1</div><h4>Listen</h4><p>A free 30-minute chat about how your team or household actually works today. No sales pitch, no jargon.</p></div>
-      <div class="step"><div class="st-no">2</div><h4>Pair</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
+      <div class="step"><div class="st-no">2</div><h4>Match</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
       <div class="step"><div class="st-no">3</div><h4>Empower</h4><p>We set everything up and train you hands-on until you&rsquo;re confident, not just covered.</p></div>
       <div class="step"><div class="st-no">4</div><h4>Stay</h4><p>You own every account, password, and document. We stay reachable &mdash; but you&rsquo;re never locked in.</p></div>
     </div>
