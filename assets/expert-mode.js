@@ -389,3 +389,468 @@
       return { cmd: "open " + s.slug, label: s.slug };
     }));
   }
+
+  /* =====================================================================
+     In-terminal page rendering
+     Every content page (glossary, faq, email settings, services, blog, …)
+     is rendered as terminal text instead of as its rich HTML. The copy is
+     read straight from the page's own DOM — no fetch — so it works offline
+     and stays in sync with the site. Chrome that makes no sense as text
+     (nav, forms, SVG icons, the reading-level control, CTAs we re-offer as
+     commands) is skipped.
+     ===================================================================== */
+
+  /* Structural wrappers whose whole subtree we drop when flattening a page. */
+  var SKIP_SEL = ".level-switch, .term-chrome, .term-titlebar, .back-link, " +
+    ".crumbs, .toc, .rss-link, .svc-cta, .svc-more, .post-footer, .hero-actions, " +
+    ".svc-head .svc-icon, form, nav, footer";
+
+  function skipNode(el) {
+    var tag = el.tagName.toLowerCase();
+    if (tag === "script" || tag === "style" || tag === "svg" || tag === "button" ||
+        tag === "form" || tag === "footer" || tag === "nav" || tag === "noscript") return true;
+    if (el.matches && el.matches(SKIP_SEL)) return true;
+    if (el.getAttribute && el.getAttribute("aria-hidden") === "true" &&
+        !el.querySelector("h1,h2,h3,h4,p,li,dt,dd,td")) return true;
+    return false;
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function clean(s) { return (s || "").replace(/\s+/g, " ").trim(); }
+  function resolveHref(href) {
+    try { return new URL(href, window.location.href).href; } catch (e) { return href; }
+  }
+
+  /* Serialise inline content, keeping cross-page links clickable (they load
+     the target, which then renders itself in the terminal) and dropping the
+     rest to plain text. Bare in-page "#anchor" links become plain text since
+     there's nothing to scroll to in terminal output. */
+  function inlineHTML(node) {
+    var out = "";
+    var kids = node.childNodes;
+    for (var i = 0; i < kids.length; i++) {
+      var c = kids[i];
+      if (c.nodeType === 3) { out += esc(c.textContent); continue; }
+      if (c.nodeType !== 1) continue;
+      var tag = c.tagName.toLowerCase();
+      if (tag === "svg" || tag === "script" || tag === "style") continue;
+      if (tag === "br") { out += " "; continue; }
+      if (tag === "a") {
+        var href = c.getAttribute("href") || "";
+        var rawLabel = clean(c.textContent);
+        var label = esc(rawLabel);
+        // Drop bare in-page anchor "#" links (e.g. the glossary's per-term
+        // permalinks): there's nothing to jump to in terminal output, and the
+        // lone "#" is just noise.
+        var isAnchorLink = /(^|\s)anchor(\s|$)/.test(c.className || "") || /^[#¶§]?$/.test(rawLabel);
+        if (!href || href.charAt(0) === "#") { if (!isAnchorLink) out += label; continue; }
+        var external = /^(https?:|mailto:|tel:)/i.test(href);
+        out += '<a href="' + esc(resolveHref(href)) + '"' +
+          (external ? ' target="_blank" rel="noopener"' : "") + ">" + label + "</a>";
+      } else {
+        out += inlineHTML(c); // b, em, strong, code, span, etc. → their text
+      }
+    }
+    return out;
+  }
+
+  /* Print a line that may contain inline HTML (links), with an optional
+     literal text prefix (indentation / bullet). */
+  function printRich(prefix, html, cls) {
+    if (!els.output) return;
+    var div = document.createElement("div");
+    div.className = "line " + (cls || "out");
+    div.innerHTML = esc(prefix || "") + html;
+    els.output.appendChild(div);
+    openOutput();
+    els.output.scrollTop = els.output.scrollHeight;
+  }
+
+  /* Print a pre-formatted block (tables, code) that scrolls sideways rather
+     than wrapping, so columns stay aligned on narrow screens. */
+  function printPre(text, cls) {
+    if (!els.output) return;
+    var div = document.createElement("div");
+    div.className = "line pre " + (cls || "out");
+    div.textContent = text;
+    els.output.appendChild(div);
+    openOutput();
+    els.output.scrollTop = els.output.scrollHeight;
+  }
+
+  /* Walk arbitrary page HTML and print terminal-friendly lines. */
+  function htmlToTerminal(node, title) {
+    var kids = node.childNodes;
+    for (var i = 0; i < kids.length; i++) {
+      var child = kids[i];
+      if (child.nodeType === 3) {
+        var t = clean(child.textContent);
+        if (t) print(t, "out");
+        continue;
+      }
+      if (child.nodeType !== 1) continue;
+      if (skipNode(child)) continue;
+      var tag = child.tagName.toLowerCase();
+      var text = clean(child.textContent);
+      switch (tag) {
+        case "h1":
+          if (title && text === clean(title)) break; // title already shown
+          print("", "out"); print("# " + text, "head"); break;
+        case "h2":
+          print("", "out"); print("## " + text, "ok"); break;
+        case "h3": case "h4": case "h5": case "h6":
+          print("", "out"); print("### " + text, "ok"); break;
+        case "p":
+          if (text) printRich("", inlineHTML(child), "out"); break;
+        case "ul": case "ol":
+          eachLi(child); break;
+        case "li":
+          printRich("  - ", inlineHTML(child), "out"); break;
+        case "dl":
+          walkDl(child); break;
+        case "details":
+          walkDetails(child); break;
+        case "table":
+          walkTable(child); break;
+        case "blockquote":
+          walkQuote(child); break;
+        case "pre":
+          print("", "out");
+          child.textContent.replace(/\s+$/, "").split("\n").forEach(function (l) {
+            printPre("    " + l, "out");
+          });
+          break;
+        default:
+          htmlToTerminal(child, title); // recurse through wrappers (divs, sections…)
+      }
+    }
+  }
+
+  /* List items that are direct children of this list only (avoid double-printing
+     items from a nested list, which the recursive walk would reach anyway). */
+  function eachLi(list) {
+    for (var i = 0; i < list.children.length; i++) {
+      var li = list.children[i];
+      if (li.tagName && li.tagName.toLowerCase() === "li") {
+        printRich("  - ", inlineHTML(li), "out");
+      }
+    }
+  }
+
+  /* Definition lists (the glossary): term then its definition. querySelectorAll
+     returns dt/dd in document order even when wrapped in `.term` divs. */
+  function walkDl(dl) {
+    dl.querySelectorAll("dt, dd").forEach(function (n) {
+      var isTerm = n.tagName.toLowerCase() === "dt";
+      if (!clean(n.textContent)) return;
+      if (isTerm) { print("", "out"); printRich("▸ ", inlineHTML(n), "ok"); }
+      else printRich("   ", inlineHTML(n), "out");
+    });
+  }
+
+  /* <details>/<summary> accordions (the FAQ): question then answer. */
+  function walkDetails(det) {
+    var sum = det.querySelector("summary");
+    print("", "out");
+    if (sum && clean(sum.textContent)) printRich("Q: ", inlineHTML(sum), "ok");
+    var body = det.querySelector(".faq-a") || det;
+    body.querySelectorAll("p").forEach(function (p) {
+      if (clean(p.textContent)) printRich("   ", inlineHTML(p), "out");
+    });
+  }
+
+  function walkQuote(bq) {
+    var ps = bq.querySelectorAll("p");
+    if (ps.length) {
+      ps.forEach(function (p) { if (clean(p.textContent)) printRich("  | ", inlineHTML(p), "out"); });
+    } else if (clean(bq.textContent)) {
+      printRich("  | ", inlineHTML(bq), "out");
+    }
+  }
+
+  /* Tables (email settings) → aligned monospace columns in a scrolling block. */
+  function walkTable(tbl) {
+    var data = [];
+    tbl.querySelectorAll("tr").forEach(function (tr) {
+      var row = [];
+      tr.querySelectorAll("th, td").forEach(function (c) { row.push(clean(c.textContent)); });
+      if (row.length) data.push(row);
+    });
+    if (!data.length) return;
+    var cols = 0;
+    data.forEach(function (r) { cols = Math.max(cols, r.length); });
+    var widths = [];
+    for (var c = 0; c < cols; c++) {
+      widths[c] = 0;
+      data.forEach(function (r) { if (r[c] && r[c].length > widths[c]) widths[c] = r[c].length; });
+    }
+    print("", "out");
+    data.forEach(function (r, ri) {
+      var line = "  ";
+      for (var c = 0; c < cols; c++) line += pad(r[c] || "", widths[c] + 2);
+      printPre(line.replace(/\s+$/, ""), ri === 0 ? "ok" : "out");
+    });
+  }
+
+  /* Identify the current page's content and render it into the terminal.
+     The home page is the shell's "home" — it shows the boot banner instead. */
+  function renderCurrentPage() {
+    if (isCliHome()) { boot(); return; }
+    var main = document.querySelector("main.container") || document.querySelector("main");
+    if (!main) { boot(); return; }
+    if (main.querySelector(".post-card")) { renderBlogIndex(main); return; }
+    var article = main.querySelector("article");
+    var host = article || main;
+    var h1 = host.querySelector("h1");
+    var title = h1 ? clean(h1.textContent) : clean((document.title || "").split(/[·|—]/)[0]);
+    renderDoc(host, title);
+  }
+
+  function renderDoc(host, title) {
+    clearOutput();
+    echoCommand("cat ." + pagePath());
+    if (title) print(title, "head");
+    htmlToTerminal(host, title);
+    print("", "out");
+    print("more options, more power. navigate with a command below.", "out");
+    printChips(navChips());
+    if (els.output) els.output.scrollTop = 0;
+  }
+
+  function renderBlogIndex(main) {
+    clearOutput();
+    echoCommand("ls ./blog");
+    print("stories from ⌃click", "head");
+    print("", "out");
+    main.querySelectorAll(".post-card").forEach(function (card) {
+      var a = card.querySelector("h2 a");
+      var date = card.querySelector(".post-date");
+      var p = card.querySelector("p");
+      if (!a) return;
+      var href = a.getAttribute("href") || "";
+      printRich("▸ ", '<a href="' + esc(resolveHref(href)) + '">' + esc(clean(a.textContent)) + "</a>", "ok");
+      if (date && clean(date.textContent)) print("   " + clean(date.textContent), "out");
+      if (p && clean(p.textContent)) print("   " + clean(p.textContent), "out");
+      print("", "out");
+    });
+    print("open a story by clicking its title. or navigate:", "out");
+    printChips(navChips());
+    if (els.output) els.output.scrollTop = 0;
+  }
+
+  /* The path label used in the prompt echo, e.g. "/glossary". */
+  function pagePath() {
+    var p = (window.location.pathname || "/").replace(/index\.html?$/i, "").replace(/\/+$/, "");
+    return p || "/";
+  }
+
+  /* Standard navigation chips offered at the foot of a rendered page. */
+  function navChips() {
+    return [
+      { cmd: "home", label: "home" },
+      { cmd: "business", label: "business" },
+      { cmd: "personal", label: "personal" },
+      { cmd: "glossary", label: "glossary" },
+      { cmd: "faq", label: "faq" },
+      { cmd: "schedule", label: "schedule" }
+    ];
+  }
+
+  /* Go to the home terminal and run a command there once it boots (e.g. `ls`,
+     `business`). The command is stashed in sessionStorage (not the URL, so no
+     stray hash lingers) and executed by runPendingCommand() on arrival, so
+     service browsing works from any page while always landing in the terminal. */
+  var PENDING_KEY = "ctrlclick:pendingCmd";
+  function openOnHome(cmd, label) {
+    print("→ opening " + (label || cmd) + " on the home terminal…", "ok");
+    try { sessionStorage.setItem(PENDING_KEY, cmd); } catch (e) {}
+    window.location.href = LINKS.home;
+  }
+  function runPendingCommand() {
+    var cmd = null;
+    try { cmd = sessionStorage.getItem(PENDING_KEY); sessionStorage.removeItem(PENDING_KEY); } catch (e) {}
+    if (cmd) runCommand(cmd);
+  }
+
+  /* Navigate to a named content page. If we're already on it, just re-render;
+     otherwise load it — expert mode persists, so it renders itself on arrival. */
+  function navTo(key, label) {
+    var url = LINKS[key];
+    if (!url) { print("no such page: " + key, "err"); return; }
+    var target, here;
+    try { target = new URL(url, window.location.href).pathname.replace(/\/+$/, ""); } catch (e) { target = url; }
+    here = (window.location.pathname || "").replace(/\/+$/, "");
+    if (target === here) { renderCurrentPage(); return; }
+    print("→ opening " + (label || key) + " …", "ok");
+    window.location.href = url;
+  }
+
+  function runCommand(raw) {
+    var line = (raw || "").trim();
+    if (!line) return;
+    echoCommand(line);
+    if (history[history.length - 1] !== line) history.push(line);
+    histIdx = -1;
+
+    var parts = line.split(/\s+/);
+    var name = parts[0].toLowerCase();
+    var args = parts.slice(1);
+
+    // Bare service name works like `open <name>`
+    var svc = readServices();
+    var direct = svc.filter(function (s) { return s.slug === name; })[0];
+
+    if (COMMANDS[name]) {
+      COMMANDS[name].run(args);
+    } else if (direct) {
+      COMMANDS.open.run([name]);
+    } else {
+      print("command not found: " + name, "err");
+      print("type 'help' to see what's available.", "out");
+    }
+    els.output.scrollTop = els.output.scrollHeight;
+  }
+
+  /* =====================================================================
+     Boot banner (shown once when expert mode turns on)
+     ===================================================================== */
+  var CARET_ART = [
+    "         /\\",
+    "        /  \\",
+    "       /    \\",
+    "      /  /\\  \\      ctrl+click",
+    "     /  /  \\  \\     AI & IT Solutions",
+    "    /__/    \\__\\"
+  ];
+  function boot() {
+    if (!els.output) return;
+    clearOutput();
+    var pre = document.createElement("div");
+    pre.className = "line banner";
+    pre.textContent = CARET_ART.join("\n");
+    els.output.appendChild(pre);
+    openOutput();
+    print("", "out");
+    print("AI That Makes Your Team Better. Not Smaller.", "head");
+    print("", "out");
+    print("ctrl+click — a shell for everything we do.", "ok");
+    print("// formerly Maggio Consulting", "out");
+    print("", "out");
+    print("On a Mac, a control-click opens the menu most people never see:", "out");
+    print("more options, more power, one click away. So does this prompt.", "out");
+    print("", "out");
+    print("suggestions", "head");
+    printChips([
+      { cmd: "help", label: "help" },
+      { cmd: "business", label: "business" },
+      { cmd: "personal", label: "personal" },
+      { cmd: "contact", label: "contact" },
+      { cmd: "schedule", label: "schedule" }
+    ]);
+    print("", "out");
+    print("type a command below · 'exit' returns to the normal site · ↑ for history", "out");
+    els.output.scrollTop = 0;
+  }
+
+  /* What the terminal shows when it opens: the home page shows the boot banner;
+     any other page renders its own content as terminal text. */
+  function bootScreen() {
+    if (!els.output) return;
+    if (isCliHome()) boot();
+    else renderCurrentPage();
+    runPendingCommand();
+  }
+
+  /* =====================================================================
+     Mode switching
+     ===================================================================== */
+  function setMode(on, opts) {
+    opts = opts || {};
+    root.classList.toggle("expert", on);
+    updateCliFull();
+    persist(on);
+    syncToggle();
+    if (on) {
+      injectTitlebar();
+      if (!opts.silent) {
+        bootScreen();
+        // focus the command line so it feels alive (but not on tiny touch keyboards)
+        if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
+      }
+    } else {
+      clearOutput();
+      // Expert is an overlay, not a reading level. The beginner/intermediate
+      // choice is still on the document; re-sync the slider so it shows the
+      // level we're returning to, not Expert and not a forced Beginner.
+      if (window.CtrlClickLevel) window.CtrlClickLevel.sync();
+    }
+  }
+
+  function syncToggle() {
+    document.querySelectorAll(".expert-toggle").forEach(function (btn) {
+      var on = isOn();
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.title = on ? "Return to the normal site" : "Switch to the CLI (terminal) view";
+    });
+  }
+
+  /* =====================================================================
+     Wire up
+     ===================================================================== */
+  function init() {
+    injectCommandLine();
+
+    document.querySelectorAll(".expert-toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () { setMode(!isOn()); });
+    });
+
+    // Global shortcut: backtick toggles expert mode (unless typing in a field).
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "`" || e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target;
+      var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable);
+      if (typing) return;
+      e.preventDefault();
+      setMode(!isOn());
+    });
+
+    window.addEventListener("resize", function () {
+      var dims = document.querySelector(".term-titlebar .term-dims");
+      if (dims) dims.textContent = termCols() + "×24";
+    });
+
+    // The head script may already have added .expert (persisted). Reflect it.
+    if (isOn()) {
+      injectTitlebar();
+      updateCliFull();
+      syncToggle();
+      // The terminal IS the page here, so a returning visitor needs the
+      // banner (home) or the page's content (everywhere else) drawn on load,
+      // not just on toggle.
+      if (fullCliActive()) {
+        bootScreen();
+        if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
+      }
+    } else {
+      syncToggle();
+    }
+  }
+
+  /* Public API so the hidden context menu (or anything else) can drive the
+     mode without needing a visible header toggle. */
+  window.CtrlClickExpert = {
+    toggle: function () { setMode(!isOn()); },
+    enable: function () { setMode(true); },
+    disable: function () { setMode(false); },
+    isOn: isOn
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
