@@ -40,3 +40,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
+  - docs        # internal planning docs; not part of the built site
