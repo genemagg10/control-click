@@ -393,16 +393,63 @@
     footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
     footer.site .foot-links { display: flex; flex-wrap: wrap; gap: 14px; }
 
+    /* ====== How it works (method steps) ====== */
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+    .step { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-1); }
+    .step .st-no { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: rgba(30,156,140,.12); color: var(--teal); font-family: var(--font-mono); font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+    .step h4 { margin: 0 0 5px; font-size: 18px; }
+    .step p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.5; }
+
+    /* ====== Proof / real work ====== */
+    .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .proof { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .proof:hover { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .proof:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .proof .p-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--coral-deep); font-weight: 700; }
+    .proof h4 { margin: 0; font-size: 20px; line-height: 1.2; }
+    .proof p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .proof .learn { margin-top: auto; }
+    .references { display: flex; gap: 16px; align-items: flex-start; max-width: 820px; margin-top: 16px; }
+    .references svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ====== Packages ====== */
+    .pkg-subhead { margin: 22px 0 12px; font-size: 17px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .pkg { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); }
+    .pkg h4 { margin: 0; font-size: 20px; }
+    .pkg > p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .pkg ul { margin: 2px 0 0; padding-left: 20px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; }
+    .pkg .pkg-foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+    .pkg .pkg-price { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+    /* ====== FAQ (accordion) ====== */
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 820px; }
+    .faq details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-1); overflow: hidden; }
+    .faq summary { cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 16.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--teal); font-weight: 700; font-size: 22px; line-height: 1; flex-shrink: 0; }
+    .faq details[open] summary::after { content: "\2013"; }
+    .faq details[open] summary { border-bottom: 1px solid var(--line); }
+    .faq summary:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: -2px; border-radius: 12px; }
+    .faq .faq-a { padding: 14px 20px 18px; color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
+    .faq .faq-a p { margin: 0 0 10px; }
+    .faq .faq-a p:last-child { margin: 0; }
+
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
       .hero { grid-template-columns: minmax(0, 1fr); }
       .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .steps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .proof-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
       .contact-grid { grid-template-columns: minmax(0, 1fr); }
       .contact-events { order: -1; }
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
       .grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; }
       .wordmark { font-size: 27px; }
 
       /* Tighten the gap between the header and the first card on mobile */
@@ -463,10 +510,10 @@
         </span>
       </div>
       <nav class="nav-links" aria-label="Sections">
-        <a href="#business">Business</a>
-        <a href="#personal">Personal</a>
+        <a href="#how">How it works</a>
+        <a href="#packages">Pricing</a>
         <a href="blog/">Stories</a>
-        <a href="#guides">Guides</a>
+        <a href="faq/">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="header-actions">
@@ -525,6 +572,19 @@
       </div>
     </section>
 
+    <!-- ====== How it works ====== -->
+    <div class="section-title" id="how">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <h3>How It Works</h3>
+    </div>
+    <p class="section-lede">The same four steps every time &mdash; we call it the Pairing Method. No surprises, no lock-in, and you end up more capable than you started.</p>
+    <div class="steps">
+      <div class="step"><div class="st-no">1</div><h4>Listen</h4><p>A free 15-minute chat about how your team or household actually works today. No sales pitch, no jargon.</p></div>
+      <div class="step"><div class="st-no">2</div><h4>Pair</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
+      <div class="step"><div class="st-no">3</div><h4>Empower</h4><p>We set everything up and train you hands-on until you&rsquo;re confident, not just covered.</p></div>
+      <div class="step"><div class="st-no">4</div><h4>Stay</h4><p>You own every account, password, and document. We stay reachable &mdash; but you&rsquo;re never locked in.</p></div>
+    </div>
+
     <!-- ====== Business Services ====== -->
     <div class="section-title" id="business">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
@@ -542,6 +602,135 @@
     <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.</p>
 
     <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list"></div>
+
+    <!-- ====== Real work / proof ====== -->
+    <div class="section-title" id="results">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
+      <h3>Real Work, Real Results</h3>
+    </div>
+    <p class="section-lede">A few field notes from actual projects and experiments &mdash; in our own words. This is how we think, and what working with us is like.</p>
+    <div class="proof-grid">
+      <a class="proof" href="blog/email-migration-without-losing-a-single-message/" style="color:inherit;">
+        <span class="p-tag">Business &middot; Email</span>
+        <h4>Moving email without losing a message</h4>
+        <p>The exact staged method we use to move a business between Google Workspace, Microsoft 365, and legacy hosts: audit first, run both systems in parallel, cut over on a low TTL, and keep the old mail readable for 30 days.</p>
+        <span class="learn">Read the method &rarr;</span>
+      </a>
+      <a class="proof" href="blog/building-trailtracker-ai-assisted-development/" style="color:inherit;">
+        <span class="p-tag">AI &middot; Build</span>
+        <h4>A working app in about a day</h4>
+        <p>An honest, unedited case study: building a live trail-tracking web app with AI assistance &mdash; four pivots, a few confident-but-wrong AI moments, and a clear line between where AI helps and where a human still has to drive.</p>
+        <span class="learn">Read the case study &rarr;</span>
+      </a>
+      <a class="proof" href="blog/omarchy-on-a-ten-year-old-macbook-pro/" style="color:inherit;">
+        <span class="p-tag">Personal &middot; Hardware</span>
+        <h4>New life for a 10-year-old laptop</h4>
+        <p>Instead of a $10k+ machine to run AI locally, a careful rebuild turned a 2016 MacBook Pro with 8GB of RAM into something genuinely useful again &mdash; and the honest math on when that&rsquo;s worth doing.</p>
+        <span class="learn">Read the story &rarr;</span>
+      </a>
+    </div>
+    <div class="hero-card references">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M9.5 8C7 8 5 10 5 12.5V19h6.5v-6.5H8.2c0-1.5 1.1-2.7 2.6-2.9L9.5 8zm9 0C16 8 14 10 14 12.5V19h6.5v-6.5h-3.3c0-1.5 1.1-2.7 2.6-2.9L18.5 8z"/></svg>
+      <div>
+        <p style="margin:0 0 6px; font-size:16.5px;"><b>Want to hear from someone we&rsquo;ve helped?</b> We&rsquo;re glad to connect you with a reference whose situation is close to yours &mdash; just ask.</p>
+        <p style="margin:0; font-size:14px; color:var(--muted);">Client stories, with names and numbers, will live here as we gather permission to share them.</p>
+      </div>
+    </div>
+
+    <!-- ====== Packages ====== -->
+    <div class="section-title" id="packages">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+      <h3>Fixed-Scope Packages</h3>
+    </div>
+    <p class="section-lede">Clear starting points, each with a price agreed before we begin &mdash; so there are no surprises. Every one can be tailored to fit, and everything we set up is yours to keep.</p>
+
+    <div class="pkg-subhead"><svg width="18" height="18" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9z"/></svg> For your business</div>
+    <div class="pkg-grid">
+      <div class="pkg">
+        <h4>AI Jumpstart</h4>
+        <p>Find where AI actually helps your business &mdash; then put it to work, with your team trained to run it.</p>
+        <ul>
+          <li>An opportunity audit of your real workflows</li>
+          <li>Two working automations, built and deployed</li>
+          <li>Hands-on team training and a plain-English playbook</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Inbox Rescue</h4>
+        <p>A complete email migration or cleanup, with our zero-loss guarantee and spam problems fixed for good.</p>
+        <ul>
+          <li>Every message, contact, and calendar moved</li>
+          <li>SPF, DKIM, and DMARC set up so mail lands</li>
+          <li>Plain-English handover docs &mdash; you own it all</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Team Toolkit</h4>
+        <p>One place where your team finds everything &mdash; set up around how you actually work, and adopted for real.</p>
+        <ul>
+          <li>Notion, Google Workspace, or Slack, set up right</li>
+          <li>Templates for your repeatable workflows</li>
+          <li>Adoption training so the tools actually stick</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Ctrl+Care</h4>
+        <p>Your fractional IT department: someone who knows your setup and is a call away, without a full-time hire.</p>
+        <ul>
+          <li>Priority help by phone and email</li>
+          <li>Proactive updates, backups, and monitoring</li>
+          <li>A monthly check-in, not a mystery invoice</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Monthly retainer, fixed rate</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="pkg-subhead"><svg width="18" height="18" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> For you &amp; your family</div>
+    <div class="pkg-grid">
+      <div class="pkg">
+        <h4>New Computer Concierge</h4>
+        <p>A new computer set up exactly how you like it, with everything moved over from the old one.</p>
+        <ul>
+          <li>Files, photos, and settings transferred safely</li>
+          <li>Apps installed, secured, and organized</li>
+          <li>A friendly walkthrough so it feels like yours</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Phone Fresh Start</h4>
+        <p>Your new iPhone or Android, set up and comfortable to use &mdash; with the scary parts handled for you.</p>
+        <ul>
+          <li>Contacts, photos, and data moved over</li>
+          <li>Bigger text, security, and scam protection</li>
+          <li>The apps you need, and none you don&rsquo;t</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>AI 101, One-on-One</h4>
+        <p>A patient, hands-on introduction to AI tools like ChatGPT and Claude &mdash; no technical background needed.</p>
+        <ul>
+          <li>What AI is and isn&rsquo;t, in plain English</li>
+          <li>Real ways to use it in your day-to-day</li>
+          <li>Written notes you can keep and refer back to</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <h4>Photo Rescue</h4>
+        <p>Years of photos scattered across phones and drives, gathered into one organized, backed-up place.</p>
+        <ul>
+          <li>Photos collected from every device</li>
+          <li>Organized, de-duplicated, and safely backed up</li>
+          <li>A simple system you can keep up on your own</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+    </div>
 
     <!-- ====== Our Promise ====== -->
     <div class="section-title" id="promise">
@@ -578,6 +767,32 @@
       </a>
     </div>
 
+    <!-- ====== FAQ teaser ====== -->
+    <div class="section-title" id="faq">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      <h3>Questions People Actually Ask</h3>
+    </div>
+    <p class="section-lede">The honest answers to the things you might be wondering but hesitant to ask. Here are a few &mdash; the rest are on the <a href="faq/">full FAQ page</a>.</p>
+    <div class="faq">
+      <details>
+        <summary>Are you going to replace my team with AI?</summary>
+        <div class="faq-a"><p>No &mdash; that&rsquo;s the opposite of what we do, and we&rsquo;ll put it in writing. We use AI to take the boring, repetitive work off your people so they can do the parts that need a human. We measure success by what your team can do, not by how few of them are left.</p></div>
+      </details>
+      <details>
+        <summary>What will this cost?</summary>
+        <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meters running, no surprise invoices. The first 15-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way.</p></div>
+      </details>
+      <details>
+        <summary>What if my team hates new tools?</summary>
+        <div class="faq-a"><p>That&rsquo;s usually a sign the tool didn&rsquo;t fit how they work, or nobody showed them why it helps. We choose tools around your actual workflows and train people hands-on. If something isn&rsquo;t getting used, we swap it or remove it &mdash; adoption is the whole point.</p></div>
+      </details>
+      <details>
+        <summary>Are you going to judge my messy setup?</summary>
+        <div class="faq-a"><p>Never. We&rsquo;ve seen everything, and none of it is embarrassing to us &mdash; it&rsquo;s just where you are today. No question is too basic, and nobody gets made to feel dumb. Ever.</p></div>
+      </details>
+    </div>
+    <p style="margin:16px 0 0;"><a href="faq/" class="learn" style="font-size:16px;">See all the questions &amp; answers &rarr;</a></p>
+
     <!-- ====== Contact & Events ====== -->
     <section id="contact" class="contact-grid">
       <div class="hero-card contact-touch">
@@ -611,6 +826,8 @@
     <footer class="site">
       <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions. Formerly Maggio Consulting. All rights reserved.</div>
       <div class="foot-links">
+        <a href="#packages">Pricing</a>
+        <a href="faq/">FAQ</a>
         <a href="blog/">Stories</a>
         <a href="glossary/">Glossary</a>
         <a href="email-settings/">Email settings</a>
