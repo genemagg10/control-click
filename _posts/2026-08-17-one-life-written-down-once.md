@@ -1,5 +1,5 @@
 ---
-title: "One Life, Written Down Once"
+title: "One Life, Written Down Once: Building a Personal AI Operating System (Wiki, Not RAG)"
 description: >-
   Building a personal operating system with Claude, a curiosity-driven
   experiment, and the fork in the road that made it fascinating: I chose a

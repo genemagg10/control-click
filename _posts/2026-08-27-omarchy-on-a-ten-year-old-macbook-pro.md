@@ -1,5 +1,5 @@
 ---
-title: "Omarchy on a Ten-Year-Old MacBook Pro"
+title: "I Almost Spent $15,000 to Run AI Locally — So I Revived a 10-Year-Old MacBook Instead"
 description: >-
   A new Mac Studio sent me looking at local AI. A very slow experiment sent me
   in the other direction: putting Omarchy on a 2016 Intel MacBook Pro with 8GB

@@ -1,5 +1,5 @@
 ---
-title: "Building TrailTracker: A Real Case Study in AI-Assisted Development"
+title: "I Built a Real App in a Day with AI — The Honest, Unedited Story"
 description: >-
   I built a public trail-completion tracker for the Lamorinda area in about a
   day with Claude Code. Four pivots, several AI missteps, and honest lessons
