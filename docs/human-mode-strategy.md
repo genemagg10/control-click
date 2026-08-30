@@ -54,6 +54,18 @@ Alternates to test: "Unlock what your team can already do." / "Technology that w
 - No question is too small, and nobody gets made to feel dumb. Ever.
 - Adoption is the metric. If a tool isn't getting used, we swap it or remove it.
 
+## The skill-level system (Beginner / Intermediate / Expert)
+
+A three-level depth toggle that turns the site into a teacher and makes the brand literal — a control-click reveals more. It maps existing surfaces to a spectrum of *how much technical substance the visitor wants*, which is exactly the "we meet any skill level" thesis made visible before a word is read.
+
+- **Beginner (default — the current light site).** Outcomes in plain English; jargon hidden one click deep. "Wi-Fi that works in every room." For "just tell me what I get."
+- **Intermediate (new — the middle to build).** The *same* friendly, light site, but the substance is surfaced instead of hidden: a one-line *how* under each outcome ("…by segmenting traffic into separate VLANs so guests can't reach your business systems"), the **tool stack** shown as chips (UniFi, Meraki, SPF/DKIM/DMARC, Zapier/Make/n8n, Jamf), inline glossary tooltips on technical terms, and a notch more of the *why* and the trade-offs. Still no terminal. For the curious and the capable — the owner who runs their own Notion, the office manager who "gets it," the person actively learning.
+- **Expert (the current CLI).** The terminal takeover: man-page service docs, keyboard-driven, for technical peers who evaluate on craft and hire *because* of it.
+
+**Why it's more than a gimmick:** the toggle *is* the pitch, and it lets a visitor level up as they learn — the site reveals the next layer when they're ready. Beginner stays the default so no one is confronted with depth they didn't ask for; the control-click easter egg remains as a delight that jumps power users straight to Expert. Remembered per visitor (localStorage).
+
+**Placement: Phase 2.5.** It's the flagship expression of the education / any-skill-level thesis, so it earns its own focused pass — but it's architecturally significant (a real refactor of today's two-state expert mode into three states, plus a new content-surfacing layer for Intermediate), so it should follow the Phase 2 trust content and start from an approved design direction. A concept mockup showing one service (Networking) rendered at all three depths is in the companion canvas.
+
 ## Design for comfort
 
 - Light default using the existing brand kit: off-white `#F2F5F7` ground, navy `#0E1626` ink, teal accents (darkened to ~`#146E63` when used as text on light, for AA contrast), coral reserved for the primary button and the meetup.
@@ -82,9 +94,11 @@ Sample rewrites: "Wi-Fi that works in every room, and a network that doesn't fal
 
 ## Roadmap
 
-**Phase 1 (weeks 1–2):** new hero + CTA copy, phone in header, light default theme, About block with photo, promise manifesto, un-hide blog as "Stories," plain-words lines + "Learn more →" on cards, the glossary and email-settings reference pages, testimonial outreach, Google Business Profile.
+**Phase 1 — shipped.** New hero + CTA copy, tap-to-call phone number sitewide, light default theme (dark preserved as expert mode), About card (photo-ready, no fabricated photo), promise manifesto, blog surfaced as "Stories" (now also relit to light mode), plain-words lines + "Learn more →" on all twelve cards, the glossary and email-settings reference pages. *Still on you:* add a photo, testimonial outreach, Google Business Profile.
 
-**Phase 2 (weeks 3–8):** how-it-works + FAQ, three case studies, testimonials live, named packages, dedicated service pages, AI + Coffee page + monthly email, welcome video.
+**Phase 2 — shipped.** How-it-works (the four-step Pairing Method), a FAQ page + homepage teaser (incl. "Will AI replace my staff?" — answered no, in writing), three honest case-study cards from the existing posts (no fabricated numbers), named fixed-scope packages, references note in place of fabricated testimonials. *Still open from the original Phase 2 list:* real testimonials live once collected, dedicated per-service pages, an AI + Coffee page + monthly email, a 90-second welcome video.
+
+**Phase 2.5 — the skill-level toggle.** Build the Beginner / Intermediate / Expert system (see "The skill-level system" above): a visible depth toggle, the new Intermediate content layer, and the three-state refactor of expert mode. Flagship expression of the education thesis; start from the approved concept mockup.
 
 **Phase 3 (month 3+):** quiz/calculator lead magnet, demo clips, monthly content cadence, local SEO buildout (LocalBusiness schema, Bay Area + service terms).
 
