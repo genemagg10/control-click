@@ -98,7 +98,7 @@ Sample rewrites: "Wi-Fi that works in every room, and a network that doesn't fal
 
 **Phase 2 — shipped.** How-it-works (the four-step Pairing Method), a FAQ page + homepage teaser (incl. "Will AI replace my staff?" — answered no, in writing), three honest case-study cards from the existing posts (no fabricated numbers), named fixed-scope packages, references note in place of fabricated testimonials. *Still open from the original Phase 2 list:* real testimonials live once collected, dedicated per-service pages, an AI + Coffee page + monthly email, a 90-second welcome video.
 
-**Phase 2.5 — the skill-level toggle.** Build the Beginner / Intermediate / Expert system (see "The skill-level system" above): a visible depth toggle, the new Intermediate content layer, and the three-state refactor of expert mode. Flagship expression of the education thesis; start from the approved concept mockup.
+**Phase 2.5 — the skill-level toggle. Shipped.** The Beginner / Intermediate / Expert system is live: a visible depth control at the top of the homepage, the new Intermediate layer (a *how* line + tool-stack chips + inline glossary links surfaced on all twelve service cards), and a clean three-state model — `ctrlclick:level` (beginner/intermediate) kept independent of `ctrlclick:expert` (the CLI), so exiting the terminal returns you to your chosen light-site level. The control-click easter egg still jumps straight to Expert. (Also this pass: the five blog-post titles were rewritten to be compelling and content-revealing, with URLs unchanged.)
 
 **Phase 3 (month 3+):** quiz/calculator lead magnet, demo clips, monthly content cadence, local SEO buildout (LocalBusiness schema, Bay Area + service terms).
 
