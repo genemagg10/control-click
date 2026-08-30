@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +89,7 @@
       .phone-link .phone-num { display: none; }
     }
   </style>
+  {% include reading-level-head.html %}
 </head>
 <body>
   <header class="site-head" aria-label="Site header">
@@ -103,12 +106,13 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
           <span class="phone-num">(510) 467-0217</span>
         </a>
-        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 15-Min Chat</a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 30-Min Chat</a>
       </div>
     </div>
   </header>
 
   <main class="container">
+    {% include reading-level.html %}
     <h1>Questions &amp; Answers</h1>
     <p class="lede">The honest answers to the things people wonder about but are sometimes hesitant to ask. If yours isn&rsquo;t here, just <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">ask us</a> &mdash; we&rsquo;ll answer plainly, and probably add it to this page.</p>
 
@@ -120,7 +124,7 @@
       </details>
       <details>
         <summary>What will this cost?</summary>
-        <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meter running, no surprise invoice at the end. The first 15-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way. If something is genuinely open-ended, we&rsquo;ll say so and scope it in small, bounded steps rather than ask you to sign a blank cheque.</p></div>
+        <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meter running, no surprise invoice at the end. The first 30-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way. If something is genuinely open-ended, we&rsquo;ll say so and scope it in small, bounded steps rather than ask you to sign a blank cheque.</p></div>
       </details>
       <details>
         <summary>Do I need to buy new computers or expensive software?</summary>
@@ -152,7 +156,7 @@
       </details>
       <details>
         <summary>How quickly can you help?</summary>
-        <div class="faq-a"><p>We respond quickly &mdash; usually the same day. The free 15-minute chat can often happen within a day or two, and small fixes sometimes the same week. If something is urgent, say so when you reach out and call <a href="tel:+15104670217">(510)&nbsp;467-0217</a>; we&rsquo;ll tell you honestly what&rsquo;s realistic.</p></div>
+        <div class="faq-a"><p>We respond quickly &mdash; usually the same day. The free 30-minute chat can often happen within a day or two, and small fixes sometimes the same week. If something is urgent, say so when you reach out and call <a href="tel:+15104670217">(510)&nbsp;467-0217</a>; we&rsquo;ll tell you honestly what&rsquo;s realistic.</p></div>
       </details>
     </div>
 
@@ -174,8 +178,8 @@
 
     <div class="help-card">
       <h2>Didn&rsquo;t see your question?</h2>
-      <p>Ask it. There are no dumb questions here &mdash; and the first 15-minute chat is free, with no obligation and no jargon.</p>
-      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 15-minute chat</a>
+      <p>Ask it. There are no dumb questions here &mdash; and the first 30-minute chat is free, with no obligation and no jargon.</p>
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 30-minute chat</a>
     </div>
 
     <footer class="site">
@@ -184,5 +188,6 @@
     </footer>
   </main>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  {% include reading-level-foot.html %}
 </body>
 </html>
