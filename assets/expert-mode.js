@@ -470,7 +470,7 @@
     els.output.appendChild(pre);
     openOutput();
     print("", "out");
-    print("Enterprise-Level IT, Without the Enterprise-Level Price Tag", "head");
+    print("AI That Makes Your Team Better. Not Smaller.", "head");
     print("", "out");
     print("ctrl+click — a shell for everything we do.", "ok");
     print("// formerly Maggio Consulting", "out");

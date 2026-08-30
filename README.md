@@ -14,7 +14,9 @@
 
 ## Brand assets
 
-The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups, avatars, wordmarks, and the one-page `Ctrl+Click-Brand-Sheet.pdf`). The site pulls the pieces it needs into `assets/brand/`. The mark is the layered keycap: a control key with a hidden layer peeking out behind it, and the caret set in the reveal color so it reads as a window down to what's underneath. The wordmark carries the name in Archivo, with `Click` and the caret in teal.
+The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups, avatars, wordmarks, the `og-image.html` social-image template, and the one-page `Ctrl+Click-Brand-Sheet.pdf`). The site pulls the pieces it needs into `assets/brand/`. The mark is the layered keycap: a control key with a hidden layer peeking out behind it, and the caret set in the reveal color so it reads as a window down to what's underneath — the promise made literal, that there's more here, and more capability in your own people, than you first see. The wordmark carries the name in Archivo, with `Click` and the caret in teal.
+
+**Tone:** warm, plain-spoken, human-first. We talk about people getting more capable, not IT getting cheaper — no enterprise chest-thumping, no price-led headlines, no jargon. Anything that carries a message (the social image, avatars, lockups on grounds) leads with daylight: the light human-mode palette, not the dark terminal, which is reserved for the expert-mode easter egg.
 
 | File | Purpose |
 |---|---|
@@ -23,16 +25,20 @@ The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups,
 | `assets/brand/favicon-32.png`, `favicon-16.png` | Raster favicons for the browser tab. |
 | `assets/brand/apple-touch-icon.png` | 180px navy app-icon tile for iOS home screens. |
 | `assets/brand/wordmark-horizontal-dark.png` | Horizontal wordmark for dark grounds. |
-| `og-image.png` | Social sharing image: the wordmark, tagline, and former name on the brand navy. |
+| `og-image.png` | Social sharing image: the wordmark, the site's human-first headline ("AI That Makes Your Team Better. Not Smaller."), and the No jargon · No judgment · No mystery boxes trust line, on the warm off-white ground of human mode. Regenerate from `Logo-Assets/og-image.html` at 1200×630. |
 
 ### Colors
 
+The palette leads with **daylight**: an off-white ground and navy ink, with teal and coral as accents. Human mode is the default face of the brand, so teal is darkened to `#146E63` when it carries text on light (for AA contrast) while the brighter `#1E9C8C` stays the mark/accent teal. Coral warms the primary button and the meetup; navy is reserved for ink, app-icon tiles, and the CLI easter egg.
+
 | Token | Value | Role |
 |---|---|---|
-| Navy | `#0E1626` | Ink, dark grounds, app-icon tile |
-| Off-white | `#F2F5F7` | Text, light grounds |
-| Teal | `#1E9C8C` | Primary accent, the reveal, `Click`, the caret |
-| Coral | `#E8674C` | Warm accent for buttons and the meetup |
+| Navy | `#0E1626` | Ink, app-icon tile, the dark CLI (expert mode) |
+| Off-white | `#F2F5F7` | Default ground of human mode; text on dark |
+| Teal | `#1E9C8C` | The mark, the caret, `Click`, large accents |
+| Teal (text) | `#146E63` | Teal as text/links on light — AA-contrast |
+| Coral | `#E8674C` | Warm accent — the reveal, the meetup |
+| Coral (button) | `#C7492F` | Coral as a button ground — AA with white text |
 
 ### Type
 
