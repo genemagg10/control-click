@@ -59,6 +59,11 @@
     .wm-click { color: var(--teal-bright); }
     .cta { display: inline-flex; align-items: center; padding: 11px 18px; border-radius: 10px; background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1); }
     .cta:hover { filter: brightness(1.06); text-decoration: none; }
+    .head-actions { display: flex; align-items: center; gap: 10px; }
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
     h1 { font-family: var(--font-brand); font-size: clamp(30px, 5vw, 42px); line-height: 1.1; letter-spacing: -.6px; margin: 18px 0 10px; }
     .lede { font-size: 18px; color: var(--ink-soft); max-width: 62ch; margin: 0 0 8px; }
     .note { font-size: 15px; color: var(--muted); margin: 0 0 24px; }
@@ -85,7 +90,11 @@
     .help-card h2 { margin: 0 0 8px; }
     .help-card p { margin: 0 0 14px; color: var(--ink-soft); max-width: 62ch; }
     footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; align-items: center; }
-    @media (max-width: 620px) { .wordmark { font-size: 21px; } }
+    @media (max-width: 620px) {
+      .wordmark { font-size: 21px; }
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -98,7 +107,13 @@
           </span>
         </a>
       </div>
-      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 15-Min Chat</a>
+      <div class="head-actions">
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a Free 15-Min Chat</a>
+      </div>
     </div>
   </header>
 
