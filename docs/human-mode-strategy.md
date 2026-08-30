@@ -73,13 +73,16 @@ Sample rewrites: "Wi-Fi that works in every room, and a network that doesn't fal
 4. **90-second welcome video** (face to camera, one take); later, short "watch AI do this" screen demos.
 5. **FAQ** answering the scary questions, including "Will AI replace my staff?" — answer no, in writing, prominently.
 6. **Elevate AI + Coffee** — own page, next date, photos, RSVP; monthly recap email to attendees; meetup questions become posts/FAQ entries.
-7. **Interactive lead magnet** (phase 3) — a 5-question "What could AI do for your business?" quiz ending in a mini-plan and a booking invitation, or an hours-saved calculator.
+7. **Evergreen reference pages** *(shipped in Phase 1)* — free, helpful pages that serve anyone who lands on them, build goodwill, and quietly compound as SEO:
+   - **`/glossary/`** — the plain-English tech glossary. Deciphers the jargon used across the site (with anchor links so any term can be shared), and captures "what does X mean" searches.
+   - **`/email-settings/`** — the classic email configuration page (IMAP/POP/SMTP servers and ports for every major provider). An homage to one of the first pages Gene ever built for the web — which drew hundreds of thousands of visitors by simply helping people at the moment they were stuck. That's the content strategy in miniature: be findable at the moment of need, help first, and let some of those helped become clients. Less relevant than it once was, and worth keeping forever.
+8. **Interactive lead magnet** (phase 3) — a 5-question "What could AI do for your business?" quiz ending in a mini-plan and a booking invitation, or an hours-saved calculator.
 
 **Reference shelf:** Building a StoryBrand (Miller) · They Ask, You Answer (Sheridan) · NN/g research on older adults · plainlanguage.gov + Hemingway · WebAIM / WCAG 2.2 AA · Senja or a Google Form for testimonials · Loom for video · pattern sources: Apple support pages, good local-trades sites, coaching transformation stories.
 
 ## Roadmap
 
-**Phase 1 (weeks 1–2):** new hero + CTA copy, phone in header, light default theme, About block with photo, promise manifesto, un-hide blog as "Stories," plain-words lines + "Learn more →" on cards, testimonial outreach, Google Business Profile.
+**Phase 1 (weeks 1–2):** new hero + CTA copy, phone in header, light default theme, About block with photo, promise manifesto, un-hide blog as "Stories," plain-words lines + "Learn more →" on cards, the glossary and email-settings reference pages, testimonial outreach, Google Business Profile.
 
 **Phase 2 (weeks 3–8):** how-it-works + FAQ, three case studies, testimonials live, named packages, dedicated service pages, AI + Coffee page + monthly email, welcome video.
 
