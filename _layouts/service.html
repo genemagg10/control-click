@@ -1,0 +1,52 @@
+---
+layout: default
+---
+{% assign cat_label = 'For You &amp; Your Family' %}
+{% assign cat_anchor = 'personal' %}
+{% if page.category == 'business' %}
+  {% assign cat_label = 'For Your Business' %}
+  {% assign cat_anchor = 'business' %}
+{% endif %}
+<article class="service-page">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="{{ '/#' | append: cat_anchor | relative_url }}">{{ cat_label }}</a>
+    <span aria-hidden="true">›</span>
+    <span aria-current="page">{{ page.title }}</span>
+  </nav>
+
+  <header class="svc-head">
+    <div class="svc-icon" aria-hidden="true">{{ page.icon }}</div>
+    <div class="svc-head-text">
+      {% if page.chip %}<span class="svc-chip">{{ page.chip }}</span>{% endif %}
+      <h1 class="svc-title">{{ page.title }}</h1>
+      <p class="svc-lead">{{ page.plain }}</p>
+    </div>
+  </header>
+
+  {% if page.how %}<p class="svc-how-line">{{ page.how }}</p>{% endif %}
+  {% if page.stack.size > 0 %}
+  <div class="svc-stack-row" aria-label="Tools and technologies we use">
+    {% for t in page.stack %}<span class="stk">{{ t }}</span>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="post-body service-detail">
+    {{ content }}
+  </div>
+
+  <div class="svc-cta">
+    <h2>Let&rsquo;s talk about {{ page.title | downcase }}</h2>
+    <p>Tell us what&rsquo;s going on and we&rsquo;ll map out the options in plain English. The first 15 minutes are free &mdash; no jargon, no pressure.</p>
+    <div class="svc-cta-actions">
+      <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 15-minute chat</a>
+      <a class="cta cta-quiet" href="tel:+15104670217">Or call (510)&nbsp;467-0217</a>
+    </div>
+  </div>
+
+  <nav class="svc-more" aria-label="More services">
+    <a href="{{ '/#' | append: cat_anchor | relative_url }}">&larr; All {{ cat_label | downcase }} services</a>
+    <a href="{{ '/services/' | relative_url }}" hidden></a>
+  </nav>
+</article>

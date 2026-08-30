@@ -43,12 +43,18 @@ Both are free on Google Fonts and loaded in the page `<head>`.
 
 ## The site
 
-Single self-contained `index.html` (no build step for the homepage itself; Jekyll copies it through untouched because it has no front matter). The default look is **human mode**: a warm, light take on the brand palette (off-white ground, navy ink, teal + coral accents), written in plain language for visitors who aren't technical. The full dark aesthetic lives on inside **expert mode** — approachable on the surface, power one control-click down, which is the brand pitch made literal.
+`index.html` (with empty front matter so Jekyll renders its service cards from the `_services` collection with Liquid). The default look is **human mode**: a warm, light take on the brand palette (off-white ground, navy ink, teal + coral accents), written in plain language for visitors who aren't technical. The full dark aesthetic lives on inside **expert mode** — approachable on the surface, power one control-click down, which is the brand pitch made literal.
 
-Content: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing) and six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training) — each service carries a `plain` one-liner on its card, with the technical detail one click deeper in the slide-over — plus the "Our promise" manifesto, scheduling/messaging links, the free monthly AI + Coffee meetup, and two evergreen reference pages:
+A small **reading-level control** (Beginner / Intermediate / Expert) sits, understated, at the top of the homepage. Beginner is the default; Intermediate reveals a `how` line and tool-stack chips on each service card; Expert is the CLI. It's remembered per browser in `ctrlclick:level`, kept independent of `ctrlclick:expert` (the CLI).
+
+Content: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing) and six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training). **Each service is one file in `_services/` — the single source of truth** — rendered both as a homepage card (with its `plain` one-liner, `how` line, and `stack` chips) and as its own indexable page at **`/services/<slug>/`** (full obstacles → capabilities → outcomes detail; no slide-over). Plus the "Our promise" manifesto, named fixed-scope packages, an FAQ, scheduling/messaging links, and evergreen pages:
 
 - **`/glossary/`** — the plain-English tech glossary (jargon translated the way we'd explain it over coffee; every term anchor-linkable).
 - **`/email-settings/`** — the classic email setup reference (IMAP/POP/SMTP servers and ports for the major providers), an homage to one of the first pages Gene ever built for the web.
+- **`/faq/`** — honest answers to the questions buyers actually have.
+- **`/ai-coffee/`** — the free monthly meetup.
+
+To add or edit a service, edit its file in `_services/`; the card and the page both update. `_layouts/service.html` renders each page.
 
 ## The blog
 

@@ -55,7 +55,8 @@
       out.push({
         slug: card.dataset.slug,
         title: h ? h.textContent.trim() : card.dataset.slug,
-        blurb: p ? p.textContent.trim() : ""
+        blurb: p ? p.textContent.trim() : "",
+        url: card.getAttribute("href") || ""
       });
     });
     return out;
@@ -266,12 +267,10 @@
           return s.slug === q || s.slug.indexOf(q) > -1 || s.title.toLowerCase().indexOf(q) > -1;
         })[0];
         if (!hit) { print("no service matches \"" + q + "\". try: ls", "err"); return; }
-        // Full CLI: render the service's man page right in the terminal instead
-        // of the slide-over sidebar. Elsewhere, fall back to the sheet.
-        if (fullCliActive() && renderServiceDetail(hit.slug)) return;
-        print("→ opening " + hit.slug, "ok");
-        if (typeof window.openSheet === "function") window.openSheet(hit.slug);
-        else window.location.hash = "#service/" + hit.slug;
+        // Each service now has its own page; open it directly.
+        var url = hit.url || ("/services/" + hit.slug + "/");
+        print("→ opening " + hit.slug + " …", "ok");
+        window.location.href = url;
       }
     },
     business: { desc: "list business services", run: function () { if (fullCliActive()) listCategory("#businessServicesGrid .card[data-slug]", "business services", "business"); else goSection("business", "business"); } },
