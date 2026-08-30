@@ -1,1 +1,901 @@
-PLACEHOLDER_LOAD_FROM_FILE
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ctrl+Click: AI &amp; IT Solutions</title>
+  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting) helps Bay Area businesses and families get more out of technology. AI that makes your team better, not smaller — set up right, taught in plain English, owned by you." />
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
+  <meta property="og:title" content="Ctrl+Click: AI &amp; IT Solutions" />
+  <meta property="og:description" content="AI that makes your team better. Not smaller. We pair people with the right tools, then teach you to run everything yourselves. Plain English, no judgment, no mystery boxes." />
+  <meta property="og:image" content="og-image.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&family=VT323&display=swap" />
+  <link rel="stylesheet" href="assets/expert-mode.css?v=8" />
+  <!-- Expert mode is opt-in and remembered per browser. Apply the class before
+       first paint so a returning visitor never sees a flash of the normal site.
+       `cli-home` marks THIS page (the landing page) as the one that turns into
+       a full-screen terminal; `cli-full` is the takeover itself, applied on
+       every screen size (desktop and mobile alike). Entering expert mode stays
+       a hidden easter egg. Other pages get `cli-full` without `cli-home`, so
+       they render their own content into the terminal. -->
+  <!-- Reading level (beginner default · intermediate · expert) is opt-in and
+       remembered per browser. `ctrlclick:level` drives the light-site depth;
+       `ctrlclick:expert` drives the full CLI takeover. Exiting the CLI restores
+       the previous light-site level (and moves the slider there). Applied before
+       first paint so a returning visitor never sees a flash of the wrong depth. -->
+  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:level')==='intermediate'){d.classList.add('intermediate');}if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
+  <script data-goatcounter="https://genemaggio.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+  <style>
+    /* ====== Design Tokens ======
+       "Human mode" is the default: a warm, light take on the same brand kit.
+       The full dark aesthetic lives on as part of expert mode (html.expert),
+       which overrides everything via assets/expert-mode.css. */
+    :root {
+      --navy: #0E1626;
+      --bg: #F2F5F7;
+      --panel: #FFFFFF;
+      --muted: #5C6B7E;
+      --ink-soft: #3D4A5C;
+      --text: #0E1626;
+      --line: #D9E1E7;
+      --teal: #146E63;        /* teal as text on light, AA-contrast */
+      --teal-bright: #1E9C8C; /* brand teal for accents and large marks */
+      --coral: #E8674C;
+      --coral-deep: #C7492F;  /* coral as a button ground, AA with white text */
+      /* legacy aliases kept so existing rules resolve to the new brand palette */
+      --blue: #1E9C8C;
+      --pink: #C7492F;
+      --font-brand: "Archivo", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-1: 0 1px 2px rgba(14,22,38,.06), 0 8px 24px rgba(14,22,38,.08);
+      --shadow-2: 0 2px 4px rgba(14,22,38,.08), 0 14px 40px rgba(14,22,38,.14);
+      --maxw: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100vh; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-size: 17px;
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(30, 156, 140, 0.08), transparent),
+                  radial-gradient(1000px 600px at 85% 10%, rgba(47, 188, 169, 0.06), transparent),
+                  radial-gradient(800px 500px at 50% 110%, rgba(232, 103, 76, 0.05), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      overflow-wrap: break-word;
+    }
+    h2, h3, h4 { font-family: var(--font-brand); }
+
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: var(--maxw); width: 100%; min-width: 0; margin: 0 auto; padding: 28px 20px; flex: 1; }
+
+    .grad {
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .plus { color: var(--pink); }
+
+    /* keycap chip: the recurring ⌃ motif */
+    .keycap {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 30px; height: 30px; padding: 0 7px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #FFFFFF, #E9EEF2);
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 0 rgba(14,22,38,.12), inset 0 1px 0 #FFFFFF;
+      color: var(--teal);
+      font-weight: 700; font-size: 16px; line-height: 1;
+      font-family: var(--font-mono);
+    }
+
+    /* ====== Header ====== */
+    header.site-head {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(242,245,247,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(6px);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px 16px; padding: 16px 20px; max-width: var(--maxw); margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand > a, .brand > .wordmark-wrap { display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .brand a:hover { text-decoration: none; }
+    .wordmark {
+      display: inline-flex; align-items: center; gap: 0;
+      font-family: var(--font-brand); font-weight: 800;
+      font-size: 26px; letter-spacing: -.5px; line-height: 1;
+    }
+    .wm-caret { width: 22px; height: 16px; flex-shrink: 0; margin-right: 8px; }
+    .wm-ctrl { color: var(--text); }
+    .wm-click { color: var(--teal); }
+    .brand-suffix { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: var(--muted); }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 15px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    /* The header toggle is the always-visible EXIT from expert mode; entering
+       is the hidden Easter egg, so the button only appears once expert is on. */
+    .header-actions .expert-toggle { display: none; }
+    html.expert .header-actions .expert-toggle { display: inline-flex; }
+
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 10px; border: 1px solid transparent;
+      background: var(--coral-deep); color: #FFFFFF; font-weight: 700; box-shadow: var(--shadow-1);
+    }
+    .cta:hover { filter: brightness(1.06); text-decoration: none; color: #FFFFFF; }
+    .cta:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .cta.cta-quiet { background: var(--panel); color: var(--text); border-color: var(--line); font-weight: 600; }
+    .cta.cta-quiet:hover { border-color: #B9C6CE; color: var(--text); }
+
+    /* tap-to-call phone link: number + icon on desktop, icon-only chip on mobile */
+    .phone-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 15px; padding: 9px 12px; border-radius: 10px; white-space: nowrap; }
+    .phone-link:hover { color: var(--teal); text-decoration: none; background: var(--panel); }
+    .phone-link:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .phone-link svg { color: var(--teal); flex-shrink: 0; }
+
+    /* ====== Hero ====== */
+    .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 28px; align-items: center; padding: 28px 0 10px; }
+    .hero h2 { font-size: clamp(30px, 3.6vw, 50px); line-height: 1.08; letter-spacing: -.5px; margin: 10px 0 14px; }
+    .hero p { color: var(--ink-soft); margin: 0 0 18px; font-size: 18px; }
+    .hero-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 24px; box-shadow: var(--shadow-1);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 0 0 16px; }
+    .hero-actions .cta { font-size: 17px; padding: 13px 22px; }
+    .trust-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; font-size: 15px; color: var(--muted); font-weight: 500; }
+    .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
+    .trust-row svg { flex-shrink: 0; }
+    .contact-grid { margin-top: 42px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+    .formerly {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .4px;
+      border: 1px solid var(--line); color: var(--muted);
+      background: var(--bg);
+    }
+    .formerly b { color: var(--text); font-weight: 600; }
+    .hint { color: var(--muted); font-size: 14px; }
+    .hint kbd {
+      font-family: var(--font-mono);
+      font-size: 12px; padding: 1px 6px; border-radius: 5px;
+      border: 1px solid var(--line); border-bottom-width: 2px;
+      background: #FFFFFF; color: var(--text);
+    }
+
+    /* ====== ⌃click: the admin persona ====== */
+    .byline { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+    .byline img { width: 30px; height: 30px; border-radius: 9px; }
+    .handle {
+      font-family: var(--font-mono);
+      font-weight: 700; font-size: 14px; color: var(--teal);
+    }
+    .admin-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 999px;
+      border: 1px solid rgba(30,156,140,.45); color: var(--teal);
+      text-transform: uppercase; letter-spacing: .7px; font-weight: 700;
+    }
+    .byline .meta { font-size: 12px; color: var(--muted); }
+
+    /* secret spots: right-click / control-click / tap-and-hold the ⌃click persona or the title */
+    .secret-spot, .about-spot {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* ====== Services ====== */
+    .section-title { display:flex; align-items:center; gap:10px; margin: 36px 0 6px; }
+    .section-title h3 { margin: 0; font-size: 24px; letter-spacing:-.3px; }
+    .section-lede { margin: 0 0 16px; color: var(--muted); font-size: 16px; max-width: 62ch; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px; cursor: pointer; box-shadow: var(--shadow-1);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .card:focus-within { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    /* the title is the card's link, stretched over the whole card so the whole
+       tile is clickable; inner links (e.g. the glossary term) sit above it. */
+    .card .card-link { color: var(--text); text-decoration: none; }
+    .card .card-link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius-md); }
+    .card:hover h4 { color: var(--teal); }
+    .card .svc-how a { position: relative; z-index: 2; }
+    .card h4 { margin: 6px 0 6px; font-size: 19px; }
+    .card p { margin: 0; color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+    .card .learn { display: inline-block; margin-top: 10px; color: var(--teal); font-weight: 700; font-size: 15px; }
+    .card:hover .learn { text-decoration: underline; text-underline-offset: 3px; }
+    .chip { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); background: var(--bg); }
+
+    .icon {
+      min-width: 36px; width: 36px; height: 36px;
+      border-radius: 10px;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* the service glyphs are white SVGs, so the tile stays a deep brand teal */
+      background: linear-gradient(135deg, var(--teal-bright), var(--teal));
+      border: 1px solid rgba(14,22,38,.08);
+      box-shadow: 0 2px 0 rgba(14,22,38,.12), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .icon svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .card-head { display:flex; align-items:center; }
+
+    /* ====== Custom context menu: the hidden menu ====== */
+    .ctx {
+      position: fixed; z-index: 40;
+      min-width: 264px;
+      background: rgba(255,255,255,.98);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow-2);
+      padding: 6px;
+      display: none;
+      backdrop-filter: blur(8px);
+    }
+    .ctx[data-open="true"] { display: block; }
+    .ctx[data-mode="about"] { width: min(400px, calc(100vw - 20px)); }
+    .ctx-group { display: none; }
+    .ctx[data-mode="persona"] .ctx-group[data-group="persona"] { display: block; }
+    .ctx[data-mode="about"] .ctx-group[data-group="about"] { display: block; }
+    .ctx-copy { margin: 0; padding: 2px 12px 10px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+    .ctx-title {
+      padding: 8px 12px 6px;
+      font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
+      color: var(--teal); font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .ctx a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px;
+      color: var(--text); font-size: 14px;
+    }
+    .ctx a:hover { background: linear-gradient(90deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); text-decoration: none; }
+    /* Expert-mode toggle row (the Easter egg lives in the hidden menu) */
+    .ctx-action {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 9px 12px; border-radius: 8px;
+      color: var(--text); font-size: 14px; font-family: inherit;
+      background: none; border: 0; text-align: left; cursor: pointer;
+    }
+    .ctx-action:hover { background: linear-gradient(90deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); }
+    .ctx-action .ctx-ico { color: var(--teal); font-weight: 700; width: 16px; text-align: center; }
+    .ctx-expert-tag {
+      font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; margin-left: 2px;
+    }
+    .ctx-expert-on { display: none; }
+    html.expert .ctx-expert-off { display: none; }
+    html.expert .ctx-expert-on { display: inline; }
+    .ctx-sep { height: 1px; background: var(--line); margin: 6px 8px; }
+    .ctx-note { padding: 6px 12px 8px; font-size: 12px; color: var(--muted); font-style: italic; }
+
+    /* ====== Promise ====== */
+    .promise-list { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 12px; }
+    .promise-list .p-item { display: flex; align-items: flex-start; gap: 12px; font-size: 16.5px; line-height: 1.55; color: var(--ink-soft); }
+    .promise-list .p-item svg { flex-shrink: 0; margin-top: 4px; }
+    .promise-list .p-item b { color: var(--text); }
+    .promise-sig { font-family: var(--font-mono); font-size: 14px; color: var(--teal); }
+
+    /* ====== Footer ====== */
+    footer.site { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    footer.site .mono { font-family: var(--font-mono); font-size: 12px; opacity: .8; }
+    footer.site .foot-links { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* ====== How it works (method steps) ====== */
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+    .step { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-1); }
+    .step .st-no { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: rgba(30,156,140,.12); color: var(--teal); font-family: var(--font-mono); font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+    .step h4 { margin: 0 0 5px; font-size: 18px; }
+    .step p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.5; }
+
+    /* ====== Proof / real work ====== */
+    .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .proof { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .proof:hover { transform: translateY(-2px); border-color: #B9C6CE; box-shadow: var(--shadow-2); }
+    .proof:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: 2px; }
+    .proof .p-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--coral-deep); font-weight: 700; }
+    .proof h4 { margin: 0; font-size: 20px; line-height: 1.2; }
+    .proof p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .proof .learn { margin-top: auto; }
+    .references { display: flex; gap: 16px; align-items: flex-start; max-width: 820px; margin-top: 16px; }
+    .references svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* ====== Packages ====== */
+    .pkg-subhead { margin: 22px 0 12px; font-size: 17px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .pkg { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow-1); }
+    .pkg .pkg-for { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--teal); }
+    .pkg h4 { margin: -2px 0 0; font-size: 20px; }
+    .pkg > p { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
+    .pkg ul { margin: 2px 0 0; padding-left: 20px; color: var(--ink-soft); font-size: 14.5px; line-height: 1.7; }
+    .pkg .pkg-foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+    .pkg .pkg-price { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+    /* ====== FAQ (accordion) ====== */
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 820px; }
+    .faq details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-1); overflow: hidden; }
+    .faq summary { cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 16.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--teal); font-weight: 700; font-size: 22px; line-height: 1; flex-shrink: 0; }
+    .faq details[open] summary::after { content: "\2013"; }
+    .faq details[open] summary { border-bottom: 1px solid var(--line); }
+    .faq summary:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: -2px; border-radius: 12px; }
+    .faq .faq-a { padding: 14px 20px 18px; color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; }
+    .faq .faq-a p { margin: 0 0 10px; }
+    .faq .faq-a p:last-child { margin: 0; }
+
+    /* The reading-level control chrome + toast live in assets/expert-mode.css
+       (loaded on every page). Only the homepage-specific reveal rules stay here. */
+
+    /* Intermediate-only extras on service cards: present in the DOM, revealed
+       only when html.intermediate is on. */
+    .svc-how, .svc-stack { display: none; }
+    html.intermediate .svc-how { display: block; margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+    html.intermediate .svc-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .svc-stack .stk { font-family: var(--font-mono); font-size: 11.5px; background: #EDF1F4; border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--ink-soft); }
+    /* In intermediate, the plain line stays but the section ledes get a hint */
+    .lvl-hint { display: none; }
+    html.intermediate .lvl-hint { display: inline; color: var(--teal); }
+
+    /* ====== Responsive ====== */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .steps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .proof-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .contact-grid { grid-template-columns: minmax(0, 1fr); }
+      .contact-events { order: -1; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 620px) {
+      .grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; }
+      .wordmark { font-size: 27px; }
+
+      /* Tighten the gap between the header and the first card on mobile */
+      .container { padding-top: 14px; }
+      .hero { padding-top: 4px; }
+
+      /* Mobile header: wordmark + "AI & IT Solutions" stacked on the left,
+         enlarged and centered against the Schedule a Discussion button. */
+      .nav {
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 12px;
+        padding: 14px 18px;
+      }
+      .brand > .wordmark-wrap { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .brand-suffix { display: inline; font-size: 13px; letter-spacing: .5px; }
+      .header-actions { flex-shrink: 0; }
+      /* On phones the header keeps the tap-to-call chip; the booking button is
+         already a big, above-the-fold CTA in the hero, so it drops out of the
+         cramped header here rather than fighting the phone chip for space. */
+      .header-actions .cta { display: none; }
+      /* collapse the phone to a 44px tap-to-call chip so the header stays tidy */
+      .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
+      .phone-link .phone-num { display: none; }
+    }
+    @media (max-width: 400px) {
+      /* Ease the wordmark down so it still clears the buttons on one row */
+      .wordmark { font-size: 24px; }
+      .brand-suffix { font-size: 12px; letter-spacing: .4px; }
+      .header-actions .cta { padding: 8px 12px; font-size: 12px; }
+    }
+    @media (max-width: 360px) {
+      /* Keep the hero headline on a comfortable number of lines on tiny screens */
+      .hero h2 { font-size: 24px; }
+
+      /* Squeeze the header a touch more so nothing overflows on tiny screens,
+         and let the button wrap under the wordmark when it must */
+      .nav { padding: 12px 14px; gap: 10px; flex-wrap: wrap; }
+      .wordmark { font-size: 22px; }
+      .header-actions .cta { font-size: 12px; padding: 8px 11px; }
+    }
+    @media (max-width: 340px) {
+      /* Very small phones: ease the wordmark down so it clears the buttons */
+      .wordmark { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ====== Top Nav ====== -->
+  <header class="site-head" aria-label="Site header">
+    <div class="nav">
+      <div class="brand about-spot" title="Control-click for more">
+        <span class="wordmark-wrap" role="img" aria-label="Ctrl+Click: AI & IT Solutions">
+          <span class="wordmark" aria-hidden="true">
+            <svg class="wm-caret" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 23 L20 8 L35 23" stroke="#1E9C8C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wm-ctrl">Ctrl+</span><span class="wm-click">Click</span>
+          </span>
+          <span class="brand-suffix">AI &amp; IT Solutions</span>
+        </span>
+      </div>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#packages">Pricing</a>
+        <a href="blog/">Stories</a>
+        <a href="faq/">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <!-- Only visible once expert mode is on, so the exit is always reachable.
+             Entering expert mode stays a hidden Easter egg in the ⌃click menu. -->
+        <button type="button" class="expert-toggle" id="expertToggle" aria-pressed="false" title="Return to the normal site">
+          <span class="et-caret" aria-hidden="true">⌃</span>
+          <span class="et-label-off">expert mode <span class="et-state">off</span></span>
+          <span class="et-label-on">exit CLI</span>
+        </button>
+        <a class="phone-link" href="tel:+15104670217" aria-label="Call us at (510) 467-0217">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.62a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.46-1.23a2 2 0 0 1 2.11-.45c.84.32 1.72.54 2.62.66A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="phone-num">(510) 467-0217</span>
+        </a>
+        <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" id="ctaLink" aria-label="Book a free 30-minute chat">Book a Free 30-Min Chat</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <!-- ====== Reading-level control ====== -->
+    <div class="level-switch" id="levelSwitch">
+      <span class="level-label">Detail level</span>
+      <div class="level-seg" role="group" aria-label="How much detail the site shows">
+        <button type="button" class="level-btn" data-level="beginner" aria-pressed="true" title="Plain and simple (default)">Beginner</button>
+        <button type="button" class="level-btn" data-level="intermediate" aria-pressed="false" title="Shows the how and the tools on each service">Intermediate</button>
+        <button type="button" class="level-btn" data-level="expert" aria-pressed="false" title="The command-line view of the whole site">⌃ Expert</button>
+      </div>
+    </div>
+
+    <!-- ====== Hero ====== -->
+    <section class="hero" aria-label="Introduction">
+      <div>
+        <div class="hero-card">
+          <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
+          <h2>AI That Makes Your Team Better. <span class="grad">Not Smaller.</span></h2>
+          <p>
+            We help Bay Area businesses and families get more out of technology. We pair people with the right AI tools, systems, and platforms, set them up right, and teach you to run everything yourselves. We measure success by what your team can do without us.
+          </p>
+          <div class="hero-actions">
+            <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 30-minute chat</a>
+            <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+          </div>
+          <div class="trust-row" aria-label="Our working style">
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No jargon</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No judgment</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No mystery boxes</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="byline secret-spot">
+          <img src="controlclick-mark.svg" alt="" aria-hidden="true" />
+          <span class="handle">⌃click</span>
+          <span class="admin-badge">admin</span>
+          <span class="meta">· a real human</span>
+        </div>
+        <h3 style="margin:0 0 8px; font-size:22px;">Hi, I&rsquo;m Gene.</h3>
+        <p style="margin:0 0 12px; font-size:16.5px;">
+          I&rsquo;ve been the person friends, families, and businesses call about technology for as long as I can remember. My favorite moment in any project is when someone says <em>&ldquo;wait&nbsp;&mdash; I can do this myself now.&rdquo;</em>
+        </p>
+        <p style="margin:0; font-size:15px; color:var(--muted)">
+          Every project ends with you owning every account, password, and document. Ask about fixed&#8209;scope packages with a price agreed before we start.
+        </p>
+      </div>
+    </section>
+
+    <!-- ====== How it works ====== -->
+    <div class="section-title" id="how">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <h3>How It Works</h3>
+    </div>
+    <p class="section-lede">The same four steps every time &mdash; we call it the Pairing Method. No surprises, no lock-in, and you end up more capable than you started.</p>
+    <div class="steps">
+      <div class="step"><div class="st-no">1</div><h4>Listen</h4><p>A free 30-minute chat about how your team or household actually works today. No sales pitch, no jargon.</p></div>
+      <div class="step"><div class="st-no">2</div><h4>Pair</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
+      <div class="step"><div class="st-no">3</div><h4>Empower</h4><p>We set everything up and train you hands-on until you&rsquo;re confident, not just covered.</p></div>
+      <div class="step"><div class="st-no">4</div><h4>Stay</h4><p>You own every account, password, and document. We stay reachable &mdash; but you&rsquo;re never locked in.</p></div>
+    </div>
+
+    <!-- ====== Business Services ====== -->
+    <div class="section-title" id="business">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
+      <h3>For Your Business</h3>
+    </div>
+    <p class="section-lede">Tools that fit how your team actually works — set up right, taught hands-on, and owned by you. Click any card for the full picture.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
+
+    <div id="businessServicesGrid" class="grid" role="list" aria-label="Business service list">
+      {% assign biz = site.services | where: "category", "business" | sort: "order" %}
+      {% for service in biz %}
+      <div class="card" role="listitem" data-slug="{{ service.slug }}" data-url="{{ service.url | relative_url }}">
+        <div class="card-head">
+          <div class="icon" aria-hidden="true">{{ service.icon }}</div>
+          <div>
+            <h4><a class="card-link" href="{{ service.url | relative_url }}">{{ service.title }}</a></h4>
+            <p>{{ service.plain }}</p>
+            {% if service.how %}<p class="svc-how">{{ service.how }}</p>{% endif %}
+            {% if service.stack.size > 0 %}<div class="svc-stack" aria-hidden="true">{% for t in service.stack %}<span class="stk">{{ t }}</span>{% endfor %}</div>{% endif %}
+            <span class="learn" aria-hidden="true">Learn more &rarr;</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- ====== Personal Services ====== -->
+    <div class="section-title" id="personal">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <h3>For You &amp; Your Family</h3>
+    </div>
+    <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
+
+    <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list">
+      {% assign pers = site.services | where: "category", "personal" | sort: "order" %}
+      {% for service in pers %}
+      <div class="card" role="listitem" data-slug="{{ service.slug }}" data-url="{{ service.url | relative_url }}">
+        <div class="card-head">
+          <div class="icon" aria-hidden="true">{{ service.icon }}</div>
+          <div>
+            <h4><a class="card-link" href="{{ service.url | relative_url }}">{{ service.title }}</a></h4>
+            <p>{{ service.plain }}</p>
+            {% if service.how %}<p class="svc-how">{{ service.how }}</p>{% endif %}
+            {% if service.stack.size > 0 %}<div class="svc-stack" aria-hidden="true">{% for t in service.stack %}<span class="stk">{{ t }}</span>{% endfor %}</div>{% endif %}
+            <span class="learn" aria-hidden="true">Learn more &rarr;</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- ====== Real work / proof ====== -->
+    <div class="section-title" id="results">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
+      <h3>Real Work, Real Results</h3>
+    </div>
+    <p class="section-lede">A few field notes from actual projects and experiments &mdash; in our own words. This is how we think, and what working with us is like.</p>
+    <div class="proof-grid">
+      <a class="proof" href="blog/email-migration-without-losing-a-single-message/" style="color:inherit;">
+        <span class="p-tag">Business &middot; Email</span>
+        <h4>Moving email without losing a message</h4>
+        <p>The exact staged method we use to move a business between Google Workspace, Microsoft 365, and legacy hosts: audit first, run both systems in parallel, cut over on a low TTL, and keep the old mail readable for 30 days.</p>
+        <span class="learn">Read the method &rarr;</span>
+      </a>
+      <a class="proof" href="blog/building-trailtracker-ai-assisted-development/" style="color:inherit;">
+        <span class="p-tag">AI &middot; Build</span>
+        <h4>A working app in about a day</h4>
+        <p>An honest, unedited case study: building a live trail-tracking web app with AI assistance &mdash; four pivots, a few confident-but-wrong AI moments, and a clear line between where AI helps and where a human still has to drive.</p>
+        <span class="learn">Read the case study &rarr;</span>
+      </a>
+      <a class="proof" href="blog/omarchy-on-a-ten-year-old-macbook-pro/" style="color:inherit;">
+        <span class="p-tag">Personal &middot; Hardware</span>
+        <h4>New life for a 10-year-old laptop</h4>
+        <p>Instead of a $10k+ machine to run AI locally, a careful rebuild turned a 2016 MacBook Pro with 8GB of RAM into something genuinely useful again &mdash; and the honest math on when that&rsquo;s worth doing.</p>
+        <span class="learn">Read the story &rarr;</span>
+      </a>
+    </div>
+
+    <!-- ====== Packages ====== -->
+    <div class="section-title" id="packages">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+      <h3>Fixed-Scope Packages</h3>
+    </div>
+    <p class="section-lede">A couple of clear starting points, each with a price agreed before we begin &mdash; so there are no surprises. Everything is tailored to fit, and everything we set up is yours to keep. Need something else? Just ask.</p>
+
+    <div class="pkg-grid">
+      <div class="pkg">
+        <span class="pkg-for">For your business</span>
+        <h4>Ctrl+Care</h4>
+        <p>Your fractional IT department: someone who knows your setup and is a call away, without a full-time hire.</p>
+        <ul>
+          <li>Priority help by phone and email</li>
+          <li>Proactive updates, backups, and monitoring</li>
+          <li>A monthly check-in, not a mystery invoice</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Monthly retainer, fixed rate</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+      <div class="pkg">
+        <span class="pkg-for">For you &amp; your family</span>
+        <h4>AI 101, One-on-One</h4>
+        <p>A patient, hands-on introduction to AI tools like ChatGPT and Claude &mdash; no technical background needed.</p>
+        <ul>
+          <li>What AI is and isn&rsquo;t, in plain English</li>
+          <li>Real ways to use it in your day-to-day</li>
+          <li>Written notes you can keep and refer back to</li>
+        </ul>
+        <div class="pkg-foot"><span class="pkg-price">Fixed price, quoted up front</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
+      </div>
+    </div>
+
+    <!-- ====== Our Promise ====== -->
+    <div class="section-title" id="promise">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c-4.5-2-8-5.5-8-10V5l8-3 8 3v6c0 4.5-3.5 8-8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+      <h3>Our Promise</h3>
+    </div>
+    <div class="hero-card" style="max-width: 820px;">
+      <div class="promise-list">
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>We build teams up.</b> We will never pitch AI as a way to cut your people.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Plain English, always.</b> If we can&rsquo;t explain it simply, we don&rsquo;t understand it well enough yet.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No mystery boxes.</b> You own every account, every password, every document.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No question is too small,</b> and nobody gets made to feel dumb. Ever.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Adoption is the metric.</b> If a tool isn&rsquo;t getting used, we swap it or remove it.</span></div>
+      </div>
+      <span class="promise-sig">&mdash; Gene, Ctrl+Click</span>
+    </div>
+
+    <!-- ====== Free Guides ====== -->
+    <div class="section-title" id="guides">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <h3>Free Guides</h3>
+    </div>
+    <p class="section-lede">Reference pages we keep for anyone who needs them — clients or not. Help yourself.</p>
+    <div class="grid" style="grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 820px;">
+      <a class="card" href="glossary/" style="display:block; color:inherit;">
+        <h4 style="margin-top:0;">Plain-English Tech Glossary</h4>
+        <p>Every bit of jargon you&rsquo;ll meet on this site (and in life), explained the way we&rsquo;d explain it over coffee. DNS, the cloud, two-factor, AI &mdash; all of it.</p>
+        <span class="learn">Open the glossary &rarr;</span>
+      </a>
+      <a class="card" href="email-settings/" style="display:block; color:inherit;">
+        <h4 style="margin-top:0;">Email Settings for Every Major Provider</h4>
+        <p>The classic setup page: IMAP, POP, and SMTP servers and ports for Gmail, Outlook, iCloud, Yahoo, and more &mdash; for whenever a mail app asks and you need an answer.</p>
+        <span class="learn">Open the settings page &rarr;</span>
+      </a>
+    </div>
+
+    <!-- ====== FAQ teaser ====== -->
+    <div class="section-title" id="faq">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      <h3>Questions People Actually Ask</h3>
+    </div>
+    <p class="section-lede">The honest answers to the things you might be wondering but hesitant to ask. Here are a few &mdash; the rest are on the <a href="faq/">full FAQ page</a>.</p>
+    <div class="faq">
+      <details>
+        <summary>Are you going to replace my team with AI?</summary>
+        <div class="faq-a"><p>No &mdash; that&rsquo;s the opposite of what we do, and we&rsquo;ll put it in writing. We use AI to take the boring, repetitive work off your people so they can do the parts that need a human. We measure success by what your team can do, not by how few of them are left.</p></div>
+      </details>
+      <details>
+        <summary>What will this cost?</summary>
+        <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meters running, no surprise invoices. The first 30-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way.</p></div>
+      </details>
+      <details>
+        <summary>What if my team hates new tools?</summary>
+        <div class="faq-a"><p>That&rsquo;s usually a sign the tool didn&rsquo;t fit how they work, or nobody showed them why it helps. We choose tools around your actual workflows and train people hands-on. If something isn&rsquo;t getting used, we swap it or remove it &mdash; adoption is the whole point.</p></div>
+      </details>
+      <details>
+        <summary>Are you going to judge my messy setup?</summary>
+        <div class="faq-a"><p>Never. We&rsquo;ve seen everything, and none of it is embarrassing to us &mdash; it&rsquo;s just where you are today. No question is too basic, and nobody gets made to feel dumb. Ever.</p></div>
+      </details>
+    </div>
+    <p style="margin:16px 0 0;"><a href="faq/" class="learn" style="font-size:16px;">See all the questions &amp; answers &rarr;</a></p>
+
+    <!-- ====== Contact & Events ====== -->
+    <section id="contact" class="contact-grid">
+      <div class="hero-card contact-touch">
+        <h3 style="margin:0 0 8px">Get in Touch</h3>
+        <p style="margin:0 0 14px;color:var(--ink-soft)">Tell us what&rsquo;s going on &mdash; or what you&rsquo;re curious about. The first chat is free, half an hour, and you&rsquo;ll leave knowing your options either way. We respond quickly.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Book a free 30-minute chat</a>
+          <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+        </div>
+        <p style="margin:14px 0 0; font-size:16px; color:var(--ink-soft);">
+          Prefer to talk? Call
+          <a href="tel:+15104670217" style="font-weight:700; white-space:nowrap;">(510)&nbsp;467-0217</a>.
+        </p>
+      </div>
+      <div class="hero-card contact-events">
+        <h3 style="margin:0 0 8px">Upcoming Events</h3>
+        <div style="display:flex; align-items:flex-start; gap:16px; margin-top:12px;">
+          <div style="min-width:64px; width:64px; text-align:center; background:linear-gradient(135deg, rgba(30,156,140,.12), rgba(232,103,76,.10)); border:1px solid var(--line); border-radius:12px; padding:12px 8px; flex-shrink:0;">
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--teal); font-weight:600; line-height:1.3;">1st Wed</div>
+            <div style="font-size:11px; color:var(--muted); margin-top:2px;">Monthly</div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--teal)" style="margin-top:6px; opacity:.7;"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+          </div>
+          <div style="flex:1; min-width:0;">
+            <div style="font-weight:700; font-size:17px;">AI + Coffee</div>
+            <p style="margin:4px 0 0; color:var(--ink-soft); font-size:15px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what&rsquo;s possible. No laptop required &mdash; all levels welcome.</p>
+            <a class="learn" href="ai-coffee/" style="display:inline-block; margin-top:10px;">Learn more &amp; save a seat &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site">
+      <div>&copy; <span id="year"></span> Ctrl+Click: AI &amp; IT Solutions. Formerly Maggio Consulting. All rights reserved.</div>
+      <div class="foot-links">
+        <a href="#packages">Pricing</a>
+        <a href="faq/">FAQ</a>
+        <a href="ai-coffee/">AI + Coffee</a>
+        <a href="blog/">Stories</a>
+        <a href="glossary/">Glossary</a>
+        <a href="email-settings/">Email settings</a>
+      </div>
+      <div class="mono secret-spot" aria-hidden="true">maintained by ⌃click · admin → more options, more power</div>
+    </footer>
+  </main>
+
+  <!-- ====== The hidden menu (custom context menu) ====== -->
+  <nav class="ctx" id="ctxMenu" data-open="false" data-mode="persona" aria-label="Hidden quick menu">
+    <div class="ctx-group" data-group="persona">
+      <div class="ctx-title">⌃Click: you found the hidden menu</div>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 30-minute chat</a>
+      <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
+      <a href="#business">💼 Business services</a>
+      <a href="#personal">🏠 Personal services</a>
+      <a href="glossary/">📖 Plain-English glossary</a>
+      <a href="blog/">📓 Stories: notes from ⌃click</a>
+      <div class="ctx-sep"></div>
+      <button type="button" class="ctx-action js-expert-toggle">
+        <span class="ctx-ico" aria-hidden="true">⌃</span>
+        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
+        <span class="ctx-expert-on">Exit expert mode</span>
+      </button>
+      <div class="ctx-sep"></div>
+      <div class="ctx-note">That's the whole idea: a control‑click unlocks more. <span class="handle" style="font-style:normal;">· ⌃click</span></div>
+    </div>
+    <div class="ctx-group" data-group="about">
+      <div class="ctx-title">⌃Click: what we do</div>
+      <p class="ctx-copy">On a Mac, control‑click opens the menu most people never see: more options, more power, one click away. That's what we do for people and businesses. We help you take control of your technology, personally and with your teams, by adopting AI, securing networks, building reliable infrastructure, implementing collaboration tools, and making everyday tech feel effortless.</p>
+      <div class="ctx-sep"></div>
+      <a href="#business">💼 Business services</a>
+      <a href="#personal">🏠 Personal services</a>
+      <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 30-minute chat</a>
+      <div class="ctx-sep"></div>
+      <button type="button" class="ctx-action js-expert-toggle">
+        <span class="ctx-ico" aria-hidden="true">⌃</span>
+        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
+        <span class="ctx-expert-on">Exit expert mode</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+// Service cards render from the _services collection with Liquid (above).
+    // Full detail lives on each service page at /services/<slug>/ — no slide-over.
+
+    // ====== The hidden menu: control-click the ⌃click persona or the site title ======
+    const ctxMenu = document.getElementById('ctxMenu');
+
+    // the persona spots open the quick menu; the title opens the "what we do" panel
+    function spotMode(target) {
+      if (target.closest('.secret-spot')) return 'persona';
+      if (target.closest('.about-spot')) return 'about';
+      return null;
+    }
+
+    function openCtxMenu(x, y, mode) {
+      ctxMenu.dataset.mode = mode;
+      ctxMenu.dataset.open = 'true';
+      // measure, then clamp to viewport
+      const rect = ctxMenu.getBoundingClientRect();
+      const px = Math.min(x, window.innerWidth - rect.width - 10);
+      const py = Math.min(y, window.innerHeight - rect.height - 10);
+      ctxMenu.style.left = Math.max(10, px) + 'px';
+      ctxMenu.style.top = Math.max(10, py) + 'px';
+    }
+
+    function closeCtxMenu() {
+      ctxMenu.dataset.open = 'false';
+    }
+
+    document.addEventListener('contextmenu', (e) => {
+      // only a ⌃click spot summons the hidden menu; everywhere else stays native
+      if (ctxMenu.contains(e.target)) return;
+      const mode = spotMode(e.target);
+      if (!mode) return;
+      e.preventDefault();
+      openCtxMenu(e.clientX, e.clientY, mode);
+    });
+
+    // tap-and-hold a ⌃click spot on touch devices (iOS has no contextmenu)
+    let pressTimer = null, pressStart = null, pressMode = null, suppressNextClick = false;
+    document.addEventListener('touchstart', (e) => {
+      pressMode = spotMode(e.target);
+      if (!pressMode) return;
+      const t = e.touches[0];
+      pressStart = { x: t.clientX, y: t.clientY };
+      pressTimer = setTimeout(() => {
+        pressTimer = null;
+        suppressNextClick = true;
+        openCtxMenu(pressStart.x, pressStart.y, pressMode);
+      }, 500);
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      if (!pressTimer) return;
+      const t = e.touches[0];
+      if (Math.hypot(t.clientX - pressStart.x, t.clientY - pressStart.y) > 10) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    }, { passive: true });
+    ['touchend', 'touchcancel'].forEach(ev => document.addEventListener(ev, () => {
+      if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      // the ghost click, if any, arrives right after the finger lifts
+      if (suppressNextClick) setTimeout(() => { suppressNextClick = false; }, 400);
+    }));
+
+    // Expert mode is a hidden Easter egg: toggle it from the hidden menu.
+    ctxMenu.addEventListener('click', (e) => {
+      const toggle = e.target.closest('.js-expert-toggle');
+      if (!toggle) return;
+      e.preventDefault();
+      if (window.CtrlClickExpert) {
+        window.CtrlClickExpert.toggle();
+      } else {
+        // Fallback if the expert-mode script isn't loaded yet (e.g. a stale
+        // cached asset): persist the choice and reload so the head script
+        // applies expert mode on the next paint.
+        try {
+          const on = document.documentElement.classList.contains('expert');
+          localStorage.setItem('ctrlclick:expert', on ? 'off' : 'on');
+        } catch (err) {}
+        location.reload();
+      }
+      closeCtxMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      // swallow the ghost click that follows a long-press so it can't close the menu
+      if (suppressNextClick) { suppressNextClick = false; return; }
+      if (!ctxMenu.contains(e.target)) closeCtxMenu();
+      else if (e.target.closest('a')) closeCtxMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCtxMenu();
+    });
+    window.addEventListener('scroll', closeCtxMenu, { passive: true });
+    window.addEventListener('resize', closeCtxMenu);
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- ====== Reading level + expert mode (shared across all pages) ====== -->
+  <script>
+    window.CTRLCLICK_LINKS = {
+      home: '/',
+      blog: '/blog/',
+      business: '/#business',
+      personal: '/#personal',
+      contact: '/#contact',
+      glossary: '/glossary/',
+      faq: '/faq/',
+      email: '/email-settings/',
+      coffee: '/ai-coffee/',
+      schedule: 'https://calendar.app.google/QtYaUwA72XbuKN468',
+      message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
+    };
+  </script>
+  <script src="assets/level.js?v=3" defer></script>
+  <script src="assets/expert-mode.js?v=11" defer></script>
+</body>
+</html>
