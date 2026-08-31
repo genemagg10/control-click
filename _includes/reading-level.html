@@ -1,8 +1,17 @@
-<div class="level-switch" id="levelSwitch">
+<!-- Resource / reference pages (everything on the default layout: services,
+     glossary, FAQ, email settings, stories) stay fixed at Beginner so anyone
+     can follow them. Intermediate and Expert are shown here as *locked* — a
+     conversation hook, not a live switch: clicking one reveals the note below
+     inviting a free consultation. The homepage keeps its own fully interactive
+     switch. Behavior is wired in assets/level.js (see the is-locked branch). -->
+<div class="level-switch is-locked" id="levelSwitch">
   <span class="level-label">Detail level</span>
   <div class="level-seg" role="group" aria-label="How much detail the site shows">
-    <button type="button" class="level-btn" data-level="beginner" aria-pressed="true" title="Plain and simple (default)">Beginner</button>
-    <button type="button" class="level-btn" data-level="intermediate" aria-pressed="false" title="Shows the how and the tools on each service">Intermediate</button>
-    <button type="button" class="level-btn" data-level="expert" aria-pressed="false" title="The command-line view of the whole site">⌃ Expert</button>
+    <button type="button" class="level-btn is-active" data-level="beginner" aria-pressed="true" title="Plain and simple (default)">Beginner</button>
+    <button type="button" class="level-btn is-locked" data-level="intermediate" aria-pressed="false" aria-disabled="true" title="Unlock with a free consultation">Intermediate<svg class="lock-i" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button>
+    <button type="button" class="level-btn is-locked" data-level="expert" aria-pressed="false" aria-disabled="true" title="Unlock with a free consultation">⌃ Expert<svg class="lock-i" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button>
   </div>
 </div>
+<p class="level-unlock" id="levelUnlock" hidden>
+  Resource pages stay at Beginner so anyone can follow along. <a href="https://calendar.app.google/QtYaUwA72XbuKN468">Schedule your free consultation</a> to learn how you can unlock Intermediate &mdash; or even Expert &mdash; levels for you and your team.
+</p>

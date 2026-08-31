@@ -5,14 +5,26 @@
    cards (via html.intermediate). Expert hands off to expert-mode.js.
    A brief toast confirms the switch, since on many pages the change is
    below the fold (or, on reference pages, deliberately subtle).
+
+   Locked switches: resource / reference pages (the default layout) render
+   the control with `.level-switch.is-locked` and lock Intermediate + Expert.
+   Those pages stay pinned at Beginner; clicking a locked level is a
+   conversation hook — it reveals the "book a free consultation" note
+   (#levelUnlock) instead of switching. Only the homepage switches for real.
    ===================================================================== */
 (function () {
   "use strict";
   var root = document.documentElement;
 
+  function isLocked() {
+    var sw = document.getElementById("levelSwitch");
+    return !!(sw && sw.classList.contains("is-locked"));
+  }
   function currentLevel() {
     // Expert CLI is an overlay (html.expert), not a reading level. The slider
-    // always reflects the light-site level we'll return to on exit.
+    // always reflects the light-site level we'll return to on exit. Locked
+    // (resource) pages are pinned at Beginner regardless of the saved level.
+    if (isLocked()) return "beginner";
     return root.classList.contains("intermediate") ? "intermediate" : "beginner";
   }
   function persist(level) {
@@ -21,10 +33,18 @@
   function syncButtons() {
     var lvl = currentLevel();
     document.querySelectorAll(".level-btn").forEach(function (btn) {
-      var on = btn.dataset.level === lvl;
+      // A locked level is never shown as active — it's an invitation, not a state.
+      var on = !btn.classList.contains("is-locked") && btn.dataset.level === lvl;
       btn.classList.toggle("is-active", on);
       btn.setAttribute("aria-pressed", on ? "true" : "false");
     });
+  }
+
+  /* Reveal the consultation hook when someone taps a locked level. */
+  function showUnlock() {
+    var note = document.getElementById("levelUnlock");
+    if (note) note.hidden = false;
+    toast("That level is unlocked with a free consultation — see below.");
   }
 
   var TOASTS = {
@@ -71,7 +91,10 @@
 
   function init() {
     document.querySelectorAll(".level-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () { setLevel(btn.dataset.level); });
+      btn.addEventListener("click", function () {
+        if (btn.classList.contains("is-locked")) { showUnlock(); return; }
+        setLevel(btn.dataset.level);
+      });
     });
     syncButtons();
   }

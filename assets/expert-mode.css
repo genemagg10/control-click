@@ -649,10 +649,27 @@ html.expert .term-chip:focus-visible { outline: 2px solid var(--teal); outline-o
 .level-btn.is-active { background: var(--teal, #146E63); color: #FFFFFF; }
 .level-btn[data-level="expert"].is-active { background: #0E1626; color: var(--teal-bright, #2FBCA9); }
 .level-btn:focus-visible { outline: 2px solid var(--teal-bright, #1E9C8C); outline-offset: 2px; }
+
+/* Locked levels on resource pages: dimmed with a small padlock. They stay
+   clickable on purpose — a tap is a conversation hook, not a dead control. */
+.level-btn.is-locked { color: var(--muted, #5C6B7E); opacity: .62; }
+.level-btn.is-locked:hover { color: var(--muted, #5C6B7E); opacity: .82; }
+.level-btn .lock-i { vertical-align: -1px; margin-left: 5px; opacity: .85; }
+
+/* The "unlock with a free consultation" note, revealed when a locked level
+   is tapped. Sits under the switch and mirrors its right alignment. */
+.level-unlock {
+  margin: -6px 0 16px auto; max-width: 62ch; text-align: right;
+  font-size: 13px; line-height: 1.5; color: var(--muted, #5C6B7E);
+}
+.level-unlock a { color: var(--teal, #146E63); font-weight: 600; }
+html.expert .level-unlock { display: none !important; }
+
 @media (max-width: 620px) {
   .level-switch { justify-content: center; }
   .level-switch .level-label { display: none; }
   .level-btn { padding: 6px 11px; }
+  .level-unlock { text-align: center; margin-left: 0; }
 }
 
 /* In expert mode the reading-level control is meaningless — the CLI IS the

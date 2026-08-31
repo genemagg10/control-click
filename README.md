@@ -51,7 +51,15 @@ Both are free on Google Fonts and loaded in the page `<head>`.
 
 `index.html` (with empty front matter so Jekyll renders its service cards from the `_services` collection with Liquid). The default look is **human mode**: a warm, light take on the brand palette (off-white ground, navy ink, teal + coral accents), written in plain language for visitors who aren't technical. The full dark aesthetic lives on inside **expert mode** — approachable on the surface, power one control-click down, which is the brand pitch made literal.
 
-A small **reading-level control** (Beginner / Intermediate / Expert) sits, understated, at the top of the homepage. Beginner is the default; Intermediate reveals a `how` line and tool-stack chips on each service card; Expert is the CLI. It's remembered per browser in `ctrlclick:level`, kept independent of `ctrlclick:expert` (the CLI).
+A small **reading-level control** (Beginner / Intermediate / Expert) sits, understated, at the top of the homepage, and it now sets *who the page speaks to*, not just how deep it goes:
+
+- **Beginner** (default) is for individuals, families, and small businesses; the hero leads with "don't let AI replace you."
+- **Intermediate** is for businesses weighing internal IT, an outside managed-services provider, or no solution yet — and absorbs the higher-end service band (product management & leadership, large-scale M&A migrations, family offices). It reveals a `how` line and tool-stack chips on each service card and swaps the hero headline/subhead to the team message.
+- **Expert** is the CLI easter egg only — the fun terminal takeover, not an audience tier.
+
+Both hero variants live in the DOM (crawlers see both) and one shows at a time via `html.intermediate`. The level is remembered per browser in `ctrlclick:level`, kept independent of `ctrlclick:expert` (the CLI).
+
+On every **resource/reference page** (services, glossary, FAQ, email settings, stories) the control is pinned to Beginner and the Intermediate/Expert levels are shown *locked* (dimmed, padlocked). Tapping a locked level isn't a switch — it's a conversation hook that reveals a "schedule your free consultation to unlock" note. The locked behavior lives in `_includes/reading-level.html` and the `is-locked` branch of `assets/level.js`.
 
 Content: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing) and six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training). **Each service is one file in `_services/` — the single source of truth** — rendered both as a homepage card (with its `plain` one-liner, `how` line, and `stack` chips) and as its own indexable page at **`/services/<slug>/`** (full obstacles → capabilities → outcomes detail; no slide-over). Plus the "Our promise" manifesto, named fixed-scope packages, an FAQ, scheduling/messaging links, and evergreen pages:
 
