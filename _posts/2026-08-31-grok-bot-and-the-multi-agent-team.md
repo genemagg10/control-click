@@ -44,30 +44,30 @@ Here's the crew I've been assembling. Each character is chosen so the *name itse
 
 ![Link, the capable scout: a pixel-art elf ranger with a quiver of arrows and a green cloak in a sunlit forest]({{ '/assets/blog/grokbot-link.png' | relative_url }})
 
-**Link — the capable scout.** Exploration, tooling, practical action. Link goes and *finds out*. Where does this function get called? What breaks if I change it? Does this API even exist? Point him at unfamiliar terrain and he comes back with a map.
+**Link, the capable scout.** Exploration, tooling, practical action. Link goes and *finds out*. Where does this function get called? What breaks if I change it? Does this API even exist? Point him at unfamiliar terrain and he comes back with a map.
 
-**Merlin — the wise guide.** Deep thinking, strategy, synthesis. When I'm not sure what I'm building yet, Merlin is who I talk to. He's slow on purpose. He's the one who asks the question that saves you a week.
+**Merlin, the wise guide.** Deep thinking, strategy, synthesis. When I'm not sure what I'm building yet, Merlin is who I talk to. He's slow on purpose. He's the one who asks the question that saves you a week.
 
 ![Ender, the tactical operator: a pixel-art young commander in a Battle School uniform studying a strategy simulation on a tablet]({{ '/assets/blog/grokbot-ender.png' | relative_url }})
 
-**Ender — the tactical operator.** Systems, simulations, hard problem-solving. Ender takes the genuinely nasty problems: the concurrency bug, the performance cliff, the "this works locally but not in prod" ghost. He runs the scenarios until the enemy's gate is down.
+**Ender, the tactical operator.** Systems, simulations, hard problem-solving. Ender takes the genuinely nasty problems: the concurrency bug, the performance cliff, the "this works locally but not in prod" ghost. He runs the scenarios until the enemy's gate is down.
 
-**Sherlock — the master detective.** Investigation, deduction, evidence. When something is broken and nobody knows why, Sherlock reads the logs like a crime scene. He doesn't guess; he eliminates the impossible and follows what's left.
+**Sherlock, the master detective.** Investigation, deduction, evidence. When something is broken and nobody knows why, Sherlock reads the logs like a crime scene. He doesn't guess; he eliminates the impossible and follows what's left.
 
 ![Daedalus, the master builder: a pixel-art craftsman in an ancient workshop shaping a mechanical wing, a labyrinth visible through the window]({{ '/assets/blog/grokbot-daedalus.png' | relative_url }})
 
-**Daedalus — the master builder.** Architecture, systems design, elegant construction. Daedalus is who I hand a green field to. He designs the labyrinth *and* the wings to escape it: structure first, then the clever thing that makes it fly.
+**Daedalus, the master builder.** Architecture, systems design, elegant construction. Daedalus is who I hand a green field to. He designs the labyrinth *and* the wings to escape it: structure first, then the clever thing that makes it fly.
 
 ![Sherlock, the master detective: a pixel-art Victorian sleuth with a pipe at a cluttered Baker Street desk, Big Ben through the window]({{ '/assets/blog/grokbot-sherlock.png' | relative_url }})
 
 And there's a bench behind the starters, each one a job I know I'll eventually want:
 
-- **Athena** — the strategic commander: judgment, planning, diplomacy, disciplined leadership.
-- **Neo** — the system breaker: unconventional solutions, hidden patterns, escaping constraints.
-- **Zeus** — the executive authority: decisive action, delegation, high-stakes calls.
-- **Newton** — the first-principles thinker: logic, math, rigorous cause-and-effect.
-- **Leo (Da Vinci)** — the visionary inventor: creativity, design, imaginative problem-solving.
-- **Loki** — the cunning disruptor: red-teaming, loopholes, challenging every assumption you didn't know you were making.
+- **Athena**, the strategic commander: judgment, planning, diplomacy, disciplined leadership.
+- **Neo**, the system breaker: unconventional solutions, hidden patterns, escaping constraints.
+- **Zeus**, the executive authority: decisive action, delegation, high-stakes calls.
+- **Newton**, the first-principles thinker: logic, math, rigorous cause-and-effect.
+- **Leo (Da Vinci)**, the visionary inventor: creativity, design, imaginative problem-solving.
+- **Loki**, the cunning disruptor: red-teaming, loopholes, challenging every assumption you didn't know you were making.
 
 Loki, for the record, is the one I'd trust to try to break my own code before somebody else does.
 
