@@ -5,7 +5,7 @@ description: >-
   you can name, personalize, and point at real work. Here's what a
   chief-of-staff-and-crew model looks like in practice, and why the harness
   matters more than any single model.
-date: 2026-08-31 12:00:00 -0700
+date: 2026-08-31 07:00:00 -0700
 ---
 
 ![Merlin, the wise guide: a pixel-art wizard with a long white beard and a gnarled staff, standing in a mossy forest]({{ '/assets/blog/grokbot-merlin.png' | relative_url }})
