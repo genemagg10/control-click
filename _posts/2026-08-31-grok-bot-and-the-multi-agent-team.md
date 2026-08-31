@@ -105,6 +105,35 @@ I keep a running list of the kind of person I'm trying to be:
 
 None of that is a coding task. But all of it is the kind of thing a well-briefed, well-remembered system is good at: holding the goal, breaking it into next actions, and nudging me back on track when I drift. If a harness can keep a coding project's context alive across sessions, it can keep *these* alive too. That's the version of this I'm building toward.
 
+## How does it compare to OpenClaw?
+
+The obvious question, if you've been following this space, is how Grok Bot stacks up against OpenClaw, the open-source harness a lot of tinkerers reach for first.
+
+They're solving the same problem from opposite ends. OpenClaw is the maximalist, roll-your-own option. It's open, hackable, and endlessly configurable, which is exactly what you want if you enjoy living in config files and wiring your own orchestration logic. The ceiling is high. So is the setup cost. You own every piece, including the parts that break at 11pm.
+
+Grok Bot trades some of that raw flexibility for a smoother on-ramp. The multi-agent model is a first-class feature rather than something you assemble yourself, personalizing an agent is a built-in idea instead of a convention you invent, and the harness handles the caching and environment consistency for you rather than leaving it as an exercise. You give up a little control and you get back a lot of time.
+
+A few honest distinctions as I see them:
+
+- **Setup.** OpenClaw expects you to bring the plumbing. Grok Bot ships with more of it already connected.
+- **Personalization.** Naming and specializing agents is a core Grok Bot workflow. In OpenClaw it's achievable, but it's on you to structure.
+- **Model juggling.** Both can talk to multiple providers. Grok Bot leans into the "run out of tokens, switch lanes, keep going" pattern as an expected way to work rather than a clever hack.
+- **Who it's for.** OpenClaw rewards the person who wants to understand and control every layer. Grok Bot rewards the person who wants a team working today.
+
+Neither is strictly better. If you want a workshop, OpenClaw hands you the whole workshop. If you want a crew that's already clocked in, Grok Bot is the faster path. I've spent time in both, and lately I reach for the one that lets me think about the work instead of the wiring.
+
+## Where is this expected to go from here?
+
+If I had to bet, the next chapter is less about smarter models and more about smarter coordination. A few directions I think are coming, some sooner than others:
+
+- **The chief of staff gets real autonomy.** Right now I still hand it the goal and watch closely. The near future is a coordinator I trust to break down a fuzzy objective, assign it, check the results, and only surface the decisions that genuinely need me.
+- **Persistent memory across the whole team.** Today each agent's context lives mostly in its own lane. The version I want is a shared, durable memory the entire crew reads from, so Sherlock already knows what Daedalus built last week without me repeating it.
+- **Agents that improve their own guidance.** The `.md` files that steer each specialist are hand-written now. It's a short hop to agents that notice a recurring mistake and propose an edit to their own instructions.
+- **Blurring the line between coding and life admin.** The same structure that ships software can run a household or a training plan. I expect the "point a team at a personal goal" idea to stop feeling novel and start feeling normal.
+- **Provider-agnostic by default.** As harnesses mature, which model sits behind which agent should matter about as much as which brand of wrench is in the drawer. You pick the right tool for the job and stop thinking about it.
+
+None of this requires a breakthrough. It mostly requires the harness to keep getting better at the unglamorous work of remembering, coordinating, and staying out of the way. That's the part I'll be watching.
+
 ## The real takeaway
 
 It's tempting to chase the newest, smartest model. But the leverage isn't in the model, it's in the harness around it: the skills it loads, the context it caches, the environment it keeps consistent, and its ability to run a whole team of specialists, across multiple models, toward a goal.
