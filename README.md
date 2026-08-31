@@ -53,7 +53,7 @@ Both are free on Google Fonts and loaded in the page `<head>`.
 
 A small **reading-level control** (Beginner / Intermediate / Expert) sits, understated, at the top of the homepage, and it now sets *who the page speaks to*, not just how deep it goes:
 
-- **Beginner** (default) is for individuals, families, and small businesses; the hero leads with "don't let AI replace you."
+- **Beginner** (default) is for individuals, families, and small businesses; the hero — "AI that works for you, not instead of you" — names the replacement fear and reframes AI as something you direct.
 - **Intermediate** is for businesses weighing internal IT, an outside managed-services provider, or no solution yet — and absorbs the higher-end service band (product management & leadership, large-scale M&A migrations, family offices). It reveals a `how` line and tool-stack chips on each service card and swaps the hero headline/subhead to the team message.
 - **Expert** is the CLI easter egg only — the fun terminal takeover, not an audience tier.
 
