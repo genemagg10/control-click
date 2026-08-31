@@ -30,6 +30,8 @@ And once you're delegating, a natural question follows: why delegate to one agen
 
 ## Enter Grok Bot
 
+![The Grok Bot logo: a simple, friendly white face on a black background]({{ '/assets/blog/grokbot-logo.jpg' | relative_url }})
+
 Grok Bot leans all the way into that question. It lets you spin up **multiple agents** and, crucially, **personalize** each one. Different guidance, different specialties, different names.
 
 That personalization matters more than it sounds. An agent that is *only* a database specialist, with only database guidance loaded and a name that reminds you what it's for, tends to behave like a better database specialist. Specialization is a feature, not just a vibe. Narrow the job and you narrow the mistakes.
