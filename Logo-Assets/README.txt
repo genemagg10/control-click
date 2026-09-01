@@ -71,15 +71,36 @@ TYPE
   Both are free on Google Fonts.
 
 
-SOCIAL IMAGE (og-image)
-og-image.html   1200×630 template for the link-preview / social card. It
-                mirrors the live homepage hero in human mode: the wordmark,
-                the human-first headline ("AI That Makes Your Team Better.
-                Not Smaller."), and the No jargon · No judgment · No mystery
-                boxes trust line, on the warm off-white ground. Edit the
-                copy here, then render with headless Chromium at 1200×630
-                to produce the repo's /og-image.png. Keep it light and
-                human — never revert to the old dark, price-led card.
+SOCIAL IMAGE (og-image) — one card per reading level
+There are three 1200×630 social cards, one for each level of the site's
+reading-level control. Each has an HTML template here and renders to a PNG
+in the repo root with headless Chromium (viewport 1200×630, wait for
+document.fonts.ready, screenshot):
+
+  og-image.html            → /og-image.png            INTERMEDIATE (default)
+                             The site-wide default. Human-mode hero for the
+                             business audience: "AI That Makes Your Team
+                             Better. Not Smaller." + the trust line, on the
+                             warm off-white ground.
+
+  og-image-beginner.html   → /og-image-beginner.png   BEGINNER
+                             Same light, human ground, but the individual /
+                             family message: "AI That Works for You. Not
+                             Instead of You." + the trust line.
+
+  og-image-expert.html     → /og-image-expert.png      EXPERT
+                             The CLI easter egg as a card: phosphor-on-black
+                             terminal, JetBrains Mono, the ⌃click ❯ prompt,
+                             for technical peers — "Your Technical Peer. Not
+                             a Vendor." Palette matches assets/expert-mode.css.
+                             (This one is dark BY DESIGN — it mirrors expert
+                             mode. That is not the same as the old dark,
+                             price-led enterprise card, which stays retired.)
+
+The two light cards must stay light and human — never revert them to the
+old dark, price-led enterprise headline. Render command (per file):
+  chromium --headless=new --no-sandbox --window-size=1200,630 \
+    --virtual-time-budget=6000 --screenshot=<out>.png file://<template>.html
 
 Need any other size, a real .ico bundle, an animated version, or the
 mark tweaked — just ask.
