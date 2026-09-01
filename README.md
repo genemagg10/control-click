@@ -25,7 +25,9 @@ The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups,
 | `assets/brand/favicon-32.png`, `favicon-16.png` | Raster favicons for the browser tab. |
 | `assets/brand/apple-touch-icon.png` | 180px navy app-icon tile for iOS home screens. |
 | `assets/brand/wordmark-horizontal-dark.png` | Horizontal wordmark for dark grounds. |
-| `og-image.png` | Social sharing image: the wordmark, the site's human-first headline ("AI That Makes Your Team Better. Not Smaller."), and the No jargon · No judgment · No mystery boxes trust line, on the warm off-white ground of human mode. Regenerate from `Logo-Assets/og-image.html` at 1200×630. |
+| `og-image.png` | Default social sharing image (the **Intermediate** card): the wordmark, the business headline ("AI That Makes Your Team Better. Not Smaller."), and the No jargon · No judgment · No mystery boxes trust line, on the warm off-white ground of human mode. Regenerate from `Logo-Assets/og-image.html` at 1200×630. |
+| `og-image-beginner.png` | **Beginner** social card — the individual/family message ("AI That Works for You. Not Instead of You.") on the same light ground. From `Logo-Assets/og-image-beginner.html`. |
+| `og-image-expert.png` | **Expert** social card — the CLI easter egg as a phosphor-on-black terminal ("Your Technical Peer. Not a Vendor."), matching `assets/expert-mode.css`. From `Logo-Assets/og-image-expert.html`. |
 
 ### Colors
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+  Ctrl+Click social card (og-image) — EXPERT level — 1200×630.
+  Mirrors the CLI easter egg: phosphor-on-black terminal, JetBrains Mono,
+  the ⌃click ❯ prompt, coral/amber/teal window lights. For technical peers
+  who evaluate on craft. Palette matches assets/expert-mode.css (html.expert).
+  Render to /og-image-expert.png with headless Chromium:
+
+    (viewport 1200×630, wait for document.fonts.ready, screenshot)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" />
+<style>
+  :root {
+    --bg: #04070C;
+    --term-bg: #06090F;
+    --term-panel: #080C14;
+    --text: #D7E3DC;        /* soft phosphor white-green */
+    --muted: #6A7B84;
+    --teal: #2FBCA9;
+    --teal-dim: rgba(47,188,169,.55);
+    --coral: #E8674C;
+    --amber: #E0B44C;
+    --line: rgba(47,188,169,.22);
+    --font-term: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: var(--font-term);
+    color: var(--text);
+    background:
+      radial-gradient(900px 600px at 15% -10%, rgba(47,188,169,.12), transparent),
+      radial-gradient(800px 520px at 95% 110%, rgba(232,103,76,.08), transparent),
+      var(--bg);
+    padding: 46px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* faint scanlines, like the CLI */
+  body::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(180deg, rgba(47,188,169,.035) 0 1px, transparent 1px 4px);
+    mix-blend-mode: screen;
+  }
+
+  .window {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(47,188,169,.03), transparent 40%), var(--term-bg);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.4), 0 30px 80px rgba(0,0,0,.5);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .titlebar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--line);
+    background: #05080E;
+  }
+  .lights { display: inline-flex; gap: 9px; }
+  .lights i { width: 14px; height: 14px; border-radius: 50%; display: block; }
+  .lights i:nth-child(1){ background:#E8674C; }
+  .lights i:nth-child(2){ background:#E0B44C; }
+  .lights i:nth-child(3){ background:#2FBCA9; }
+  .path { color: var(--muted); font-size: 18px; letter-spacing: .5px; }
+  .path b { color: var(--teal); font-weight: 700; }
+
+  .body { flex: 1; padding: 40px 44px; display: flex; flex-direction: column; justify-content: center; }
+
+  .cmd { font-size: 22px; line-height: 1.7; letter-spacing: .2px; }
+  .prompt { color: var(--teal); font-weight: 700; }
+  .prompt .caret2 { color: var(--teal); }
+  .muted { color: var(--muted); }
+  .hash  { color: var(--muted); }
+  .ok    { color: var(--teal); }
+  .val   { color: var(--text); }
+
+  h1 {
+    font-family: var(--font-term); font-weight: 800;
+    font-size: 68px; line-height: 1.04; letter-spacing: -1.5px;
+    margin: 20px 0 22px; color: var(--text);
+  }
+  h1 .lo { color: var(--teal); text-shadow: 0 0 18px rgba(47,188,169,.45); }
+
+  .blink {
+    display: inline-block; width: 15px; height: 30px; margin-left: 6px;
+    background: var(--teal); vertical-align: -4px; box-shadow: 0 0 10px rgba(47,188,169,.6);
+  }
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="path">~/ai-it-solutions — <b>⌃click@ctrlclick</b></span>
+    </div>
+    <div class="body">
+      <div class="cmd"><span class="prompt">⌃click <span class="caret2">❯</span></span> whoami</div>
+      <div class="cmd"><span class="ok">→</span> <span class="val">Ctrl+Click — AI &amp; IT Solutions</span>&nbsp;&nbsp;<span class="hash"># formerly Maggio Consulting</span></div>
+
+      <h1>Your Technical Peer.<br /><span class="lo">Not a Vendor.</span></h1>
+
+      <div class="cmd"><span class="prompt">⌃click <span class="caret2">❯</span></span> cat principles.txt</div>
+      <div class="cmd"><span class="val">no jargon</span> <span class="muted">·</span> <span class="val">no lock-in</span> <span class="muted">·</span> <span class="val">you own everything</span></div>
+      <div class="cmd"><span class="prompt">⌃click <span class="caret2">❯</span></span><span class="blink" aria-hidden="true"></span></div>
+    </div>
+  </div>
+</body>
+</html>
