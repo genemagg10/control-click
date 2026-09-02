@@ -4,7 +4,7 @@ description: >-
   AI memory started inside apps, moved into repositories, and is now being
   pulled through agent harnesses. The real question is continuity: who owns
   the context, and can you take it with you?
-date: 2026-09-02 08:00:00 -0700
+date: 2026-09-02 00:30:00 -0700
 ---
 
 I thought I was asking a storage question.
