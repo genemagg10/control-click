@@ -25,9 +25,9 @@ The full production brand kit lives in `Logo-Assets/` (marks, favicons, lockups,
 | `assets/brand/favicon-32.png`, `favicon-16.png` | Raster favicons for the browser tab. |
 | `assets/brand/apple-touch-icon.png` | 180px navy app-icon tile for iOS home screens. |
 | `assets/brand/wordmark-horizontal-dark.png` | Horizontal wordmark for dark grounds. |
-| `og-image.png` | Default social sharing image (the **Intermediate** card): the wordmark, the business headline ("AI That Makes Your Team Better. Not Smaller."), and the No jargon · No judgment · No mystery boxes trust line, on the warm off-white ground of human mode. Regenerate from `Logo-Assets/og-image.html` at 1200×630. |
-| `og-image-beginner.png` | **Beginner** social card — the individual/family message ("AI That Works for You. Not Instead of You.") on the same light ground. From `Logo-Assets/og-image-beginner.html`. |
-| `og-image-expert.png` | **Expert** social card — the CLI easter egg as a phosphor-on-black terminal ("Your Technical Peer. Not a Vendor."), matching `assets/expert-mode.css`. From `Logo-Assets/og-image-expert.html`. |
+| `og-image.png` | Default social sharing image (the **Team** card): the wordmark, the headline ("AI That Makes Your Team Stronger. Not Smaller."), and the No jargon · No judgment · No mystery boxes trust line, on the warm off-white ground of human mode. Regenerate from `Logo-Assets/og-image.html` at 1200×630. |
+| `og-image-beginner.png` | **Individual** social card — "AI That Works for You. Not Instead of You." on the same light ground. From `Logo-Assets/og-image-beginner.html`. The filename is kept so older links still resolve. |
+| `og-image-expert.png` | **Expert** social card — the CLI Easter egg as a phosphor-on-black terminal, matching `assets/expert-mode.css`. From `Logo-Assets/og-image-expert.html`. The command line is just for fun, not a separate service. |
 
 ### Colors
 
@@ -53,15 +53,15 @@ Both are free on Google Fonts and loaded in the page `<head>`.
 
 `index.html` (with empty front matter so Jekyll renders its service cards from the `_services` collection with Liquid). The default look is **human mode**: a warm, light take on the brand palette (off-white ground, navy ink, teal + coral accents), written in plain language for visitors who aren't technical. The full dark aesthetic lives on inside **expert mode** — approachable on the surface, power one control-click down, which is the brand pitch made literal.
 
-A small **reading-level control** (Beginner / Intermediate / Expert) sits, understated, at the top of the homepage, and it now sets *who the page speaks to*, not just how deep it goes:
+A small **audience control** (Individual / Team / Expert) sits at the top of the homepage. It asks who the visitor is, not how skilled they are:
 
-- **Beginner** (default) is for individuals, families, and small businesses; the hero — "AI that works for you, not instead of you" — names the replacement fear and reframes AI as something you direct.
-- **Intermediate** is for businesses weighing internal IT, an outside managed-services provider, or no solution yet — and absorbs the higher-end service band (product management & leadership, large-scale M&A migrations, family offices). It reveals a `how` line and tool-stack chips on each service card and swaps the hero headline/subhead to the team message.
-- **Expert** is the CLI easter egg only — the fun terminal takeover, not an audience tier.
+- **Team** (default) is for businesses, nonprofits, and households. Families are welcome. The hero is "AI that makes your team stronger. Not smaller." Team services (networks, identity, collaboration, email migration, hosting, AI) show here, plus household tech help and Ctrl+Care. Service cards also show the how and the tools.
+- **Individual** is for one person: solo professionals, personal devices, and learning AI at their own pace. The hero stays "AI that works for you. Not instead of you."
+- **Expert** is the command-line Easter egg only — just for fun, not a service we sell.
 
-Both hero variants live in the DOM (crawlers see both) and one shows at a time via `html.intermediate`. The level is remembered per browser in `ctrlclick:level`, kept independent of `ctrlclick:expert` (the CLI).
+Both hero variants live in the DOM (crawlers see both) and one shows at a time via `html.team` or `html.individual`. The choice is remembered per browser in `ctrlclick:level` (`team` or `individual`), kept independent of `ctrlclick:expert` (the CLI). Saved values from the old skill ladder migrate: `beginner` → `individual`, `intermediate` → `team`.
 
-On every **resource/reference page** (services, glossary, FAQ, email settings, stories) the control is pinned to Beginner and the Intermediate/Expert levels are shown *locked* (dimmed, padlocked). Tapping a locked level isn't a switch — it's a conversation hook that reveals a "schedule your free consultation to unlock" note. The locked behavior lives in `_includes/reading-level.html` and the `is-locked` branch of `assets/level.js`.
+The same switch appears on reference pages (services, glossary, FAQ, email settings, stories). Those guides stay readable either way; the choice is remembered for the home page, and Expert still opens the command line.
 
 Content: six business services (Networking, Identity Management, AI Services & Automation, Team Collaboration, Email Hosting & Migration, Web Hosting & Domain Routing) and six personal services (Email Management, Device Maintenance, Basic Troubleshooting, Technology Education, Introduction to AI, Smart Phone Setup & Training). **Each service is one file in `_services/` — the single source of truth** — rendered both as a homepage card (with its `plain` one-liner, `how` line, and `stack` chips) and as its own indexable page at **`/services/<slug>/`** (full obstacles → capabilities → outcomes detail; no slide-over). Plus the "Our promise" manifesto, named fixed-scope packages, an FAQ, scheduling/messaging links, and evergreen pages:
 

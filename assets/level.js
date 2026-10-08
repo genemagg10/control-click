@@ -1,55 +1,47 @@
 /* =====================================================================
-   Ctrl+Click — Reading-level control (Beginner / Intermediate / Expert)
-   Runs on every page. Beginner and Intermediate stay on the light site;
-   Intermediate reveals the "how" + tool chips on the homepage's service
-   cards (via html.intermediate). Expert hands off to expert-mode.js.
-   A brief toast confirms the switch, since on many pages the change is
-   below the fold (or, on reference pages, deliberately subtle).
+   Ctrl+Click — Audience control (Individual / Team / Expert)
+   Runs on every page. Individual and Team stay on the light site.
+   Team reveals the "how" + tool chips on the homepage's service cards
+   (via html.team). Expert hands off to expert-mode.js: a command-line
+   Easter egg, just for fun, not a separate service.
 
-   Locked switches: resource / reference pages (the default layout) render
-   the control with `.level-switch.is-locked` and lock Intermediate + Expert.
-   Those pages stay pinned at Beginner; clicking a locked level is a
-   conversation hook — it reveals the "book a free consultation" note
-   (#levelUnlock) instead of switching. Only the homepage switches for real.
+   The choice is remembered in localStorage `ctrlclick:level`
+   ("individual" or "team"). Stale values from the old skill ladder
+   migrate before paint in the inline head script, and again here:
+   beginner → individual, intermediate → team. Anything else defaults
+   to team. Expert mode (`ctrlclick:expert`) stays independent, so
+   leaving the command line returns you to the audience you chose.
    ===================================================================== */
 (function () {
   "use strict";
   var root = document.documentElement;
 
-  function isLocked() {
-    var sw = document.getElementById("levelSwitch");
-    return !!(sw && sw.classList.contains("is-locked"));
-  }
-  function currentLevel() {
-    // Expert CLI is an overlay (html.expert), not a reading level. The slider
-    // always reflects the light-site level we'll return to on exit. Locked
-    // (resource) pages are pinned at Beginner regardless of the saved level.
-    if (isLocked()) return "beginner";
-    return root.classList.contains("intermediate") ? "intermediate" : "beginner";
+  function currentAudience() {
+    return root.classList.contains("individual") ? "individual" : "team";
   }
   function persist(level) {
     try { localStorage.setItem("ctrlclick:level", level); } catch (e) {}
   }
   function syncButtons() {
-    var lvl = currentLevel();
+    var lvl = currentAudience();
     document.querySelectorAll(".level-btn").forEach(function (btn) {
-      // A locked level is never shown as active — it's an invitation, not a state.
       var on = !btn.classList.contains("is-locked") && btn.dataset.level === lvl;
       btn.classList.toggle("is-active", on);
       btn.setAttribute("aria-pressed", on ? "true" : "false");
     });
   }
 
-  /* Reveal the consultation hook when someone taps a locked level. */
+  /* A locked button (if a page still marks one) is a conversation hook,
+     not a switch. The live site no longer locks Team or Expert. */
   function showUnlock() {
     var note = document.getElementById("levelUnlock");
     if (note) note.hidden = false;
-    toast("That level is unlocked with a free consultation — see below.");
+    toast("The command-line view is just for fun. For real help, book a free chat.");
   }
 
   var TOASTS = {
-    beginner: "Beginner · plain and simple.",
-    intermediate: "Intermediate · now showing the how, the tools, and the jargon (all defined)."
+    individual: "Individual · help for one person.",
+    team: "Team · businesses, nonprofits, and families."
   };
   var toastEl = null, toastTimer = null;
   function toast(msg) {
@@ -62,48 +54,90 @@
     }
     toastEl.textContent = msg;
     toastEl.classList.remove("is-visible");
-    void toastEl.offsetWidth; // restart the transition
+    void toastEl.offsetWidth;
     toastEl.classList.add("is-visible");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 2800);
   }
 
-  /* Apply a light-site level (beginner / intermediate). Optionally toast. */
-  function applyLevel(level, opts) {
+  function applyAudience(level, opts) {
     opts = opts || {};
-    root.classList.toggle("intermediate", level === "intermediate");
-    persist(level);
+    var audience = level === "individual" ? "individual" : "team";
+    root.classList.toggle("individual", audience === "individual");
+    root.classList.toggle("team", audience === "team");
+    persist(audience);
     syncButtons();
-    if (opts.toast && TOASTS[level]) toast(TOASTS[level]);
+    if (opts.toast && TOASTS[audience]) toast(TOASTS[audience]);
   }
 
   function setLevel(level) {
     if (level === "expert") {
-      // Hand off to the CLI; expert-mode.js keeps its own state. The
-      // beginner/intermediate level is left as-is so exit restores it.
+      // The command line is an overlay. The Individual/Team choice stays
+      // put so leaving the CLI restores it.
       if (window.CtrlClickExpert) window.CtrlClickExpert.enable();
       else { try { localStorage.setItem("ctrlclick:expert", "on"); } catch (e) {} location.reload(); }
       return;
     }
-    var changed = currentLevel() !== level;
-    applyLevel(level, { toast: changed });
+    if (level !== "individual" && level !== "team") return;
+    var changed = currentAudience() !== level;
+    applyAudience(level, { toast: changed });
+  }
+
+  /* If the head script didn't run, migrate storage and paint the class. */
+  function ensureAudience() {
+    var raw = null;
+    try { raw = localStorage.getItem("ctrlclick:level"); } catch (e) { raw = null; }
+    var next = raw;
+    if (raw === "beginner") next = "individual";
+    else if (raw === "intermediate") next = "team";
+    else if (raw !== "individual" && raw !== "team") next = "team";
+    if (next !== raw) persist(next);
+    if (!root.classList.contains("individual") && !root.classList.contains("team")) {
+      root.classList.add(next);
+    }
+  }
+
+  /* #business lives only on the Team view. Switch before the jump so the
+     section is actually there — including when the link leaves this page. */
+  function hashOf(href) {
+    var i = href.indexOf("#");
+    return i === -1 ? "" : href.slice(i + 1);
+  }
+  function onDocClick(e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var href = a.getAttribute("href") || "";
+    var hash = hashOf(href);
+    if (hash !== "business") return;
+    applyAudience("team");
+    var samePage = href.charAt(0) === "#" || a.pathname === window.location.pathname;
+    if (!samePage) return;
+    var el = document.getElementById("business");
+    if (!el) return;
+    e.preventDefault();
+    if (history.pushState) history.pushState(null, "", "#business");
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function init() {
+    ensureAudience();
     document.querySelectorAll(".level-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         if (btn.classList.contains("is-locked")) { showUnlock(); return; }
         setLevel(btn.dataset.level);
       });
     });
+    document.addEventListener("click", onDocClick);
     syncButtons();
+    if (hashOf(window.location.hash) === "business" && currentAudience() !== "team") {
+      applyAudience("team");
+      var el = document.getElementById("business");
+      if (el) el.scrollIntoView({ block: "start" });
+    }
   }
 
-  /* Public API so expert-mode.js can re-sync the slider when the CLI is
-     exited — the light-site level is unchanged, and the toggle should show
-     Beginner or Intermediate, whichever we'll land on. */
   window.CtrlClickLevel = {
-    set: function (level) { applyLevel(level); },
+    set: function (level) { applyAudience(level); },
     sync: syncButtons
   };
 
