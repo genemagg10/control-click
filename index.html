@@ -6,18 +6,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ctrl+Click: AI &amp; IT Solutions</title>
-  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting) helps Bay Area businesses and families get more out of technology. AI that makes your team better, not smaller — set up right, taught in plain English, owned by you." />
+  <meta name="description" content="Ctrl+Click (formerly Maggio Consulting) helps Bay Area individuals, families, nonprofits, and businesses get more out of technology. AI that makes your team stronger, not smaller — people built up, taught in plain English, and owned by you." />
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png" />
   <meta property="og:title" content="Ctrl+Click: AI &amp; IT Solutions" />
-  <meta property="og:description" content="AI that makes your team better. Not smaller. We pair people with the right tools, then teach you to run everything yourselves. Plain English, no judgment, no mystery boxes." />
+  <meta property="og:description" content="AI that makes your team stronger. Not smaller. We build people up with the right tools, then teach you to run everything yourselves. Plain English, no judgment, no mystery boxes." />
   <meta property="og:image" content="og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ctrl+Click: AI &amp; IT Solutions" />
+  <meta name="twitter:description" content="AI that makes your team stronger. Not smaller. We build people up with the right tools, then teach you to run everything yourselves. Plain English, no judgment, no mystery boxes." />
+  <meta name="twitter:image" content="og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=JetBrains+Mono:wght@500;700&family=VT323&display=swap" />
-  <link rel="stylesheet" href="assets/expert-mode.css?v=9" />
+  <link rel="stylesheet" href="assets/expert-mode.css?v=10" />
   <!-- Expert mode is opt-in and remembered per browser. Apply the class before
        first paint so a returning visitor never sees a flash of the normal site.
        `cli-home` marks THIS page (the landing page) as the one that turns into
@@ -25,12 +31,12 @@
        every screen size (desktop and mobile alike). Entering expert mode stays
        a hidden easter egg. Other pages get `cli-full` without `cli-home`, so
        they render their own content into the terminal. -->
-  <!-- Reading level (beginner default · intermediate · expert) is opt-in and
-       remembered per browser. `ctrlclick:level` drives the light-site depth;
-       `ctrlclick:expert` drives the full CLI takeover. Exiting the CLI restores
-       the previous light-site level (and moves the slider there). Applied before
-       first paint so a returning visitor never sees a flash of the wrong depth. -->
-  <script>try{var d=document.documentElement;d.classList.add('cli-home');if(localStorage.getItem('ctrlclick:level')==='intermediate'){d.classList.add('intermediate');}if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
+  <!-- Audience (team default · individual · expert) is remembered per browser.
+       `ctrlclick:level` is "team" or "individual". Stale values migrate here,
+       before first paint: beginner → individual, intermediate → team.
+       `ctrlclick:expert` drives the full CLI takeover (a just-for-fun Easter
+       egg). Exiting the CLI restores the audience and moves the switch there. -->
+  <script>try{var d=document.documentElement,l=localStorage.getItem('ctrlclick:level');d.classList.add('cli-home');if(l==='beginner')l='individual';else if(l==='intermediate')l='team';else if(l!=='individual'&&l!=='team')l='team';try{localStorage.setItem('ctrlclick:level',l);}catch(e){}d.classList.add(l);if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
   <script data-goatcounter="https://genemaggio.goatcounter.com/count"
           async src="https://gc.zgo.at/count.js"></script>
   <style>
@@ -357,27 +363,36 @@
     .faq .faq-a p { margin: 0 0 10px; }
     .faq .faq-a p:last-child { margin: 0; }
 
-    /* The reading-level control chrome + toast live in assets/expert-mode.css
-       (loaded on every page). Only the homepage-specific reveal rules stay here. */
+    /* The audience-switch chrome + toast live in assets/expert-mode.css.
+       Only the homepage reveal rules stay here. */
 
-    /* Intermediate-only extras on service cards: present in the DOM, revealed
-       only when html.intermediate is on. */
+    /* Team shows the how and the tools. With no class yet, team is the default. */
     .svc-how, .svc-stack { display: none; }
-    html.intermediate .svc-how { display: block; margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--muted); }
-    html.intermediate .svc-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    html:not(.individual) .svc-how { display: block; margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+    html:not(.individual) .svc-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .svc-stack .stk { font-family: var(--font-mono); font-size: 11.5px; background: #EDF1F4; border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--ink-soft); }
-    /* In intermediate, the plain line stays but the section ledes get a hint */
     .lvl-hint { display: none; }
-    html.intermediate .lvl-hint { display: inline; color: var(--teal); }
+    html:not(.individual) .lvl-hint { display: inline; color: var(--teal); }
 
-    /* The hero headline + subhead swap with the reading level. Both variants
-       live in the DOM (so crawlers see both); only one shows at a time. The
-       beginner copy speaks to individuals, families, and small businesses; the
-       intermediate copy speaks to businesses weighing internal IT, an outside
-       provider, or no solution yet. */
-    .hero-copy--intermediate { display: none; }
-    html.intermediate .hero-copy--beginner { display: none; }
-    html.intermediate .hero-copy--intermediate { display: block; }
+    /* One audience at a time. Both copies stay in the DOM for crawlers.
+       No class yet (script blocked) shows the Team page. */
+    html.individual .only-team,
+    html.team .only-individual,
+    html:not(.individual):not(.team) .only-individual { display: none !important; }
+
+    .audience-note { margin: -4px 0 18px; text-align: right; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+    article.proof { cursor: default; }
+    article.proof:hover { transform: none; border-color: var(--line); box-shadow: var(--shadow-1); }
+    .example-all { max-width: 820px; margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-1); }
+    .example-all summary { cursor: pointer; padding: 14px 18px; font-weight: 700; font-size: 16px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .example-all summary::-webkit-details-marker { display: none; }
+    .example-all summary::after { content: "+"; color: var(--teal); font-weight: 700; font-size: 22px; line-height: 1; }
+    .example-all[open] summary::after { content: "\2013"; }
+    .example-all[open] summary { border-bottom: 1px solid var(--line); }
+    .example-all summary:focus-visible { outline: 2px solid var(--teal-bright); outline-offset: -2px; border-radius: 12px; }
+    .example-all .example-all-body { padding: 14px 18px 16px; color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+    .example-all .example-all-body p { margin: 0 0 10px; }
+    .example-all .example-all-body p:last-child { margin: 0; }
 
     /* ====== Responsive ====== */
     @media (max-width: 960px) {
@@ -418,6 +433,7 @@
       /* collapse the phone to a 44px tap-to-call chip so the header stays tidy */
       .phone-link { width: 44px; height: 44px; justify-content: center; padding: 0; border: 1px solid var(--line); background: var(--panel); }
       .phone-link .phone-num { display: none; }
+      .audience-note { text-align: center; }
     }
     @media (max-width: 400px) {
       /* Ease the wordmark down so it still clears the buttons on one row */
@@ -478,15 +494,19 @@
   </header>
 
   <main class="container" id="main">
-    <!-- ====== Reading-level control ====== -->
+    <!-- ====== Audience control ====== -->
     <div class="level-switch" id="levelSwitch">
-      <span class="level-label">Detail level</span>
-      <div class="level-seg" role="group" aria-label="How much detail the site shows">
-        <button type="button" class="level-btn" data-level="beginner" aria-pressed="true" title="Plain and simple (default)">Beginner</button>
-        <button type="button" class="level-btn" data-level="intermediate" aria-pressed="false" title="Shows the how and the tools on each service">Intermediate</button>
-        <button type="button" class="level-btn" data-level="expert" aria-pressed="false" title="The command-line view of the whole site">⌃ Expert</button>
+      <span class="level-label">Who it's for</span>
+      <div class="level-seg" role="group" aria-label="Choose who this page is speaking to">
+        <button type="button" class="level-btn" data-level="individual" aria-pressed="false" title="One person — your own work, devices, and learning AI at your pace">Individual</button>
+        <button type="button" class="level-btn is-active" data-level="team" aria-pressed="true" title="A business, nonprofit, or household. Teams and families welcome.">Team</button>
+        <button type="button" class="level-btn" data-level="expert" aria-pressed="false" title="Just for fun: a command-line Easter egg, not a service we sell">⌃ Expert</button>
       </div>
     </div>
+    <p class="audience-note">
+      <span class="only-individual">One person: your own work, your devices, and learning AI at your pace.</span>
+      <span class="only-team">Teams and families: a business, a nonprofit, or a household.</span>
+    </p>
 
     <!-- ====== Hero ====== -->
     <section class="hero" aria-label="Introduction">
@@ -494,19 +514,19 @@
         <div class="hero-card">
           <span class="formerly"><span aria-hidden="true">⌃</span> formerly <b>Maggio Consulting</b></span>
 
-          <!-- Beginner (default): individuals, families, and small businesses. -->
-          <div class="hero-copy hero-copy--beginner">
+          <!-- Individual: one person. Solo work, personal devices, learning AI. -->
+          <div class="hero-copy only-individual">
             <h2>AI That Works for You. <span class="grad">Not Instead of You.</span></h2>
             <p>
-              You have so much more to offer than any tool. We help Bay Area individuals, families, and small businesses put AI to work on the busywork &mdash; so you can spend more time on the work you love and know so well. We set it up, teach you to run it yourself, and you keep everything.
+              You&rsquo;re one person, and you have more to offer than any tool. We help solo professionals &mdash; and anyone learning AI at their own pace &mdash; put it to work on spreadsheets, inboxes, phones, and the busywork. We set it up, teach you to run it, and you keep everything.
             </p>
           </div>
 
-          <!-- Intermediate: businesses weighing internal IT, an outside provider, or no solution yet. -->
-          <div class="hero-copy hero-copy--intermediate">
-            <h2>AI That Makes Your Team Better. <span class="grad">Not Smaller.</span></h2>
+          <!-- Team (default): businesses, nonprofits, and households. -->
+          <div class="hero-copy only-team">
+            <h2>AI That Makes Your Team Stronger. <span class="grad">Not Smaller.</span></h2>
             <p>
-              Whether your business runs on an internal IT person, an outside managed-services provider, or no solution yet, we pair the right AI tools, systems, and platforms with your people &mdash; set up right and owned outright. For teams that need more, we step in on product management and leadership, large-scale migrations from mergers and acquisitions, and family-office support. We measure success by what your team can do without us.
+              A team might be a business, a nonprofit, or a family at the kitchen table. We help the people you already have become more capable &mdash; with AI, solid networks, and everyday technology that fits how you actually work. We set it up, teach your people to run it, and you own everything. We will never pitch a smaller team.
             </p>
           </div>
 
@@ -543,22 +563,25 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
       <h3>How It Works</h3>
     </div>
-    <p class="section-lede">The same four steps every time &mdash; we call it the Matching Method. No surprises, no lock-in, and you end up more capable than you started.</p>
+    <p class="section-lede">
+      <span class="only-individual">The same four steps every time &mdash; we call it the Matching Method. No surprises, no lock-in, and you end up more capable than you started.</span>
+      <span class="only-team">The same four steps every time &mdash; we call it the Matching Method. No surprises, no lock-in, and your people end up more capable than they started.</span>
+    </p>
     <div class="steps">
-      <div class="step"><div class="st-no">1</div><h4>Listen</h4><p>A free 30-minute chat about how your team or household actually works today. No sales pitch, no jargon.</p></div>
-      <div class="step"><div class="st-no">2</div><h4>Match</h4><p>A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</p></div>
+      <div class="step"><div class="st-no">1</div><h4>Listen</h4><p><span class="only-individual">A free 30-minute chat about how you actually work today. No sales pitch, no jargon.</span><span class="only-team">A free 30-minute chat about how your team or household actually works today. No sales pitch, no jargon.</span></p></div>
+      <div class="step"><div class="st-no">2</div><h4>Match</h4><p><span class="only-individual">A plain-English plan matching the right tools to you &mdash; with a fixed price on it before we start.</span><span class="only-team">A plain-English plan matching the right tools to your people &mdash; with a fixed price on it before we start.</span></p></div>
       <div class="step"><div class="st-no">3</div><h4>Empower</h4><p>We set everything up and train you hands-on until you&rsquo;re confident, not just covered.</p></div>
       <div class="step"><div class="st-no">4</div><h4>Stay</h4><p>You own every account, password, and document. We stay reachable &mdash; but you&rsquo;re never locked in.</p></div>
     </div>
 
-    <!-- ====== Business Services ====== -->
-    <div class="section-title" id="business">
+    <!-- ====== Team services: networks, identity, collaboration, email, hosting, AI ====== -->
+    <div class="section-title only-team" id="business">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zM9 3h6v2H9zm-1 8h8v2H8zm0 4h5v2H8z"/></svg>
-      <h3>For Your Business</h3>
+      <h3>For Your Team</h3>
     </div>
-    <p class="section-lede">Tools that fit how your team actually works — set up right, taught hands-on, and owned by you. Click any card for the full picture.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
+    <p class="section-lede only-team">Networks, sign-in, collaboration, email moves, hosting, and AI &mdash; set up so the people you already have can do more. For a business, a nonprofit, or a household that needs the same backbone. Click any card for the full picture.<span class="lvl-hint"> Each card also shows how we&rsquo;d do it, and the tools we&rsquo;d reach for.</span></p>
 
-    <div id="businessServicesGrid" class="grid" role="list" aria-label="Business service list">
+    <div id="businessServicesGrid" class="grid only-team" role="list" aria-label="Team service list">
       {% assign biz = site.services | where: "category", "business" | sort: "order" %}
       {% for service in biz %}
       <div class="card" role="listitem" data-slug="{{ service.slug }}" data-url="{{ service.url | relative_url }}">
@@ -576,14 +599,17 @@
       {% endfor %}
     </div>
 
-    <!-- ====== Personal Services ====== -->
+    <!-- ====== One person, and household tech. Same cards; the heading swaps. ====== -->
     <div class="section-title" id="personal">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="#146E63" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      <h3>For You &amp; Your Family</h3>
+      <h3><span class="only-individual">For You</span><span class="only-team">For Your Household</span></h3>
     </div>
-    <p class="section-lede">Patient, one-on-one help with the technology in your life — at your pace, in plain language. No question is too small.<span class="lvl-hint"> Each card now shows the method and the tools we’d reach for.</span></p>
+    <p class="section-lede">
+      <span class="only-individual">Your own devices, your inbox, and learning AI at your pace. Solo professionals welcome. Patient, plain-language help. No question is too small.</span>
+      <span class="only-team">Families count as a team. Patient help with phones, computers, and the technology at home &mdash; at your pace, in plain language. No question is too small.<span class="lvl-hint"> Each card also shows how we&rsquo;d do it, and the tools we&rsquo;d reach for.</span></span>
+    </p>
 
-    <div id="personalServicesGrid" class="grid" role="list" aria-label="Personal service list">
+    <div id="personalServicesGrid" class="grid" role="list" aria-label="Help for one person or a household">
       {% assign pers = site.services | where: "category", "personal" | sort: "order" %}
       {% for service in pers %}
       <div class="card" role="listitem" data-slug="{{ service.slug }}" data-url="{{ service.url | relative_url }}">
@@ -606,13 +632,34 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#146E63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
       <h3>Real Work, Real Results</h3>
     </div>
-    <p class="section-lede">A few field notes from actual projects and experiments &mdash; in our own words. This is how we think, and what working with us is like.</p>
+    <p class="section-lede">Field notes from real projects, and a few of the people Gene has actually helped. The examples say only what they came in wanting &mdash; no invented numbers, names, or quotes.</p>
     <div class="proof-grid">
-      <a class="proof" href="blog/email-migration-without-losing-a-single-message/" style="color:inherit;">
-        <span class="p-tag">Business &middot; Email</span>
+      <article class="proof only-individual">
+        <span class="p-tag">Individual &middot; Example</span>
+        <h4>An accountant, on their own books</h4>
+        <p>An individual accountant wanted to improve spreadsheet, QuickBooks, and other reporting work with AI support.</p>
+      </article>
+      <article class="proof only-team">
+        <span class="p-tag">Team &middot; Example</span>
+        <h4>A nonprofit, and the people it already has</h4>
+        <p>A nonprofit that can&rsquo;t afford to grow its volunteer team was excited to adopt tools that make the team it has more productive.</p>
+      </article>
+      <article class="proof only-team">
+        <span class="p-tag">Team &middot; Example</span>
+        <h4>A software team, working together</h4>
+        <p>A software team wanted better collaboration and communication tools, while also using AI to build a knowledge base and help with support.</p>
+      </article>
+      <a class="proof only-team" href="blog/email-migration-without-losing-a-single-message/" style="color:inherit;">
+        <span class="p-tag">Team &middot; Email</span>
         <h4>Moving email without losing a message</h4>
         <p>The exact staged method we use to move a business between Google Workspace, Microsoft 365, and legacy hosts: audit first, run both systems in parallel, cut over on a low TTL, and keep the old mail readable for 30 days.</p>
         <span class="learn">Read the method &rarr;</span>
+      </a>
+      <a class="proof only-individual" href="blog/omarchy-on-a-ten-year-old-macbook-pro/" style="color:inherit;">
+        <span class="p-tag">Individual &middot; Hardware</span>
+        <h4>New life for a 10-year-old laptop</h4>
+        <p>Instead of a $10k+ machine to run AI locally, a careful rebuild turned a 2016 MacBook Pro with 8GB of RAM into something genuinely useful again &mdash; and the honest math on when that&rsquo;s worth doing.</p>
+        <span class="learn">Read the story &rarr;</span>
       </a>
       <a class="proof" href="blog/building-trailtracker-ai-assisted-development/" style="color:inherit;">
         <span class="p-tag">AI &middot; Build</span>
@@ -620,13 +667,15 @@
         <p>An honest, unedited case study: building a live trail-tracking web app with AI assistance &mdash; four pivots, a few confident-but-wrong AI moments, and a clear line between where AI helps and where a human still has to drive.</p>
         <span class="learn">Read the case study &rarr;</span>
       </a>
-      <a class="proof" href="blog/omarchy-on-a-ten-year-old-macbook-pro/" style="color:inherit;">
-        <span class="p-tag">Personal &middot; Hardware</span>
-        <h4>New life for a 10-year-old laptop</h4>
-        <p>Instead of a $10k+ machine to run AI locally, a careful rebuild turned a 2016 MacBook Pro with 8GB of RAM into something genuinely useful again &mdash; and the honest math on when that&rsquo;s worth doing.</p>
-        <span class="learn">Read the story &rarr;</span>
-      </a>
     </div>
+    <details class="example-all">
+      <summary>All three examples, together</summary>
+      <div class="example-all-body">
+        <p><b>An individual accountant</b> wanted to improve spreadsheet, QuickBooks, and other reporting work with AI support.</p>
+        <p><b>A software team</b> wanted better collaboration and communication tools, while also using AI to build a knowledge base and help with support.</p>
+        <p><b>A nonprofit</b> that can&rsquo;t afford to grow its volunteer team was excited to adopt tools that make the team it has more productive. They wanted the people they already have to be able to do more &mdash; stronger, not smaller.</p>
+      </div>
+    </details>
 
     <!-- ====== Packages ====== -->
     <div class="section-title" id="packages">
@@ -636,8 +685,8 @@
     <p class="section-lede">A few clear starting points, each with a price agreed before we begin &mdash; so there are no surprises. Everything is tailored to fit, and everything we set up is yours to keep. Need something else? Just ask.</p>
 
     <div class="pkg-grid">
-      <div class="pkg">
-        <span class="pkg-for">For your business</span>
+      <div class="pkg only-team">
+        <span class="pkg-for">For your team</span>
         <h4>Ctrl+Care</h4>
         <p>Your fractional IT department: someone who knows your setup and is a call away, without a full-time hire.</p>
         <ul>
@@ -647,8 +696,8 @@
         </ul>
         <div class="pkg-foot"><span class="pkg-price">Monthly retainer, fixed rate</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
       </div>
-      <div class="pkg">
-        <span class="pkg-for">For individuals</span>
+      <div class="pkg only-individual">
+        <span class="pkg-for">For you</span>
         <h4>By the Hour</h4>
         <p>Don&rsquo;t let AI replace you &mdash; you have so much more to offer. Bring whatever&rsquo;s on your plate and we&rsquo;ll work through it together, one&#8209;on&#8209;one, at your pace.</p>
         <ul>
@@ -659,9 +708,9 @@
         <div class="pkg-foot"><span class="pkg-price">1, 3, or 5&#8209;hour blocks</span><a class="learn" href="https://calendar.app.google/QtYaUwA72XbuKN468">Get a quote &rarr;</a></div>
       </div>
       <div class="pkg">
-        <span class="pkg-for">For you &amp; your family</span>
+        <span class="pkg-for"><span class="only-individual">For you</span><span class="only-team">For your household</span></span>
         <h4>AI 101, One-on-One</h4>
-        <p>A patient, hands-on introduction to AI tools like ChatGPT and Claude &mdash; no technical background needed.</p>
+        <p><span class="only-individual">A patient, hands-on introduction to AI tools like ChatGPT and Claude &mdash; at your pace, no technical background needed.</span><span class="only-team">A patient, hands-on introduction for someone in your household &mdash; or the family, one person at a time. No technical background needed.</span></p>
         <ul>
           <li>What AI is and isn&rsquo;t, in plain English</li>
           <li>Real ways to use it in your day-to-day</li>
@@ -678,7 +727,7 @@
     </div>
     <div class="hero-card" style="max-width: 820px;">
       <div class="promise-list">
-        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>We build teams up.</b> We will never pitch AI as a way to cut your people.</span></div>
+        <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><span class="only-individual"><b>We build you up.</b> AI is here to make you more capable. It will never be pitched as your replacement.</span><span class="only-team"><b>We build teams up.</b> We will never pitch AI as a way to make your team smaller.</span></span></div>
         <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Plain English, always.</b> If we can&rsquo;t explain it simply, we don&rsquo;t understand it well enough yet.</span></div>
         <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No mystery boxes.</b> You own every account, every password, every document.</span></div>
         <div class="p-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>No question is too small,</b> and nobody gets made to feel dumb. Ever.</span></div>
@@ -713,17 +762,25 @@
     </div>
     <p class="section-lede">The honest answers to the things you might be wondering but hesitant to ask. Here are a few &mdash; the rest are on the <a href="faq/">full FAQ page</a>.</p>
     <div class="faq">
-      <details>
+      <details class="only-team">
         <summary>Are you going to replace my team with AI?</summary>
-        <div class="faq-a"><p>No &mdash; that&rsquo;s the opposite of what we do, and we&rsquo;ll put it in writing. We use AI to take the boring, repetitive work off your people so they can do the parts that need a human. We measure success by what your team can do, not by how few of them are left.</p></div>
+        <div class="faq-a"><p>No &mdash; and we&rsquo;ll put it in writing. We use AI to take the repetitive work off the people you have, so they can do the parts that need a human. We measure success by what your team can do, not by making it smaller. If someone pitches AI as a way to cut people, that isn&rsquo;t us.</p></div>
+      </details>
+      <details class="only-individual">
+        <summary>Is AI going to replace me?</summary>
+        <div class="faq-a"><p>No. You have more to offer than any tool. We use AI to take the busywork off your plate so you can spend time on the work you know and care about. It works for you. It does not take your place.</p></div>
       </details>
       <details>
         <summary>What will this cost?</summary>
         <div class="faq-a"><p>Every package comes with a fixed price, agreed before we start &mdash; no meters running, no surprise invoices. The first 30-minute chat is free, and you&rsquo;ll leave it knowing your options and rough costs either way.</p></div>
       </details>
-      <details>
+      <details class="only-team">
         <summary>What if my team hates new tools?</summary>
         <div class="faq-a"><p>That&rsquo;s usually a sign the tool didn&rsquo;t fit how they work, or nobody showed them why it helps. We choose tools around your actual workflows and train people hands-on. If something isn&rsquo;t getting used, we swap it or remove it &mdash; adoption is the whole point.</p></div>
+      </details>
+      <details class="only-individual">
+        <summary>I&rsquo;m not very technical. Is that a problem?</summary>
+        <div class="faq-a"><p>It&rsquo;s exactly who this is for. We explain things in plain English, we go at your pace, and we leave you with notes you can look back at. You should leave more capable than you arrived.</p></div>
       </details>
       <details>
         <summary>Are you going to judge my messy setup?</summary>
@@ -756,7 +813,7 @@
           </div>
           <div style="flex:1; min-width:0;">
             <div style="font-weight:700; font-size:17px;">AI + Coffee</div>
-            <p style="margin:4px 0 0; color:var(--ink-soft); font-size:15px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what&rsquo;s possible. No laptop required &mdash; all levels welcome.</p>
+            <p style="margin:4px 0 0; color:var(--ink-soft); font-size:15px;">Our free monthly meetup to explore AI tools over coffee. Share discoveries, ask questions, and see what&rsquo;s possible. No laptop required &mdash; everyone is welcome.</p>
             <a class="learn" href="ai-coffee/" style="display:inline-block; margin-top:10px;">Learn more &amp; save a seat &rarr;</a>
           </div>
         </div>
@@ -783,15 +840,15 @@
       <div class="ctx-title">⌃Click: you found the hidden menu</div>
       <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 30-minute chat</a>
       <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
-      <a href="#business">💼 Business services</a>
-      <a href="#personal">🏠 Personal services</a>
+      <a href="#business">💼 For your team</a>
+      <a href="#personal">🏠 For you &amp; household</a>
       <a href="glossary/">📖 Plain-English glossary</a>
       <a href="blog/">📓 Stories: notes from ⌃click</a>
       <div class="ctx-sep"></div>
       <button type="button" class="ctx-action js-expert-toggle">
         <span class="ctx-ico" aria-hidden="true">⌃</span>
-        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
-        <span class="ctx-expert-on">Exit expert mode</span>
+        <span class="ctx-expert-off">Command-line view <span class="ctx-expert-tag">just for fun</span></span>
+        <span class="ctx-expert-on">Exit command-line view</span>
       </button>
       <div class="ctx-sep"></div>
       <div class="ctx-note">That's the whole idea: a control‑click unlocks more. <span class="handle" style="font-style:normal;">· ⌃click</span></div>
@@ -800,14 +857,14 @@
       <div class="ctx-title">⌃Click: what we do</div>
       <p class="ctx-copy">On a Mac, control‑click opens the menu most people never see: more options, more power, one click away. That's what we do for people and businesses. We help you take control of your technology, personally and with your teams, by adopting AI, securing networks, building reliable infrastructure, implementing collaboration tools, and making everyday tech feel effortless.</p>
       <div class="ctx-sep"></div>
-      <a href="#business">💼 Business services</a>
-      <a href="#personal">🏠 Personal services</a>
+      <a href="#business">💼 For your team</a>
+      <a href="#personal">🏠 For you &amp; household</a>
       <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 30-minute chat</a>
       <div class="ctx-sep"></div>
       <button type="button" class="ctx-action js-expert-toggle">
         <span class="ctx-ico" aria-hidden="true">⌃</span>
-        <span class="ctx-expert-off">Enter expert mode <span class="ctx-expert-tag">CLI</span></span>
-        <span class="ctx-expert-on">Exit expert mode</span>
+        <span class="ctx-expert-off">Command-line view <span class="ctx-expert-tag">just for fun</span></span>
+        <span class="ctx-expert-on">Exit command-line view</span>
       </button>
     </div>
   </nav>
@@ -928,7 +985,7 @@
       message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
     };
   </script>
-  <script src="assets/level.js?v=4" defer></script>
-  <script src="assets/expert-mode.js?v=11" defer></script>
+  <script src="assets/level.js?v=5" defer></script>
+  <script src="assets/expert-mode.js?v=12" defer></script>
 </body>
 </html>

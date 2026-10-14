@@ -216,12 +216,17 @@
     help: {
       desc: "list everything you can do here",
       run: function () {
+        print("this command line is just for fun", "head");
+        print("an Easter egg for tinkerers — not a service we sell.", "out");
+        print("the real site is Individual (one person) or Team", "out");
+        print("(a business, a nonprofit, or a household). 'exit' goes back.", "out");
+        print("", "out");
         print("available commands", "head");
         var rows = [
           ["help", "show this list"],
           ["ls", "list all services"],
-          ["business", "list business services"],
-          ["personal", "list personal services"],
+          ["business", "list team services"],
+          ["personal", "list help for one person or a household"],
           ["open <name>", "open a service (e.g. open networking)"],
           ["glossary", "the plain-English tech glossary"],
           ["email", "email settings for every provider"],
@@ -234,7 +239,7 @@
           ["about", "what ctrl+click does"],
           ["whoami", "the ⌃click persona"],
           ["clear", "clear this output"],
-          ["exit", "leave the CLI (back to the normal site)"]
+          ["exit", "leave the command line (back to the normal site)"]
         ];
         rows.forEach(function (r) {
           print("  " + pad(r[0], 14) + r[1], "out");
@@ -292,8 +297,8 @@
         window.location.href = url;
       }
     },
-    business: { desc: "list business services", run: function () { if (fullCliActive()) listCategory("#businessServicesGrid .card[data-slug]", "business services", "business"); else goSection("business", "business"); } },
-    personal: { desc: "list personal services", run: function () { if (fullCliActive()) listCategory("#personalServicesGrid .card[data-slug]", "personal services", "personal"); else goSection("personal", "personal"); } },
+    business: { desc: "list team services", run: function () { if (window.CtrlClickLevel) window.CtrlClickLevel.set("team"); if (fullCliActive()) listCategory("#businessServicesGrid .card[data-slug]", "team services", "business"); else goSection("business", "business"); } },
+    personal: { desc: "list help for one person or a household", run: function () { if (fullCliActive()) listCategory("#personalServicesGrid .card[data-slug]", "for you and your household", "personal"); else goSection("personal", "personal"); } },
     contact: {
       desc: "how to get in touch",
       run: function () {
@@ -326,8 +331,9 @@
         print("ctrl+click — AI & IT Solutions  (formerly Maggio Consulting)", "head");
         print("On a Mac, control-click opens the menu most people never see:", "out");
         print("more options, more power, one click away. That's what we do for", "out");
-        print("people and businesses — AI adoption, secure networking, reliable", "out");
-        print("infrastructure, collaboration tools, and everyday tech that just works.", "out");
+        print("one person, a household, or a whole team — AI, networks, and", "out");
+        print("everyday tech that builds people up. We never pitch a smaller team.", "out");
+        print("This command line is just for fun. It isn't a separate service.", "out");
       }
     },
     whoami: {
@@ -347,7 +353,7 @@
       }
     },
     sudo: { desc: "", run: function () { print("nice try. you already have admin here — you're ⌃click. 😉", "err"); } },
-    exit: { desc: "leave expert mode", run: function () { print("leaving expert mode…", "ok"); setTimeout(function () { setMode(false); }, 150); } }
+    exit: { desc: "leave the command line", run: function () { print("leaving the command-line view…", "ok"); setTimeout(function () { setMode(false); }, 150); } }
   };
   // aliases
   COMMANDS.normal = COMMANDS.exit;
@@ -734,10 +740,11 @@
     els.output.appendChild(pre);
     openOutput();
     print("", "out");
-    print("AI That Makes Your Team Better. Not Smaller.", "head");
+    print("AI That Makes Your Team Stronger. Not Smaller.", "head");
     print("", "out");
     print("ctrl+click — a shell for everything we do.", "ok");
     print("// formerly Maggio Consulting", "out");
+    print("// just for fun: an Easter egg for tinkerers, not a service we sell.", "out");
     print("", "out");
     print("On a Mac, a control-click opens the menu most people never see:", "out");
     print("more options, more power, one click away. So does this prompt.", "out");
@@ -782,9 +789,9 @@
       }
     } else {
       clearOutput();
-      // Expert is an overlay, not a reading level. The beginner/intermediate
-      // choice is still on the document; re-sync the slider so it shows the
-      // level we're returning to, not Expert and not a forced Beginner.
+      // Expert is an overlay, not an audience. Individual or Team is still
+      // on the document; re-sync the switch so it shows the audience we're
+      // returning to.
       if (window.CtrlClickLevel) window.CtrlClickLevel.sync();
     }
   }

@@ -1,2 +1,2 @@
-<link rel="stylesheet" href="/assets/expert-mode.css?v=9" />
-<script>try{var d=document.documentElement;if(localStorage.getItem('ctrlclick:level')==='intermediate'){d.classList.add('intermediate');}if(localStorage.getItem('ctrlclick:expert')==='on'){d.classList.add('expert');d.classList.add('cli-full');}}catch(e){}</script>
+<link rel="stylesheet" href="/assets/expert-mode.css?v=10" />
+<script>try{var d=document.documentElement,l=localStorage.getItem("ctrlclick:level");if(l==="beginner")l="individual";else if(l==="intermediate")l="team";else if(l!=="individual"&&l!=="team")l="team";try{localStorage.setItem("ctrlclick:level",l);}catch(e){}d.classList.add(l);if(localStorage.getItem("ctrlclick:expert")==="on"){d.classList.add("expert");d.classList.add("cli-full");}}catch(e){}</script>
