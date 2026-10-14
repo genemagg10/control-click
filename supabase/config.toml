@@ -1,7 +1,7 @@
 # Edge Function for the Ctrl+Click contact form.
 # The site is GitHub Pages, which cannot run this file.
-# Link the Supabase project that should serve this function, then:
-#   supabase secrets set RESEND_API_KEY=... CONTACT_FROM_EMAIL=contact@maggio.xyz CONTACT_TO_EMAIL=g@maggio.xyz
+# Rebuild the bundled handler, then deploy:
+#   npm run build:fn
 #   supabase functions deploy contact
 # Visitors are anonymous, so the platform JWT check stays off.
 # The handler still drops honeypots, caps field length, and rate-limits.

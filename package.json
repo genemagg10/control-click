@@ -1,0 +1,10 @@
+{
+  "name": "control-click",
+  "private": true,
+  "scripts": {
+    "build:fn": "node scripts/build-contact-fn.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.10"
+  }
+}

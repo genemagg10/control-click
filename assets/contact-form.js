@@ -1,8 +1,8 @@
 /* =====================================================================
    Ctrl+Click — native contact form
    Posts to the configured contact endpoint (the Supabase Edge Function
-   in production). On localhost, with no endpoint configured, it posts
-   to the local mock mailer so the send can be exercised without Resend.
+   in production). On localhost it posts to the local mock mailer so the
+   send can be exercised without Resend.
    The page never calls Resend and never sees the API key.
    ===================================================================== */
 (function () {
@@ -18,11 +18,9 @@
     var params;
     try { params = new URLSearchParams(window.location.search); } catch (e) { params = null; }
     if (params && params.get("contactEndpoint")) return params.get("contactEndpoint");
-    var configured = config().endpoint;
-    if (configured) return configured;
     var host = window.location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return MOCK_ENDPOINT;
-    return "";
+    return config().endpoint || "";
   }
 
   function currentView() {

@@ -193,9 +193,15 @@ check("field length caps reject oversized notes", function () {
 check("the edge function stays server-side and public", function () {
   var source = fs.readFileSync(path.join(__dirname, "../supabase/functions/contact/index.ts"), "utf8");
   var config = fs.readFileSync(path.join(__dirname, "../supabase/config.toml"), "utf8");
+  var bundle = fs.readFileSync(path.join(__dirname, "../supabase/functions/contact/contact-handler.js"), "utf8");
   assert.strictEqual(source.indexOf("re_"), -1);
+  assert.ok(!/re_[0-9A-Za-z]{10,}/.test(bundle));
+  assert.ok(bundle.indexOf("Bearer re_") === -1);
+  assert.ok(source.indexOf("Deno.serve") !== -1);
   assert.ok(source.indexOf("handleContact") !== -1);
-  assert.ok(source.indexOf("auth: \"none\"") !== -1);
+  assert.ok(source.indexOf("./contact-handler.js") !== -1);
+  assert.ok(source.indexOf("withSupabase") === -1);
+  assert.ok(bundle.indexOf('import process from "node:process"') === 0);
   assert.ok(config.indexOf("verify_jwt = false") !== -1);
   assert.ok(source.indexOf("notes@") === -1);
   var page = fs.readFileSync(path.join(__dirname, "../assets/contact-form.js"), "utf8");
@@ -449,6 +455,15 @@ process.env.CONTACT_TO_EMAIL = "g@maggio.xyz";
 var server = mock.start(port);
 server.on("listening", function () {
   Promise.resolve()
+    .then(function () {
+      return import("../supabase/functions/contact/contact-handler.js");
+    })
+    .then(function (mod) {
+      var api = mod.default && mod.default.handleContact ? mod.default : mod;
+      assert.strictEqual(typeof api.handleContact, "function");
+      assert.strictEqual(typeof api.createState, "function");
+      console.log("ok  bundled handler loads");
+    })
     .then(function () { return limitChecks(); })
     .then(function () { return resendChecks(); })
     .then(function () {

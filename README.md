@@ -72,6 +72,31 @@ Content: six business services (Networking, Identity Management, AI Services & A
 
 To add or edit a service, edit its file in `_services/`; the card and the page both update. `_layouts/service.html` renders each page.
 
+## Contact form
+
+The homepage form posts to the Supabase Edge Function named in `contact_form.endpoint` inside `_config.yml`. GitHub Pages only serves the static page. The function itself is `supabase/functions/contact`.
+
+`index.ts` is a `Deno.serve` handler. It imports one ES module, `supabase/functions/contact/contact-handler.js`, which is an esbuild bundle of:
+
+- `supabase/functions/_shared/contact-handler.js`
+- `supabase/functions/_shared/contact-mail.js`
+- `assets/contact-validate.js`
+
+That bundle is committed so `supabase functions deploy contact` can run as-is. After changing any of those three sources, rebuild it first:
+
+```bash
+npm install
+npm run build:fn
+supabase functions deploy contact
+```
+
+`npm run build:fn` rewrites `supabase/functions/contact/contact-handler.js`. The function reads `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, and `CONTACT_TO_EMAIL` from the Supabase project. Local checks do not call Resend:
+
+```bash
+node scripts/contact-form.test.js
+node scripts/mock-contact-server.js
+```
+
 ## The blog
 
 GitHub Pages builds the repo with Jekyll natively: no servers, no Actions workflow, no cost.

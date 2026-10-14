@@ -1,5 +1,4 @@
-import { withSupabase } from "npm:@supabase/server@1";
-import contactMod from "../_shared/contact-handler.js";
+import contactMod from "./contact-handler.js";
 
 const contact = contactMod.handleContact ? contactMod : contactMod.default;
 
@@ -33,8 +32,7 @@ function json(status: number, body: unknown, statusNoContent = false): Response 
   return new Response(JSON.stringify(body), { status, headers });
 }
 
-export default {
-  fetch: withSupabase({ auth: "none" }, async (req: Request) => {
+Deno.serve(async (req: Request) => {
     if (req.method === "OPTIONS") {
       return json(204, null, true);
     }
@@ -57,5 +55,4 @@ export default {
 
     const result = await contact.handleContact(body, clientIp(req), { state });
     return json(result.status, result.body);
-  }),
-};
+});
