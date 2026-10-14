@@ -19,7 +19,7 @@
     home: "/", blog: "/blog/", business: "/#business",
     personal: "/#personal", contact: "/#contact",
     schedule: "https://calendar.app.google/QtYaUwA72XbuKN468",
-    message: "https://forms.gle/wAiDD2GtcD1rzkPq7"
+    message: "/#contact"
   };
 
   function stored() {
@@ -119,8 +119,18 @@
     els.output.addEventListener("click", function (e) {
       var chip = e.target.closest(".term-chip");
       if (!chip) return;
+      if (contactWizard.active) {
+        var allowed = (chip.dataset.cmd || "").toLowerCase();
+        var onConfirm = contactWizard.step === "confirm";
+        var onAbout = contactWizard.step === "about";
+        var aboutChoice = allowed === "business" || allowed === "family" || allowed === "nonprofit";
+        if (!(allowed === "cancel" || allowed === "exit" || (allowed === "send" && onConfirm) || (onAbout && aboutChoice))) {
+          print("still writing your note — type cancel to stop.", "err");
+          return;
+        }
+      }
       runCommand(chip.dataset.cmd);
-      if (!("ontouchstart" in window)) els.input.focus();
+      if (!("ontouchstart" in window) && els.input && !els.input.disabled) els.input.focus();
     });
   }
 
@@ -235,7 +245,7 @@
           ["blog", "stories & notes from ⌃click"],
           ["contact", "how to get in touch"],
           ["schedule", "book a discussion"],
-          ["message", "send a message"],
+          ["message", "send a note from this prompt"],
           ["about", "what ctrl+click does"],
           ["whoami", "the ⌃click persona"],
           ["clear", "clear this output"],
@@ -302,14 +312,12 @@
     contact: {
       desc: "how to get in touch",
       run: function () {
-        // Only the full-screen CLI hides the contact section; there we bring the
-        // details into the terminal. Otherwise scroll to the section as before.
         if (!fullCliActive()) { goSection("contact", "contact"); return; }
         print("get in touch", "head");
-        print("send a message or book a call — we respond quickly.", "out");
+        print("a real person reads every note. we make teams stronger, not smaller.", "out");
         print("", "out");
-        print("  " + pad("schedule", 12) + "book a discussion", "ok");
-        print("  " + pad("message", 12) + "send us a message", "ok");
+        print("  " + pad("schedule", 12) + "book a free 30-minute chat", "ok");
+        print("  " + pad("message", 12) + "send a note from this prompt", "ok");
         print("", "out");
         printChips([
           { cmd: "schedule", label: "schedule" },
@@ -324,7 +332,13 @@
     coffee:   { desc: "AI + Coffee meetup", run: function () { navTo("coffee", "AI + Coffee"); } },
     home:     { desc: "go home", run: function () { navTo("home", "home"); } },
     schedule: { desc: "book a discussion", run: function () { openExternal(LINKS.schedule, "scheduling"); } },
-    message:  { desc: "send a message", run: function () { openExternal(LINKS.message, "the message form"); } },
+    message: {
+      desc: "send a note from this prompt",
+      run: function () {
+        if (!fullCliActive()) { focusPageContact(); return; }
+        startContactWizard();
+      }
+    },
     about: {
       desc: "what we do",
       run: function () {
@@ -694,7 +708,206 @@
     window.location.href = url;
   }
 
+  /* =====================================================================
+     Contact prompt — the same fields as the page form, one line at a time.
+     ===================================================================== */
+  var contactWizard = { active: false, step: "", data: null, busy: false };
+
+  function focusPageContact() {
+    if (window.CtrlClickContact && window.CtrlClickContact.focus && document.getElementById("contactForm")) {
+      window.CtrlClickContact.focus();
+      print("→ the message form", "ok");
+      return;
+    }
+    print("→ opening the message form", "ok");
+    window.location.href = LINKS.contact || "/#contact";
+  }
+
+  function pageIsIndividual() {
+    return document.documentElement.classList.contains("individual");
+  }
+
+  function wizardSteps(data) {
+    var steps = [];
+    if (pageIsIndividual()) data.about = "individual";
+    else steps.push("about");
+    steps.push("name", "email");
+    var api = window.CtrlClickContactValidate;
+    var showOrg = api ? api.wantsOrganization(data.about) : (data.about === "business" || data.about === "nonprofit");
+    if (showOrg) steps.push("organization");
+    steps.push("message", "phone", "confirm");
+    return steps;
+  }
+
+  function wizardPlaceholder(step, data) {
+    var api = window.CtrlClickContactValidate;
+    if (step === "about") return "business, family, or nonprofit";
+    if (step === "name") return "your name";
+    if (step === "email") return "your email";
+    if (step === "organization") return "organization — or press enter to skip";
+    if (step === "phone") return "phone — or press enter to skip";
+    if (step === "message") return api ? api.commentPrompt(data.about) : "how can we help?";
+    return "type send, or cancel";
+  }
+
+  function endContactWizard() {
+    contactWizard.active = false;
+    contactWizard.busy = false;
+    contactWizard.step = "";
+    contactWizard.data = null;
+    if (els.input) {
+      els.input.disabled = false;
+      els.input.placeholder = "type a command — try: help";
+    }
+  }
+
+  function askContactStep() {
+    var step = contactWizard.step;
+    var data = contactWizard.data;
+    var api = window.CtrlClickContactValidate;
+    if (step === "about") {
+      print("who is this for?", "ok");
+      print("business, family, or nonprofit", "out");
+      printChips([
+        { cmd: "business", label: "business" },
+        { cmd: "family", label: "family" },
+        { cmd: "nonprofit", label: "nonprofit" }
+      ]);
+    } else if (step === "name") print("name", "ok");
+    else if (step === "email") print("email", "ok");
+    else if (step === "organization") print("organization (optional)", "ok");
+    else if (step === "phone") print("phone (optional)", "ok");
+    else if (step === "message") print(api ? api.commentPrompt(data.about) : "how can we help?", "ok");
+    else {
+      print("ready to send", "head");
+      var about = api && data.about ? api.aboutLabel(data.about) : (data.about || "");
+      if (about) print("  " + pad("for", 14) + about, "out");
+      print("  " + pad("name", 14) + data.name, "out");
+      print("  " + pad("email", 14) + data.email, "out");
+      if (api && api.wantsOrganization(data.about)) {
+        print("  " + pad("organization", 14) + (data.organization || "(none)"), "out");
+      }
+      print("  " + pad("phone", 14) + (data.phone || "(none)"), "out");
+      print("  " + pad("message", 14) + data.message, "out");
+      print("", "out");
+      print("type send to deliver, or cancel.", "out");
+      printChips([
+        { cmd: "send", label: "send" },
+        { cmd: "cancel", label: "cancel" }
+      ]);
+    }
+    if (els.input) {
+      els.input.disabled = false;
+      els.input.placeholder = wizardPlaceholder(step, data);
+      if (!("ontouchstart" in window)) els.input.focus();
+    }
+  }
+
+  function advanceWizard() {
+    var steps = wizardSteps(contactWizard.data);
+    var index = steps.indexOf(contactWizard.step);
+    contactWizard.step = steps[index + 1];
+    askContactStep();
+  }
+
+  function startContactWizard() {
+    if (contactWizard.active) {
+      print("already writing a note — type cancel to stop.", "out");
+      return;
+    }
+    var individual = pageIsIndividual();
+    contactWizard.active = true;
+    contactWizard.busy = false;
+    contactWizard.data = {
+      name: "", email: "", phone: "", organization: "", message: "",
+      about: individual ? "individual" : "",
+      view: "expert"
+    };
+    contactWizard.step = wizardSteps(contactWizard.data)[0];
+    print("send a message", "head");
+    print("a real person reads this. we make teams stronger, not smaller.", "out");
+    print("type cancel anytime to stop.", "out");
+    print("", "out");
+    askContactStep();
+  }
+
+  function deliverContactWizard() {
+    var api = window.CtrlClickContact;
+    if (!api || !api.submit) {
+      print("the contact form script didn’t load. try the page form instead.", "err");
+      endContactWizard();
+      return;
+    }
+    contactWizard.busy = true;
+    if (els.input) els.input.disabled = true;
+    print("sending…", "out");
+    api.submit(contactWizard.data).then(function (res) {
+      if (res && res.ok) {
+        print("sent. a real person will write back at " + contactWizard.data.email + ".", "ok");
+        print("we make teams stronger, not smaller.", "out");
+        endContactWizard();
+      } else {
+        print((res && res.error) || "that didn’t go through. type send to retry, or cancel.", "err");
+        contactWizard.busy = false;
+        if (els.input) {
+          els.input.disabled = false;
+          els.input.focus();
+        }
+      }
+    });
+  }
+
+  function wizardAdvance(raw) {
+    if (contactWizard.busy) return;
+    var trimmed = String(raw || "").trim();
+    var lower = trimmed.toLowerCase();
+    if (lower === "cancel" || lower === "exit") {
+      print("message cancelled.", "out");
+      endContactWizard();
+      return;
+    }
+    var step = contactWizard.step;
+    if (step === "confirm") {
+      if (lower === "send" || lower === "y" || lower === "yes") {
+        deliverContactWizard();
+        return;
+      }
+      print("type send to deliver, or cancel.", "err");
+      return;
+    }
+    var validate = window.CtrlClickContactValidate;
+    if (!validate) {
+      print("the contact form script didn’t load.", "err");
+      endContactWizard();
+      return;
+    }
+    if (step === "about") {
+      var about = validate.parseTeamAbout(trimmed);
+      if (!about) {
+        print("type business, family, or nonprofit.", "err");
+        return;
+      }
+      contactWizard.data.about = about;
+      advanceWizard();
+      return;
+    }
+    var result = validate.checkField(step, trimmed);
+    if (!result.ok) {
+      print(result.error, "err");
+      return;
+    }
+    contactWizard.data[step] = result.value;
+    advanceWizard();
+  }
+
   function runCommand(raw) {
+    if (contactWizard.active) {
+      var entered = raw == null ? "" : String(raw);
+      echoCommand(entered.trim());
+      wizardAdvance(entered);
+      if (els.output) els.output.scrollTop = els.output.scrollHeight;
+      return;
+    }
     var line = (raw || "").trim();
     if (!line) return;
     echoCommand(line);
@@ -781,6 +994,7 @@
     persist(on);
     syncToggle();
     if (on) {
+      endContactWizard();
       injectTitlebar();
       if (!opts.silent) {
         bootScreen();
@@ -788,6 +1002,7 @@
         if (!("ontouchstart" in window)) setTimeout(function () { els.input && els.input.focus(); }, 60);
       }
     } else {
+      endContactWizard();
       clearOutput();
       // Expert is an overlay, not an audience. Individual or Team is still
       // on the document; re-sync the switch so it shows the audience we're
@@ -852,7 +1067,12 @@
     toggle: function () { setMode(!isOn()); },
     enable: function () { setMode(true); },
     disable: function () { setMode(false); },
-    isOn: isOn
+    isOn: isOn,
+    message: function () {
+      if (!isOn()) setMode(true);
+      if (!fullCliActive()) { focusPageContact(); return; }
+      startContactWizard();
+    }
   };
 
   if (document.readyState === "loading") {
