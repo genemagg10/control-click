@@ -2,19 +2,20 @@
 /* =====================================================================
    Local stand-in for the contact function.
 
-   Production sends with Resend from api/contact.js (RESEND_API_KEY,
-   CONTACT_FROM). This server never calls Resend, even if a key is
-   present. It validates, honeypots, and rate-limits, then records the
-   two emails the function would send.
+   Production sends with Resend from the Supabase Edge Function
+   (RESEND_API_KEY, CONTACT_FROM_EMAIL, CONTACT_TO_EMAIL). This server
+   never calls Resend, even if a key is present. It validates, drops
+   honeypots, rate-limits on a hashed IP, and records the two emails.
 
      node scripts/mock-contact-server.js
 
    Optional env:
      PORT                     default 8787
-     CONTACT_NOTIFY           default g@maggio.xyz
-     CONTACT_FROM             default hello@maggio.xyz (recorded, not used to send)
-     CONTACT_RATE_MAX         default 5
-     CONTACT_RATE_WINDOW_MS   default 600000 (10 minutes)
+     CONTACT_TO_EMAIL         default g@maggio.xyz
+     CONTACT_FROM_EMAIL       default contact@maggio.xyz (recorded, not used to send)
+     CONTACT_RATE_MAX         default 5 per window
+     CONTACT_RATE_WINDOW_MS   default 3600000 (1 hour)
+     CONTACT_RATE_GAP_MS      default 20000 (20 seconds between notes)
    ===================================================================== */
 
 "use strict";
@@ -118,7 +119,7 @@ function start(port) {
 if (require.main === module) {
   start().on("listening", function () {
     console.log("Mock contact server on http://127.0.0.1:" + PORT + "/contact");
-    console.log("Emails are recorded, not sent. Notify address: " + (process.env.CONTACT_NOTIFY || "g@maggio.xyz"));
+    console.log("Emails are recorded, not sent. Notify address: " + (process.env.CONTACT_TO_EMAIL || "g@maggio.xyz"));
   });
 }
 

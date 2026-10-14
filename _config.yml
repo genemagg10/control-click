@@ -43,15 +43,15 @@ defaults:
       layout: post
       author: ⌃click
 
-# Native contact form. Pages are static, so the browser posts to /api/contact
-# on any host that isn't localhost. That function sends through Resend using
-# RESEND_API_KEY and CONTACT_FROM (an address on maggio.xyz). Leave endpoint
-# blank: local preview posts to the mock at http://127.0.0.1:8787/contact
+# Native contact form. GitHub Pages is static, so the live page posts to the
+# Supabase Edge Function URL once it is deployed. Leave endpoint blank until
+# then: localhost posts to the mock at http://127.0.0.1:8787/contact
 # (node scripts/mock-contact-server.js), which records mail and does not send.
-# Set endpoint only to point the page at a different contact URL.
+# Anywhere else, a blank endpoint asks the visitor to call.
+# The function reads RESEND_API_KEY, CONTACT_FROM_EMAIL, and CONTACT_TO_EMAIL.
+# Those are not set here. The page never sees them.
 contact_form:
   endpoint: ""
-  notify: "g@maggio.xyz"
 
 exclude:
   - README.md
@@ -60,4 +60,4 @@ exclude:
   - vendor
   - docs        # internal planning docs; not part of the built site
   - scripts     # local mock mailer and tests; not part of the built site
-  - api         # contact function; the hosting project runs it, Pages does not
+  - supabase    # Edge Function source; Pages does not run it

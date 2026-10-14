@@ -6,10 +6,12 @@
 
 var assert = require("assert");
 var http = require("http");
+var fs = require("fs");
+var path = require("path");
 var validate = require("../assets/contact-validate.js");
 var mock = require("./mock-contact-server.js");
 var mail = require("./contact-mail.js");
-var apiContact = require("../api/contact.js");
+var handler = require("./contact-handler.js");
 
 var failures = 0;
 
@@ -137,9 +139,15 @@ check("honeypot is flagged, not a field error", function () {
   assert.strictEqual(result.honeypot, true);
 });
 
-check("mail is from an address on maggio.xyz", function () {
-  var previous = process.env.CONTACT_FROM;
-  delete process.env.CONTACT_FROM;
+check("mail uses this site's from and to env names", function () {
+  var previousFrom = process.env.CONTACT_FROM_EMAIL;
+  var previousTo = process.env.CONTACT_TO_EMAIL;
+  var previousLegacyFrom = process.env.CONTACT_FROM;
+  var previousLegacyTo = process.env.CONTACT_NOTIFY;
+  delete process.env.CONTACT_FROM_EMAIL;
+  delete process.env.CONTACT_TO_EMAIL;
+  process.env.CONTACT_FROM = "someone@example.com";
+  process.env.CONTACT_NOTIFY = "other@example.com";
   var note = {
     name: "Ada Lovelace",
     email: "ada@example.com",
@@ -150,14 +158,49 @@ check("mail is from an address on maggio.xyz", function () {
     organization: ""
   };
   var emails = mail.buildEmails(note);
-  assert.strictEqual(emails[0].from, "Ctrl+Click <hello@maggio.xyz>");
-  assert.strictEqual(emails[1].from, "Ctrl+Click <hello@maggio.xyz>");
-  process.env.CONTACT_FROM = "contact@maggio.xyz";
-  assert.strictEqual(mail.buildEmails(note)[0].from, "Ctrl+Click <contact@maggio.xyz>");
-  process.env.CONTACT_FROM = "Gene <hello@maggio.xyz>";
-  assert.strictEqual(mail.buildEmails(note)[0].from, "Gene <hello@maggio.xyz>");
-  if (previous == null) delete process.env.CONTACT_FROM;
-  else process.env.CONTACT_FROM = previous;
+  assert.strictEqual(emails[0].from, "Ctrl+Click <contact@maggio.xyz>");
+  assert.strictEqual(emails[0].to, "g@maggio.xyz");
+  assert.strictEqual(emails[1].from, "Ctrl+Click <contact@maggio.xyz>");
+  process.env.CONTACT_FROM_EMAIL = "hello@maggio.xyz";
+  process.env.CONTACT_TO_EMAIL = "g@maggio.xyz";
+  assert.strictEqual(mail.buildEmails(note)[0].from, "Ctrl+Click <hello@maggio.xyz>");
+  process.env.CONTACT_FROM_EMAIL = "Gene <contact@maggio.xyz>";
+  assert.strictEqual(mail.buildEmails(note)[0].from, "Gene <contact@maggio.xyz>");
+  if (previousFrom == null) delete process.env.CONTACT_FROM_EMAIL;
+  else process.env.CONTACT_FROM_EMAIL = previousFrom;
+  if (previousTo == null) delete process.env.CONTACT_TO_EMAIL;
+  else process.env.CONTACT_TO_EMAIL = previousTo;
+  if (previousLegacyFrom == null) delete process.env.CONTACT_FROM;
+  else process.env.CONTACT_FROM = previousLegacyFrom;
+  if (previousLegacyTo == null) delete process.env.CONTACT_NOTIFY;
+  else process.env.CONTACT_NOTIFY = previousLegacyTo;
+});
+
+check("field length caps reject oversized notes", function () {
+  var result = validate.validate({
+    name: new Array(122).join("n"),
+    email: "ada@example.com",
+    message: new Array(5002).join("m"),
+    about: "individual",
+    phone: "1".repeat(41)
+  });
+  assert.strictEqual(result.ok, false);
+  assert.ok(result.errors.name);
+  assert.ok(result.errors.message);
+  assert.ok(result.errors.phone);
+});
+
+check("the edge function stays server-side and public", function () {
+  var source = fs.readFileSync(path.join(__dirname, "../supabase/functions/contact/index.ts"), "utf8");
+  var config = fs.readFileSync(path.join(__dirname, "../supabase/config.toml"), "utf8");
+  assert.strictEqual(source.indexOf("re_"), -1);
+  assert.ok(source.indexOf("handleContact") !== -1);
+  assert.ok(source.indexOf("auth: \"none\"") !== -1);
+  assert.ok(config.indexOf("verify_jwt = false") !== -1);
+  assert.ok(source.indexOf("notes@") === -1);
+  var page = fs.readFileSync(path.join(__dirname, "../assets/contact-form.js"), "utf8");
+  assert.ok(page.indexOf("RESEND_API_KEY") === -1);
+  assert.ok(page.indexOf("api.resend.com") === -1);
 });
 
 check("view only keeps the three audiences", function () {
@@ -190,48 +233,21 @@ function request(port, payload) {
   });
 }
 
-function invokeApi(payload, ip) {
-  return new Promise(function (resolve, reject) {
-    var done = false;
-    var req = {
-      method: "POST",
-      url: "/api/contact",
-      headers: {
-        "content-type": "application/json",
-        "x-forwarded-for": ip || "203.0.113.10"
-      },
-      body: payload,
-      socket: { remoteAddress: "127.0.0.1" }
-    };
-    var res = {
-      statusCode: 0,
-      status: function (code) {
-        this.statusCode = code;
-        return this;
-      },
-      setHeader: function () {},
-      json: function (body) {
-        if (done) return;
-        done = true;
-        resolve({ status: this.statusCode, body: body });
-      },
-      end: function () {
-        if (done) return;
-        done = true;
-        resolve({ status: this.statusCode, body: null });
-      }
-    };
-    Promise.resolve(apiContact(req, res)).catch(reject);
-  });
+function invokeHandler(payload, ip, extra) {
+  var options = extra || {};
+  options.state = options.state || invokeHandler.state;
+  return handler.handleContact(payload, ip || "203.0.113.10", options);
 }
+invokeHandler.state = handler.createState();
 
 function resendChecks() {
   var previousKey = process.env.RESEND_API_KEY;
-  var previousFrom = process.env.CONTACT_FROM;
+  var previousFrom = process.env.CONTACT_FROM_EMAIL;
   var previousFetch = global.fetch;
   var calls = [];
+  invokeHandler.state = handler.createState();
   process.env.RESEND_API_KEY = "re_test_key";
-  process.env.CONTACT_FROM = "hello@maggio.xyz";
+  process.env.CONTACT_FROM_EMAIL = "contact@maggio.xyz";
   global.fetch = function (url, opts) {
     calls.push({ url: String(url), opts: opts });
     return Promise.resolve({
@@ -241,7 +257,7 @@ function resendChecks() {
       text: function () { return Promise.resolve(""); }
     });
   };
-  return invokeApi({
+  return invokeHandler({
     name: "Ada",
     email: "ada@example.com",
     message: "Help the team we have.",
@@ -258,11 +274,11 @@ function resendChecks() {
     assert.strictEqual(calls[0].opts.headers.Authorization, "Bearer re_test_key");
     var payload = JSON.parse(calls[0].opts.body);
     assert.strictEqual(payload.length, 2);
-    assert.strictEqual(payload[0].from, "Ctrl+Click <hello@maggio.xyz>");
+    assert.strictEqual(payload[0].from, "Ctrl+Click <contact@maggio.xyz>");
     assert.deepStrictEqual(payload[0].to, ["g@maggio.xyz"]);
     assert.strictEqual(payload[0].reply_to, "ada@example.com");
     assert.ok(payload[0].text.indexOf("Northwind") !== -1);
-    assert.strictEqual(payload[1].from, "Ctrl+Click <hello@maggio.xyz>");
+    assert.strictEqual(payload[1].from, "Ctrl+Click <contact@maggio.xyz>");
     assert.deepStrictEqual(payload[1].to, ["ada@example.com"]);
     assert.strictEqual(payload[1].reply_to, "g@maggio.xyz");
     assert.ok(/stronger, not smaller/i.test(payload[1].text));
@@ -270,7 +286,7 @@ function resendChecks() {
   }).then(function () {
     delete process.env.RESEND_API_KEY;
     global.fetch = function () { throw new Error("Resend was called without a key"); };
-    return invokeApi({
+    return invokeHandler({
       name: "Ada",
       email: "ada@example.com",
       message: "Hello",
@@ -287,7 +303,7 @@ function resendChecks() {
       called = true;
       return Promise.resolve({ ok: true, json: function () { return Promise.resolve({}); } });
     };
-    return invokeApi({
+    return invokeHandler({
       name: "Bot",
       email: "bot@example.com",
       message: "buy followers",
@@ -309,7 +325,7 @@ function resendChecks() {
         json: function () { return Promise.resolve({ message: "domain not verified" }); }
       });
     };
-    return invokeApi({
+    return invokeHandler({
       name: "Ada",
       email: "ada-fail@example.com",
       message: "Hello",
@@ -324,14 +340,90 @@ function resendChecks() {
     global.fetch = previousFetch;
     if (previousKey == null) delete process.env.RESEND_API_KEY;
     else process.env.RESEND_API_KEY = previousKey;
-    if (previousFrom == null) delete process.env.CONTACT_FROM;
-    else process.env.CONTACT_FROM = previousFrom;
+    if (previousFrom == null) delete process.env.CONTACT_FROM_EMAIL;
+    else process.env.CONTACT_FROM_EMAIL = previousFrom;
   }, function (err) {
     global.fetch = previousFetch;
     if (previousKey == null) delete process.env.RESEND_API_KEY;
     else process.env.RESEND_API_KEY = previousKey;
-    if (previousFrom == null) delete process.env.CONTACT_FROM;
-    else process.env.CONTACT_FROM = previousFrom;
+    if (previousFrom == null) delete process.env.CONTACT_FROM_EMAIL;
+    else process.env.CONTACT_FROM_EMAIL = previousFrom;
+    throw err;
+  });
+}
+
+function limitChecks() {
+  var previousMax = process.env.CONTACT_RATE_MAX;
+  var previousWindow = process.env.CONTACT_RATE_WINDOW_MS;
+  var previousGap = process.env.CONTACT_RATE_GAP_MS;
+  process.env.CONTACT_RATE_MAX = "5";
+  process.env.CONTACT_RATE_WINDOW_MS = "3600000";
+  process.env.CONTACT_RATE_GAP_MS = "20000";
+  var state = handler.createState();
+  var start = 1_700_000_000_000;
+  function note(n) {
+    return {
+      name: "Ada",
+      email: "ada" + n + "@example.com",
+      message: "Hello from the limit check.",
+      about: "individual"
+    };
+  }
+  return handler.handleContact(note(1), "198.51.100.20", { state: state, mock: true, now: start }).then(function (res) {
+    assert.strictEqual(res.status, 200);
+    var keys = Array.from(state.hits.keys());
+    assert.strictEqual(keys.length, 1);
+    assert.notStrictEqual(keys[0], "198.51.100.20");
+    assert.ok(/^[0-9a-f]{64}$/.test(keys[0]));
+    return handler.handleContact(note(2), "198.51.100.20", { state: state, mock: true, now: start + 5000 });
+  }).then(function (res) {
+    assert.strictEqual(res.status, 429);
+    assert.ok(/few seconds/i.test(res.body.error));
+    var chain = Promise.resolve();
+    for (var i = 2; i <= 5; i++) {
+      (function (n) {
+        chain = chain.then(function () {
+          return handler.handleContact(note(n), "198.51.100.20", {
+            state: state,
+            mock: true,
+            now: start + n * 20000
+          });
+        }).then(function (res) {
+          assert.strictEqual(res.status, 200);
+        });
+      })(i);
+    }
+    return chain;
+  }).then(function () {
+    return handler.handleContact(note(6), "198.51.100.20", {
+      state: state,
+      mock: true,
+      now: start + 6 * 20000
+    });
+  }).then(function (res) {
+    assert.strictEqual(res.status, 429);
+    assert.ok(/too many/i.test(res.body.error));
+    return handler.handleContact(note(7), "198.51.100.21", {
+      state: state,
+      mock: true,
+      now: start + 6 * 20000
+    });
+  }).then(function (res) {
+    assert.strictEqual(res.status, 200);
+    console.log("ok  hashed IP allows 5 per hour and 20 seconds apart");
+    if (previousMax == null) delete process.env.CONTACT_RATE_MAX;
+    else process.env.CONTACT_RATE_MAX = previousMax;
+    if (previousWindow == null) delete process.env.CONTACT_RATE_WINDOW_MS;
+    else process.env.CONTACT_RATE_WINDOW_MS = previousWindow;
+    if (previousGap == null) delete process.env.CONTACT_RATE_GAP_MS;
+    else process.env.CONTACT_RATE_GAP_MS = previousGap;
+  }, function (err) {
+    if (previousMax == null) delete process.env.CONTACT_RATE_MAX;
+    else process.env.CONTACT_RATE_MAX = previousMax;
+    if (previousWindow == null) delete process.env.CONTACT_RATE_WINDOW_MS;
+    else process.env.CONTACT_RATE_WINDOW_MS = previousWindow;
+    if (previousGap == null) delete process.env.CONTACT_RATE_GAP_MS;
+    else process.env.CONTACT_RATE_GAP_MS = previousGap;
     throw err;
   });
 }
@@ -351,11 +443,13 @@ function validPayload(n) {
 var port = 8799;
 process.env.CONTACT_RATE_MAX = "2";
 process.env.CONTACT_RATE_WINDOW_MS = "60000";
-process.env.CONTACT_NOTIFY = "g@maggio.xyz";
+process.env.CONTACT_RATE_GAP_MS = "0";
+process.env.CONTACT_TO_EMAIL = "g@maggio.xyz";
 
 var server = mock.start(port);
 server.on("listening", function () {
   Promise.resolve()
+    .then(function () { return limitChecks(); })
     .then(function () { return resendChecks(); })
     .then(function () {
       process.env.RESEND_API_KEY = "re_should_not_leave_the_mock";
@@ -368,7 +462,7 @@ server.on("listening", function () {
       assert.strictEqual(res.body.mocked, true);
       assert.strictEqual(res.body.emails.length, 2);
       assert.strictEqual(res.body.emails[0].to, "g@maggio.xyz");
-      assert.strictEqual(res.body.emails[0].from, "Ctrl+Click <hello@maggio.xyz>");
+      assert.strictEqual(res.body.emails[0].from, "Ctrl+Click <contact@maggio.xyz>");
       assert.strictEqual(res.body.emails[0].replyTo, "ada1@example.com");
       assert.ok(res.body.emails[0].text.indexOf("Ada Lovelace") !== -1);
       assert.ok(res.body.emails[0].text.indexOf("individual") !== -1);
