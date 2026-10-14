@@ -43,11 +43,12 @@ defaults:
       layout: post
       author: ⌃click
 
-# Native contact form. GitHub Pages is static, so submissions go to a
-# Formspree (or compatible) endpoint. Leave endpoint blank until the form
-# exists — local preview then posts to the mock server at
-# http://127.0.0.1:8787/contact (node scripts/mock-contact-server.js).
-# The form id is public once the page ships; it is not a secret API key.
+# Native contact form. Pages are static, so the browser posts to /api/contact
+# on any host that isn't localhost. That function sends through Resend using
+# RESEND_API_KEY and CONTACT_FROM (an address on maggio.xyz). Leave endpoint
+# blank: local preview posts to the mock at http://127.0.0.1:8787/contact
+# (node scripts/mock-contact-server.js), which records mail and does not send.
+# Set endpoint only to point the page at a different contact URL.
 contact_form:
   endpoint: ""
   notify: "g@maggio.xyz"
@@ -59,3 +60,4 @@ exclude:
   - vendor
   - docs        # internal planning docs; not part of the built site
   - scripts     # local mock mailer and tests; not part of the built site
+  - api         # contact function; the hosting project runs it, Pages does not

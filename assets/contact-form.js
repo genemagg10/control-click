@@ -1,13 +1,14 @@
 /* =====================================================================
    Ctrl+Click — native contact form
-   Posts to a configurable endpoint (Formspree in production). On
-   localhost, with no endpoint configured, it posts to the local mock
-   mailer so the send can be exercised without a real inbox.
+   Posts to /api/contact, which sends through Resend. On localhost, with
+   no endpoint configured, it posts to the local mock mailer so the send
+   can be exercised without a real inbox.
    ===================================================================== */
 (function () {
   "use strict";
 
   var MOCK_ENDPOINT = "http://127.0.0.1:8787/contact";
+  var LIVE_ENDPOINT = "/api/contact";
 
   function config() {
     return window.CTRLCLICK_CONTACT || {};
@@ -21,7 +22,7 @@
     if (configured) return configured;
     var host = window.location.hostname;
     if (host === "localhost" || host === "127.0.0.1") return MOCK_ENDPOINT;
-    return "";
+    return LIVE_ENDPOINT;
   }
 
   function currentView() {
@@ -78,10 +79,7 @@
       message: parsed.value.message,
       about: parsed.value.about,
       view: parsed.value.view || currentView(),
-      _gotcha: "",
-      _subject: "Ctrl+Click note from " + parsed.value.name +
-        (parsed.value.about ? " (" + parsed.value.about + ")" : ""),
-      _replyto: parsed.value.email
+      _gotcha: ""
     };
 
     return fetch(url, {

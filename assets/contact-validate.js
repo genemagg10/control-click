@@ -97,8 +97,8 @@
     return "";
   }
 
-  /* Honeypot: Formspree's `_gotcha`, plus a plain alias. A filled trap is
-     not an error — callers pretend the note was accepted and drop it. */
+  /* Hidden honeypot (`_gotcha`, or `gotcha`). A filled trap is not an
+     error — callers pretend the note was accepted and drop it. */
   function honeypotFilled(input) {
     if (!input) return false;
     var trap = input._gotcha != null ? input._gotcha : input.gotcha;
