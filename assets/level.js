@@ -67,6 +67,7 @@
     root.classList.toggle("team", audience === "team");
     persist(audience);
     syncButtons();
+    try { root.dispatchEvent(new CustomEvent("ctrlclick:audience", { detail: audience })); } catch (e) {}
     if (opts.toast && TOASTS[audience]) toast(TOASTS[audience]);
   }
 

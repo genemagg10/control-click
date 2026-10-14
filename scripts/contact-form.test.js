@@ -22,17 +22,65 @@ function check(name, fn) {
   }
 }
 
-check("accepts the Google Form fields", function () {
+check("accepts a short individual note", function () {
   var result = validate.validate({
     name: "Ada Lovelace",
     email: "ada@example.com",
-    phone: "(510) 467-0217",
-    comment: "Our team wants AI that makes us stronger, not smaller.",
-    view: "team"
+    phone: "",
+    organization: "Should be dropped",
+    message: "Please take the busywork off my plate.",
+    about: "individual",
+    view: "individual"
   });
   assert.strictEqual(result.ok, true);
-  assert.strictEqual(result.value.phone, "(510) 467-0217");
-  assert.strictEqual(result.value.view, "team");
+  assert.strictEqual(result.value.organization, "");
+  assert.strictEqual(result.value.about, "individual");
+  assert.strictEqual(result.value.phone, "");
+});
+
+check("keeps an organization for a business or a nonprofit", function () {
+  var business = validate.validate({
+    name: "Ada",
+    email: "ada@example.com",
+    message: "Help the team we have.",
+    about: "a business",
+    organization: "Northwind"
+  });
+  assert.strictEqual(business.ok, true);
+  assert.strictEqual(business.value.about, "business");
+  assert.strictEqual(business.value.organization, "Northwind");
+  var nonprofit = validate.validate({
+    name: "Ada",
+    email: "ada@example.com",
+    message: "Our volunteers need a better inbox.",
+    about: "non-profit",
+    organization: "Friends of the Park"
+  });
+  assert.strictEqual(nonprofit.value.about, "nonprofit");
+  assert.strictEqual(nonprofit.value.organization, "Friends of the Park");
+});
+
+check("a family does not keep an organization", function () {
+  var result = validate.validate({
+    name: "Ada",
+    email: "ada@example.com",
+    message: "The home printer is a mystery.",
+    about: "household",
+    organization: "The Lovelace house"
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(result.value.about, "family");
+  assert.strictEqual(result.value.organization, "");
+});
+
+check("team notes need to say who they are for", function () {
+  var result = validate.validate({
+    name: "Ada",
+    email: "ada@example.com",
+    message: "Hello"
+  });
+  assert.strictEqual(result.ok, false);
+  assert.ok(result.errors.about);
 });
 
 check("phone is optional", function () {
@@ -40,19 +88,21 @@ check("phone is optional", function () {
     name: "Ada",
     email: "ada@example.com",
     phone: "   ",
-    comment: "Hello"
+    message: "Hello",
+    about: "individual"
   });
   assert.strictEqual(result.ok, true);
   assert.strictEqual(result.value.phone, "");
 });
 
-check("requires name, email, and comment", function () {
-  var result = validate.validate({ name: "", email: "", phone: "", comment: "" });
+check("requires name, email, and a message", function () {
+  var result = validate.validate({ name: "", email: "", phone: "", message: "", about: "family" });
   assert.strictEqual(result.ok, false);
   assert.ok(result.errors.name);
   assert.ok(result.errors.email);
-  assert.ok(result.errors.comment);
+  assert.ok(result.errors.message);
   assert.strictEqual(result.errors.phone, undefined);
+  assert.strictEqual(result.errors.organization, undefined);
 });
 
 check("rejects a bad email and a short phone", function () {
@@ -60,10 +110,19 @@ check("rejects a bad email and a short phone", function () {
     name: "Ada",
     email: "not-an-email",
     phone: "123",
-    comment: "Hello"
+    message: "Hello",
+    about: "individual"
   });
   assert.ok(result.errors.email);
   assert.ok(result.errors.phone);
+});
+
+check("prompts follow who the note is for", function () {
+  assert.strictEqual(validate.commentPrompt("individual"), "What can we take off your plate?");
+  assert.strictEqual(validate.commentPrompt("business"), "What should your team be able to do?");
+  assert.strictEqual(validate.commentPrompt("family"), "What should we sort out at home?");
+  assert.ok(/more capable/.test(validate.commentPrompt("nonprofit")));
+  assert.strictEqual(validate.parseTeamAbout("just me"), "");
 });
 
 check("honeypot is flagged, not a field error", function () {
@@ -111,7 +170,8 @@ function validPayload(n) {
     name: "Ada Lovelace",
     email: "ada" + n + "@example.com",
     phone: "",
-    comment: "Please help our team get stronger, not smaller.",
+    message: "Please help our team get stronger, not smaller.",
+    about: "individual",
     view: "individual",
     _gotcha: ""
   };
@@ -140,7 +200,7 @@ server.on("listening", function () {
       console.log("ok  mock records notify and confirmation emails");
     })
     .then(function () {
-      return request(port, { name: "", email: "nope", phone: "", comment: "" });
+      return request(port, { name: "", email: "nope", phone: "", message: "", about: "individual" });
     })
     .then(function (res) {
       assert.strictEqual(res.status, 400);
@@ -152,7 +212,8 @@ server.on("listening", function () {
       return request(port, {
         name: "Bot",
         email: "bot@example.com",
-        comment: "buy followers",
+        message: "buy followers",
+        about: "individual",
         _gotcha: "filled"
       });
     })

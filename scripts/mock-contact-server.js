@@ -45,11 +45,13 @@ function buildEmails(value) {
         "",
         "Name: " + value.name,
         "Email: " + value.email,
+        "About: " + (value.about || "(not set)"),
+        "Organization: " + (value.organization || "(none)"),
         "Phone: " + phone,
         "View: " + view,
         "",
-        "Comment:",
-        value.comment
+        "Message:",
+        value.message
       ].join("\n")
     },
     {

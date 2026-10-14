@@ -65,17 +65,22 @@
       name: String((fields && fields.name) || ""),
       email: String((fields && fields.email) || ""),
       phone: String((fields && fields.phone) || ""),
-      comment: String((fields && fields.comment) || ""),
+      organization: String((fields && fields.organization) || ""),
+      message: String((fields && fields.message) || ""),
+      about: String((fields && fields.about) || ""),
       view: currentView(),
       _gotcha: fields && fields._gotcha ? fields._gotcha : "filled"
     } : {
       name: parsed.value.name,
       email: parsed.value.email,
       phone: parsed.value.phone,
-      comment: parsed.value.comment,
+      organization: parsed.value.organization,
+      message: parsed.value.message,
+      about: parsed.value.about,
       view: parsed.value.view || currentView(),
       _gotcha: "",
-      _subject: "Ctrl+Click inquiry from " + parsed.value.name,
+      _subject: "Ctrl+Click note from " + parsed.value.name +
+        (parsed.value.about ? " (" + parsed.value.about + ")" : ""),
       _replyto: parsed.value.email
     };
 
@@ -109,7 +114,8 @@
       name: form.querySelector("#contact-name"),
       email: form.querySelector("#contact-email"),
       phone: form.querySelector("#contact-phone"),
-      comment: form.querySelector("#contact-comment"),
+      organization: form.querySelector("#contact-org"),
+      message: form.querySelector("#contact-message"),
       gotcha: form.querySelector("#contact-gotcha")
     };
   }
@@ -124,9 +130,42 @@
   }
 
   function clearErrors(form) {
-    ["name", "email", "phone", "comment"].forEach(function (key) {
+    ["name", "email", "phone", "organization", "message"].forEach(function (key) {
       showFieldError(fieldEls(form)[key], "");
     });
+    showAboutError(form, "");
+  }
+
+  function showAboutError(form, message) {
+    var group = form.querySelector(".about-seg");
+    var error = document.getElementById("contact-about-error");
+    if (group) group.setAttribute("aria-invalid", message ? "true" : "false");
+    if (error) {
+      error.textContent = message || "";
+      error.hidden = !message;
+    }
+  }
+
+  function pageIsIndividual() {
+    return document.documentElement.classList.contains("individual");
+  }
+
+  function selectedAbout(form) {
+    if (pageIsIndividual()) return "individual";
+    var checked = form.querySelector('input[name="about"]:checked');
+    return checked ? checked.value : "";
+  }
+
+  function syncAboutUI(form) {
+    var about = selectedAbout(form);
+    var aboutField = document.getElementById("contact-about-field");
+    if (aboutField) aboutField.hidden = pageIsIndividual();
+    var org = document.getElementById("contact-org-field");
+    var api = window.CtrlClickContactValidate;
+    var showOrg = api ? api.wantsOrganization(about) : (about === "business" || about === "nonprofit");
+    if (org) org.hidden = !showOrg;
+    var prompt = document.getElementById("contact-message-prompt");
+    if (prompt) prompt.textContent = api ? api.commentPrompt(about) : "How can we help?";
   }
 
   function readFields(form) {
@@ -135,7 +174,9 @@
       name: els.name ? els.name.value : "",
       email: els.email ? els.email.value : "",
       phone: els.phone ? els.phone.value : "",
-      comment: els.comment ? els.comment.value : "",
+      organization: els.organization ? els.organization.value : "",
+      message: els.message ? els.message.value : "",
+      about: selectedAbout(form),
       _gotcha: els.gotcha ? els.gotcha.value : "",
       view: currentView()
     };
@@ -181,6 +222,7 @@
     if (success) success.hidden = true;
     form.reset();
     clearErrors(form);
+    syncAboutUI(form);
     setStatus(form, "");
     var name = document.getElementById("contact-name");
     if (name) name.focus();
@@ -204,7 +246,7 @@
       showFieldError(input, result.ok ? "" : result.error);
     }
 
-    ["name", "email", "phone", "comment"].forEach(function (key) {
+    ["name", "email", "phone", "organization", "message"].forEach(function (key) {
       var input = fieldEls(form)[key];
       if (!input) return;
       input.addEventListener("blur", function () {
@@ -218,17 +260,19 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      ["name", "email", "phone", "comment"].forEach(function (key) { touched[key] = true; });
+      ["name", "email", "phone", "organization", "message"].forEach(function (key) { touched[key] = true; });
       var fields = readFields(form);
       var api = window.CtrlClickContactValidate;
       var parsed = api ? api.validate(fields) : { ok: true, errors: {}, honeypot: false, value: fields };
       if (!parsed.honeypot) {
         Object.keys(parsed.errors || {}).forEach(function (key) {
-          showFieldError(fieldEls(form)[key], parsed.errors[key]);
+          if (key === "about") showAboutError(form, parsed.errors[key]);
+          else showFieldError(fieldEls(form)[key], parsed.errors[key]);
         });
-        ["name", "email", "phone", "comment"].forEach(function (key) {
+        ["name", "email", "phone", "organization", "message"].forEach(function (key) {
           if (!parsed.errors[key]) showFieldError(fieldEls(form)[key], "");
         });
+        if (!parsed.errors.about) showAboutError(form, "");
         if (!parsed.ok) {
           setStatus(form, "Please fix the highlighted fields.", true);
           var first = form.querySelector("[aria-invalid='true']");
@@ -247,12 +291,19 @@
         }
         if (result.errors) {
           Object.keys(result.errors).forEach(function (key) {
-            showFieldError(fieldEls(form)[key], result.errors[key]);
+            if (key === "about") showAboutError(form, result.errors[key]);
+            else showFieldError(fieldEls(form)[key], result.errors[key]);
           });
         }
         setStatus(form, result.error || "That didn’t go through. Please try again.", true);
       });
     });
+
+    form.addEventListener("change", function (e) {
+      if (e.target && e.target.name === "about") syncAboutUI(form);
+    });
+    document.addEventListener("ctrlclick:audience", function () { syncAboutUI(form); });
+    syncAboutUI(form);
 
     var again = document.getElementById("contactAgain");
     if (again) again.addEventListener("click", function () { showForm(form); });
@@ -270,7 +321,7 @@
     var params;
     try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
     if (!params || params.get("intent") !== "coffee") return;
-    var comment = document.getElementById("contact-comment");
+    var comment = document.getElementById("contact-message");
     if (comment && !comment.value) {
       comment.value = "I’d like to save a seat at AI + Coffee.";
     }
