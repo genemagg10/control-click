@@ -337,10 +337,11 @@
       email: '{{ "/email-settings/" | relative_url }}',
       coffee: '{{ "/ai-coffee/" | relative_url }}',
       schedule: 'https://calendar.app.google/QtYaUwA72XbuKN468',
-      message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
+      message: '{{ "/#contact" | relative_url }}'
     };
   </script>
+  {% include contact-scripts.html %}
   <script src="{{ '/assets/level.js' | relative_url }}?v=5" defer></script>
-  <script src="{{ '/assets/expert-mode.js' | relative_url }}?v=12" defer></script>
+  <script src="{{ '/assets/expert-mode.js' | relative_url }}?v=13" defer></script>
 </body>
 </html>

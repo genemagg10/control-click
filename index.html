@@ -175,7 +175,38 @@
     .trust-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; font-size: 15px; color: var(--muted); font-weight: 500; }
     .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
     .trust-row svg { flex-shrink: 0; }
-    .contact-grid { margin-top: 42px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+    .contact-grid { margin-top: 42px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; scroll-margin-top: 84px; }
+    .contact-touch { position: relative; }
+    .contact-touch h3 { margin: 0 0 8px; }
+    .contact-lede { margin: 0 0 16px; color: var(--ink-soft); }
+    .contact-form { position: relative; display: flex; flex-direction: column; gap: 14px; }
+    .contact-form .field { display: flex; flex-direction: column; gap: 6px; }
+    .contact-form label { font-weight: 700; font-size: 15px; color: var(--text); }
+    .contact-form .req, .contact-form .opt { font-weight: 600; font-size: 13px; color: var(--muted); margin-left: 4px; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; font: inherit; font-size: 16px; line-height: 1.4; color: var(--text);
+      background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-height: 48px;
+    }
+    .contact-form textarea { min-height: 128px; resize: vertical; }
+    .contact-form input:focus-visible, .contact-form textarea:focus-visible {
+      outline: 2px solid var(--teal-bright); outline-offset: 2px; border-color: var(--teal);
+    }
+    .contact-form input[aria-invalid="true"], .contact-form textarea[aria-invalid="true"] { border-color: var(--coral-deep); }
+    .field-error { margin: 0; color: var(--coral-deep); font-size: 14px; font-weight: 600; }
+    .contact-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    button.cta { font-family: inherit; font-size: 16px; cursor: pointer; }
+    button.cta:disabled { opacity: .72; cursor: progress; }
+    .contact-status { margin: 0; font-size: 15px; color: var(--ink-soft); }
+    .contact-status.is-sent {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .contact-status.is-error { color: var(--coral-deep); font-weight: 600; }
+    .contact-phone { margin: 0; font-size: 16px; color: var(--ink-soft); }
+    .contact-success h4 { margin: 0 0 8px; font-size: 22px; }
+    .contact-success p { margin: 0 0 16px; color: var(--ink-soft); }
+    .contact-success:focus { outline: 2px solid var(--teal-bright); outline-offset: 4px; }
     .formerly {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 5px 12px; border-radius: 999px; font-size: 12px; letter-spacing: .4px;
@@ -410,6 +441,8 @@
       .proof-grid { grid-template-columns: 1fr; }
       .pkg-grid { grid-template-columns: 1fr; }
       .wordmark { font-size: 27px; }
+      .contact-actions { flex-direction: column; align-items: stretch; }
+      .contact-actions .cta { justify-content: center; }
 
       /* Tighten the gap between the header and the first card on mobile */
       .container { padding-top: 14px; }
@@ -532,7 +565,7 @@
 
           <div class="hero-actions">
             <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468">Book a free 30-minute chat</a>
-            <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+            <a class="cta cta-quiet js-send-message" href="#contact">Send a message</a>
           </div>
           <div class="trust-row" aria-label="Our working style">
             <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E9C8C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No jargon</span>
@@ -792,16 +825,46 @@
     <!-- ====== Contact & Events ====== -->
     <section id="contact" class="contact-grid">
       <div class="hero-card contact-touch">
-        <h3 style="margin:0 0 8px">Get in Touch</h3>
-        <p style="margin:0 0 14px;color:var(--ink-soft)">Tell us what&rsquo;s going on &mdash; or what you&rsquo;re curious about. The first chat is free, half an hour, and you&rsquo;ll leave knowing your options either way. We respond quickly.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <a class="cta" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Book a free 30-minute chat</a>
-          <a class="cta cta-quiet" href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">Send a message</a>
+        <h3 id="contact-heading">Get in Touch</h3>
+        <p class="contact-lede only-individual">You&rsquo;re one person, and you have more to offer than any tool. Tell us what you&rsquo;d like off your plate. The first chat is free, and you&rsquo;ll leave knowing your options.</p>
+        <p class="contact-lede only-team">Tell us what&rsquo;s going on with your team &mdash; a business, a nonprofit, or a family. We make the people you already have stronger. We never pitch a smaller team. The first chat is free.</p>
+        <form id="contactForm" class="contact-form" action="#" method="post" novalidate aria-labelledby="contact-heading">
+          <div class="contact-hp" aria-hidden="true">
+            <label for="contact-gotcha">Company website</label>
+            <input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" value="" />
+          </div>
+          <div class="field">
+            <label for="contact-name">Name <span class="req">required</span></label>
+            <input id="contact-name" name="name" type="text" autocomplete="name" required maxlength="120" aria-required="true" aria-describedby="contact-name-error" />
+            <p class="field-error" id="contact-name-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="contact-email">Email <span class="req">required</span></label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-required="true" aria-describedby="contact-email-error" />
+            <p class="field-error" id="contact-email-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="contact-phone">Phone <span class="opt">optional</span></label>
+            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" aria-describedby="contact-phone-error" />
+            <p class="field-error" id="contact-phone-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="contact-comment">Comment <span class="req">required</span></label>
+            <textarea id="contact-comment" name="comment" required maxlength="5000" rows="4" aria-required="true" aria-describedby="contact-comment-error"></textarea>
+            <p class="field-error" id="contact-comment-error" hidden></p>
+          </div>
+          <div class="contact-actions">
+            <button type="submit" class="cta" id="contactSubmit">Send message</button>
+            <a class="cta cta-quiet" href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">Book a free 30-minute chat</a>
+          </div>
+          <p class="contact-phone">Prefer to talk? Call <a href="tel:+15104670217" style="font-weight:700; white-space:nowrap;">(510)&nbsp;467-0217</a>.</p>
+        </form>
+        <p class="contact-status" id="contactStatus" role="status" aria-live="polite"></p>
+        <div class="contact-success" id="contactSuccess" hidden tabindex="-1">
+          <h4>We got it.</h4>
+          <p id="contactSuccessText"></p>
+          <button type="button" class="cta cta-quiet" id="contactAgain">Send another message</button>
         </div>
-        <p style="margin:14px 0 0; font-size:16px; color:var(--ink-soft);">
-          Prefer to talk? Call
-          <a href="tel:+15104670217" style="font-weight:700; white-space:nowrap;">(510)&nbsp;467-0217</a>.
-        </p>
       </div>
       <div class="hero-card contact-events">
         <h3 style="margin:0 0 8px">Upcoming Events</h3>
@@ -839,7 +902,7 @@
     <div class="ctx-group" data-group="persona">
       <div class="ctx-title">⌃Click: you found the hidden menu</div>
       <a href="https://calendar.app.google/QtYaUwA72XbuKN468" target="_blank" rel="noopener">📅 Book a free 30-minute chat</a>
-      <a href="https://forms.gle/wAiDD2GtcD1rzkPq7" target="_blank" rel="noopener">✉️ Send a message</a>
+      <a class="js-send-message" href="#contact">✉️ Send a message</a>
       <a href="#business">💼 For your team</a>
       <a href="#personal">🏠 For you &amp; household</a>
       <a href="glossary/">📖 Plain-English glossary</a>
@@ -982,10 +1045,11 @@
       email: '/email-settings/',
       coffee: '/ai-coffee/',
       schedule: 'https://calendar.app.google/QtYaUwA72XbuKN468',
-      message: 'https://forms.gle/wAiDD2GtcD1rzkPq7'
+      message: '/#contact'
     };
   </script>
+  {% include contact-scripts.html %}
   <script src="assets/level.js?v=5" defer></script>
-  <script src="assets/expert-mode.js?v=12" defer></script>
+  <script src="assets/expert-mode.js?v=13" defer></script>
 </body>
 </html>

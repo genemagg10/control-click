@@ -1,0 +1,8 @@
+<script>
+  window.CTRLCLICK_CONTACT = {
+    endpoint: {{ site.contact_form.endpoint | default: "" | jsonify }},
+    notify: {{ site.contact_form.notify | default: "g@maggio.xyz" | jsonify }}
+  };
+</script>
+<script src="{{ '/assets/contact-validate.js' | relative_url }}?v=1" defer></script>
+<script src="{{ '/assets/contact-form.js' | relative_url }}?v=1" defer></script>

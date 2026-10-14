@@ -43,9 +43,19 @@ defaults:
       layout: post
       author: ⌃click
 
+# Native contact form. GitHub Pages is static, so submissions go to a
+# Formspree (or compatible) endpoint. Leave endpoint blank until the form
+# exists — local preview then posts to the mock server at
+# http://127.0.0.1:8787/contact (node scripts/mock-contact-server.js).
+# The form id is public once the page ships; it is not a secret API key.
+contact_form:
+  endpoint: ""
+  notify: "g@maggio.xyz"
+
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
   - vendor
   - docs        # internal planning docs; not part of the built site
+  - scripts     # local mock mailer and tests; not part of the built site
